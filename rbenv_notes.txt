@@ -1,0 +1,90 @@
+# INSTALAR RUBY CON RBENV
+
+Paso 1: Instalar dependencias
+
+sudo apt install -y git-core build-essential curl wget openssl libssl-dev libreadline-dev dirmngr zlib1g-dev libmagickwand-dev imagemagick-6.q16 libffi-dev libpq-dev cmake libwebp-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev software-properties-common libcurl4-openssl-dev
+
+
+Paso 2: Instalar rbenv
+
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+
+
+Paso 3: Configurar rbenv
+
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+source ~/.bashrc
+
+
+Paso 4: Instalar ruby-build
+
+git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+
+
+Paso 5: Configurar ruby-build
+
+echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+
+
+Paso 6: Verificar versiones disponibles de Ruby
+
+rbenv install --list-all
+
+Puedes verificar las versiones estables de Ruby ejecutando el siguiente comando:
+
+rbenv install --list
+
+Paso 7: Instalar una versión de Ruby
+
+rbenv install 3.2.2
+
+
+Paso 8: Establecer la versión global de Ruby
+
+rbenv global 3.2.2
+
+
+Paso 9: Verificar la versión de Ruby
+
+
+ruby -v
+
+
+Paso 10: Instalar Bundler
+
+
+gem install bundler
+
+
+
+Paso 11: Configurar Bundler para GitHub
+
+
+bundle config github.https true
+
+
+
+Paso 12: Instalar Rails
+
+gem install rails
+
+
+
+# DESACTIVAR DOCUMENTACION AL INSTALAR GEMAS
+
+echo "gem: --no-document" > ~/.gemrc
+
+
+
+
+
+Plugin
+
+Ruby Solargraph
+Ruby on Rails
+html-erb
+GitLens
+Prettier
+live server
