@@ -1,7 +1,10 @@
-Instalar GIT
+## Instrucciones para instalar Git en Ubuntu y conectar Git con Github.com
 
+# Actualizar el núcleo de Ubuntu
+
+´´´bash
 sudo add-apt-repository ppa:git-core/ppa 
-
+´´´
 sudo apt-get update && sudo apt-get -y install git 
 
 git config --global user.name "first_name last_name" 
