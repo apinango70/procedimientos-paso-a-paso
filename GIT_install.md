@@ -1,6 +1,6 @@
-## Instrucciones para instalar Git en Ubuntu y conectar Git con Github.com
+# Instrucciones para instalar Git en Ubuntu y conectar Git con Github.com
 
-# Actualizar el núcleo de Ubuntu
+## Actualizar el núcleo de Ubuntu
 
 ´´´bash
 sudo add-apt-repository ppa:git-core/ppa 
