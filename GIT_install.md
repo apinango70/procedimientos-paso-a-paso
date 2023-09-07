@@ -2,80 +2,80 @@
 
 ## Actualizar el núcleo de Ubuntu
 
-´´´hash
+```hash
 sudo add-apt-repository ppa:git-core/ppa 
-´´´
+```
 
 # Instala Git
 
-´´´hash 
+```hash 
 sudo apt-get update && sudo apt-get -y install git 
-´´´
+```
 ## Configura tu nombre de usuario y dirección de correo electrónico:
 
-´´´hash
+```hash
 git config --global user.name "first_name last_name" 
-´´´
-´´´hash
+```
+```hash
 git config --global user.email "email" 
-´´´
+```
 
 ## Para verificar si los datos se registraron correctamente, ejecutar: 
 
-´´´hash
+```hash
 cat .gitconfig 
-´´´
+```
 
 ## _CONECTAR GIT CON GITHUB.COM_
 
 # Genera una clave SSH:
 
-´´´hash
+```hash
 ssh-keygen -t rsa -b 4096 -C "email"
-´´´
+```
 
 # Agrega la clave SSH a tu agente SSH
 
-´´´hash
+```hash
 ssh-add ~/.ssh/id_rsa
-´´´
+```
 
 # Si te da error de Agente SSH no iniciado, ejecutar:
 
-´´´hash
+```hash
 eval "$(ssh-agent -s)"
-´´´
+```
 
 #Ejecutar de nuevo:
 
-´´´hash
+```hash
 ssh-add ~/.ssh/id_rsa
-´´´
+```
 
 # Verificar la lista de claves SSH agregadas
 
-´´´hash
+```hash
 ssh-add -l
-´´´
+```
 
 # _Agrega la clave SSH a tu cuenta de GitHub.com_
 
 # Mostrar la clave SSH generada, esta clave se debe copiar en github.com
 
-´´´hash
+```hash
 cat ~/.ssh/id_rsa.pub
-´´´
+```
 
 # Confirma que la conexión funciona
 
-´´´hash
+```hash
 ssh -T git@github.com
-´´´
+```
 
 Si al hacer push github.com aún pide user y pass, ejecutar:
 
-´´´hash
+```hash
 git remote set-url origin git@github.com:gihub_user_name/nombre_repositorio
-´´´
+```
 
 # Intentar hacer de nuevo push.
