@@ -242,6 +242,22 @@ rails db:migrate
     </div>
 ```
 
+## Modifico app>models>user.rb para verificar si el user es admin:
+
+```hash
+class User < ApplicationRecord
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+
+
+ # Método para verificar si un usuario es administrador
+ def admin?
+   admin
+ end
+end
+```
 
 
 
