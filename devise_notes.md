@@ -78,8 +78,8 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
           <% end %>
     </div>
   </div>
-</nav>```
-
+</nav>
+```
 
 ## Agregar a la vista new un formulario bootstrap
 
