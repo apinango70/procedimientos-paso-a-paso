@@ -30,6 +30,12 @@ rails db:migrate
 rails generate devise:views
 ```
 
+## Agregar el CDN de bootstrap al header del layout
+
+```hash
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+```
+
 ## Agregar navbar en un partial para devise y cargarlo en el layout
 
 _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agregar el siguiente código de Bootstrap_
@@ -37,20 +43,25 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
 ```hash
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <%= link_to 'SisGem', root_path, class: 'navbar-brand' %>
+    <%= link_to 'Logo', root_path, class: 'navbar-brand' %>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <%= link_to "Home", root_path, class: 'nav-link' %>
+        </li>
+        <li class="nav-item">
+        <% if user_signed_in? && current_user.admin? %>
+          <%= link_to 'New Job Posting', new_job_posting_path, class: 'nav-link' %>  
+        <% end %>
         </li>
       </ul>
         <% if user_signed_in? %>
         <li class="nav-item">
           <%#= current_user.name %>
-          Usuario: <%= current_user.email %>
+          Hi! <%= content_tag :span, current_user.name, class: 'margen' %>
         </li>
         <% end %>
           <% if user_signed_in? %>
@@ -59,7 +70,7 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
             </li>
           <% else %>
             <li class="nav-item">
-              <%= link_to 'Iniciar sesión',  new_user_session_path, class: 'btn btn-outline-success'%>
+              <%= link_to 'Iniciar sesión', new_user_session_path, class:"nav-link margen" %>
             </li>
             <li class="nav-item">
               <%= link_to 'Registro',  new_user_registration_path, class: 'btn btn-outline-success'%>
@@ -67,27 +78,70 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
           <% end %>
     </div>
   </div>
-</nav>
-```
+</nav>```
 
-## para que el navbar funcione, se debe agregar el CDN de bootstrap al header del layout
 
-```hash
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-```
-
-## Quitar las viñetas de los li
+## Agregar a la vista new un formulario bootstrap
 
 ```hash
-li {
-  list-style: none;
-}
+  <h2>Sign up</h2>
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+ 
+    <body class="main-bg">
+  <!-- Login Form -->
+  <div class="container">
+    <div class="row justify-content-center mt-5">
+      <div class="col-lg-4 col-md-6 col-sm-6">
+        <div class="card shadow">
+          <div class="card-title text-center border-bottom">
+            <h2 class="p-3">Register</h2>
+          </div>
+          <div class="card-body">
+            <form>
+              <div class="mb-4">
+                    <%= f.label :name, class:'form-label' %><br />
+                    <%= f.text_field :name, autofocus: true, autocomplete: "name", class:'form-control' %>
+              </div>
+
+              <div class="mb-4">                   
+                  <%= f.label :email, class:'form-label' %><br />
+                  <%= f.email_field :email, autocomplete: "email", class:'form-control' %>
+              </div>
+
+               <div class="mb-4">
+                 
+                  <%= f.label :password, class:'form-label' %>
+                  <% if @minimum_password_length %>
+                  <em>(<%= @minimum_password_length %> characters minimum)</em>
+                  <% end %><br />
+                  <%= f.password_field :password, autocomplete: "new-password",class:'form-control' %>
+              </div>             
+
+              <div class="mb-4">
+                  <%= f.label :password_confirmation, class:'form-label' %><br />
+                  <%= f.password_field :password_confirmation, autocomplete: "new-password",class:'form-control' %>
+              </div>
+
+              <div class="d-grid">
+               
+                    <%= f.submit "Sign up", class:"btn btn-success" %>
+                <% end %>
+              <%= render "devise/shared/links" %>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 ```
 
-## Agregar campos adicionales al modelo User
+## Agregar campos adicionales al modelo User "username"
 
 ```hash
-rails generate migration AddNameToUsers name:string
+rails generate migration AddNameToUsers username:string
 ```
 
 ## Ejecutar la migración:
@@ -105,29 +159,31 @@ rails db:migrate
 rails generate controller Registrations
 ```
 
-Editar las vistas de registro y edición (registrations/new.html.erb y registrations/edit.html.erb) para agregar un campo de entrada para el nombre.
+## Editar las vistas de registro y edición (registrations/new.html.erb y registrations/edit.html.erb) para agregar un campo de entrada para el nombre.
 
-En el controlador registrations_controller.rb, asegúrate de que el controlador esté configurado para permitir los parámetros name durante la creación y actualización de usuarios.
+## En el controlador registrations_controller.rb, asegúrate de que el controlador esté configurado para permitir los parámetros name durante la creación y actualización de usuarios.
 
-En este archivo, hereda de Devise::RegistrationsController y personaliza los métodos que desees modificar. Por ejemplo, puedes agregar o modificar los métodos new, create, edit, update, destroy, etc., según tus necesidades.
+## En este archivo, hereda de Devise::RegistrationsController y personaliza los métodos que desees modificar. Por ejemplo, puedes agregar o modificar los métodos new, create, edit, update, destroy, etc., según tus necesidades.
 
-Aquí tienes un ejemplo de cómo podría lucir un registrations_controller.rb personalizado:
+## Aquí tienes un ejemplo de cómo podría lucir un registrations_controller.rb personalizado:
 
 class RegistrationsController < Devise::RegistrationsController
-  # Puedes personalizar métodos aquí
-
+  
   private
-
   # Define métodos personalizados si es necesario
+
 end
 
-Asegúrate de que en tu archivo routes.rb esté configurado para utilizar el controlador personalizado de Devise. Debería verse algo como esto:
+## Asegúrate de que en tu archivo routes.rb esté configurado para utilizar el controlador personalizado de Devise. Debería verse algo como esto:
 
+```hash
 devise_for :users, controllers: { registrations: 'registrations' }
+```
 
 class RegistrationsController < Devise::RegistrationsController
-  private
 
+```hash
+  private
   def sign_up_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
@@ -136,18 +192,17 @@ class RegistrationsController < Devise::RegistrationsController
     params.require(:user).permit(:name, :email, :password, :password_confirmation, :current_password)
   end
 end
+```
 
-Actualiza las rutas de Devise:
+## Actualiza las rutas de Devise:
 
-
+```hash
 devise_for :users, controllers: { registrations: 'registrations' }
-Actualiza las vistas de Devise:
+```
 
-Finalmente, actualiza las vistas de Devise para mostrar el campo name donde sea necesario.
+## Finalmente, actualiza las vistas de Devise para mostrar el campo name donde sea necesario.
 
-=========================================================
-==========FIN AGREGAR NAME AL MODELO USER================
-=========================================================
+ 
 
 
 
