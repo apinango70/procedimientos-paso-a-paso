@@ -53,29 +53,28 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
           <%= link_to "Home", root_path, class: 'nav-link' %>
         </li>
         <li class="nav-item">
-        <% if user_signed_in? && current_user.admin? %>
-          <%= link_to 'New Job Posting', new_job_posting_path, class: 'nav-link' %>  
-        <% end %>
+          <% if user_signed_in? && current_user.admin? %>
+            <%= link_to 'New Job Posting', new_job_posting_path, class: 'nav-link' %>  
+          <% end %>
         </li>
       </ul>
-        <% if user_signed_in? %>
+      <ul class="navbar-nav ">
+      <% if user_signed_in? %>
         <li class="nav-item">
-          <%#= current_user.name %>
           Hi! <%= content_tag :span, current_user.name, class: 'margen' %>
         </li>
-        <% end %>
-          <% if user_signed_in? %>
-            <li class="nav-item">
-              <%= button_to 'Cerrar sesión', destroy_user_session_path, class: 'btn btn-outline-success', method: :delete %>
-            </li>
-          <% else %>
-            <li class="nav-item">
-              <%= link_to 'Iniciar sesión', new_user_session_path, class:"nav-link margen" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to 'Registro',  new_user_registration_path, class: 'btn btn-outline-success'%>
-            </li>
-          <% end %>
+        <li class="nav-item">
+          <%= button_to 'Cerrar sesión', destroy_user_session_path, class: 'btn btn-outline-success', method: :delete %>
+        </li>
+      <% else %>
+        <li class="nav-item">
+          <%= link_to 'Iniciar sesión', new_user_session_path, class: 'nav-link margen' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Registro', new_user_registration_path, class: 'btn btn-outline-success' %>
+        </li>
+      <% end %>
+      </ul>
     </div>
   </div>
 </nav>
@@ -84,8 +83,6 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
 ## Agregar a la vista new un formulario bootstrap
 
 ```hash
-  <h2>Sign up</h2>
-
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
  
@@ -96,7 +93,7 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
       <div class="col-lg-4 col-md-6 col-sm-6">
         <div class="card shadow">
           <div class="card-title text-center border-bottom">
-            <h2 class="p-3">Register</h2>
+            <h2 class="p-3">Sign Up</h2>
           </div>
           <div class="card-body">
             <form>
