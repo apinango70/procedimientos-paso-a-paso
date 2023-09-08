@@ -79,60 +79,117 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
   </div>
 </nav>
 ```
-
-## Agregar a la vista new un formulario bootstrap
+## Agregar a la vista "Sign in" un formulario bootstrap
 
 ```hash
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-    <%= render "devise/shared/error_messages", resource: resource %>
- 
-    <body class="main-bg">
-  <!-- Login Form -->
-  <div class="container">
-    <div class="row justify-content-center mt-5">
-      <div class="col-lg-4 col-md-6 col-sm-6">
-        <div class="card shadow">
-          <div class="card-title text-center border-bottom">
-            <h2 class="p-3">Sign Up</h2>
-          </div>
-          <div class="card-body">
-            <form>
-              <div class="mb-4">
-                    <%= f.label :name, class:'form-label' %><br />
-                    <%= f.text_field :name, autofocus: true, autocomplete: "name", class:'form-control' %>
-              </div>
-
-              <div class="mb-4">                   
-                  <%= f.label :email, class:'form-label' %><br />
-                  <%= f.email_field :email, autocomplete: "email", class:'form-control' %>
-              </div>
-
-               <div class="mb-4">
-                 
-                  <%= f.label :password, class:'form-label' %>
-                  <% if @minimum_password_length %>
-                  <em>(<%= @minimum_password_length %> characters minimum)</em>
-                  <% end %><br />
-                  <%= f.password_field :password, autocomplete: "new-password",class:'form-control' %>
-              </div>             
-
-              <div class="mb-4">
-                  <%= f.label :password_confirmation, class:'form-label' %><br />
-                  <%= f.password_field :password_confirmation, autocomplete: "new-password",class:'form-control' %>
-              </div>
-
-              <div class="d-grid">
-               
-                    <%= f.submit "Sign up", class:"btn btn-success" %>
+<!-- Sign in Form -->
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-lg-4 col-md-6 col-sm-6">
+      <div class="card shadow">
+        <div class="card-title text-center border-bottom">
+          <h2 class="p-3">Log in</h2>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="mb-4">                   
+                <%= f.label :email, class:'form-label' %><br />
+                <%= f.email_field :email, autofocus: true, autocomplete: "email", class:'form-control' %>
+            </div>
+            <div class="mb-4">
+              <%= f.label :password, class:'form-label' %><br />
+              <%= f.password_field :password, autocomplete: "current-password", class:'form-control' %>
+            </div>
+              <% if devise_mapping.rememberable? %>
+                <div class="field">
+                  <%= f.check_box :remember_me %>
+                  <%= f.label :remember_me %>
+                </div>
+              <% end %>
+                <div class="actions">
+                  <%= f.submit "Log in", class:"btn btn-success" %>
+                </div>
                 <% end %>
               <%= render "devise/shared/links" %>
-              </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
+</div>
+```
+
+## Agregar a la vista "Sign up" un formulario bootstrap
+
+```hash
+<!-- Sign up Form -->
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-lg-4 col-md-6 col-sm-6">
+      <div class="card shadow">
+        <div class="card-title text-center border-bottom">
+          <h2 class="p-3">Sign up</h2>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="mb-4">                   
+                <%= f.label :email, class:'form-label' %><br />
+                <%= f.email_field :email, autofocus: true, autocomplete: "email", class:'form-control' %>
+            </div>
+              <div class="mb-4">
+                <%= f.label :password, class:'form-label' %>
+                <% if @minimum_password_length %>
+                <em>(<%= @minimum_password_length %> characters minimum)</em>
+                <% end %><br />
+                <%= f.password_field :password, autocomplete: "new-password",class:'form-control' %>
+            </div>             
+            <div class="mb-4">
+                <%= f.label :password_confirmation, class:'form-label' %><br />
+                <%= f.password_field :password_confirmation, autocomplete: "new-password",class:'form-control' %>
+            </div>
+            <div class="d-grid">
+                  <%= f.submit "Sign up", class:"btn btn-success" %>
+              <% end %>
+            <%= render "devise/shared/links" %>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+## Agregar a la vista "Forgot password" un formulario bootstrap
+
+```hash
+<!-- Forgot your password Form -->
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-lg-4 col-md-6 col-sm-6">
+      <div class="card shadow">
+        <div class="card-title text-center border-bottom">
+          <h2 class="p-3">Forgot your password?</h2>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="mb-4">                   
+              <%= f.label :email, class:'form-label' %><br />
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", class:'form-control' %>
+            </div>
+            <div class="d-grid">
+              <%= f.submit "Send me reset password instructions", class:"btn btn-success" %>
+              </div>
+            <% end %>
+            <%= render "devise/shared/links" %>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 ```
 
 ## Agregar campos adicionales al modelo User "username"
