@@ -82,6 +82,7 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
 ## Agregar a la vista "Sign in" un formulario bootstrap
 
 ```hash
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 <!-- Sign in Form -->
 <div class="container">
   <div class="row justify-content-center mt-5">
@@ -106,7 +107,7 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
                   <%= f.label :remember_me %>
                 </div>
               <% end %>
-                <div class="actions">
+                <div class="d-grid">
                   <%= f.submit "Log in", class:"btn btn-success" %>
                 </div>
                 <% end %>
@@ -123,6 +124,9 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
 ## Agregar a la vista "Sign up" un formulario bootstrap
 
 ```hash
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
 <!-- Sign up Form -->
 <div class="container">
   <div class="row justify-content-center mt-5">
@@ -164,6 +168,8 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
 ## Agregar a la vista "Forgot password" un formulario bootstrap
 
 ```hash
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
 <!-- Forgot your password Form -->
 <div class="container">
   <div class="row justify-content-center mt-5">
