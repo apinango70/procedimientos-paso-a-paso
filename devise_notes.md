@@ -54,14 +54,14 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
         </li>
         <li class="nav-item">
           <% if user_signed_in? && current_user.admin? %>
-            <%= link_to 'New Job Posting', new_job_posting_path, class: 'nav-link' %>  
+            <%= link_to '#', root_path, class: 'nav-link' %>  
           <% end %>
         </li>
       </ul>
       <ul class="navbar-nav ">
       <% if user_signed_in? %>
         <li class="nav-item">
-          Hi! <%= content_tag :span, current_user.name, class: 'margen' %>
+          Hi! <%= content_tag :span, current_user.username, class: 'margen' %>
         </li>
         <li class="nav-item">
           <%= button_to 'Cerrar sesión', destroy_user_session_path, class: 'btn btn-outline-success', method: :delete %>
@@ -79,6 +79,23 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
   </div>
 </nav>
 ```
+
+## Para que este navbar funcione hay que modificar el modelo User agregando el campo name y admin
+
+```hash
+rails g migration AddAdminToUsers admin:boolean
+rails g migration AddNameToUsers username:string
+```
+
+## Ejecutar la migración:
+
+```hash
+rails db:migrate
+```
+## Agregar al 
+
+
+
 ## Agregar a la vista "Sign in" un formulario bootstrap
 
 ```hash
@@ -225,17 +242,9 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
     </div>
 ```
 
-## Agregar campos adicionales al modelo User "username"
 
-```hash
-rails generate migration AddNameToUsers username:string
-```
 
-## Ejecutar la migración:
 
-```hash
-rails db:migrate
-```
 
 ## Actualiza las vistas y controladores de Devise (opcional):
 
