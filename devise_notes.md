@@ -61,7 +61,7 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
       <ul class="navbar-nav ">
       <% if user_signed_in? %>
         <li class="nav-item">
-          Hi! <%= content_tag :span, current_user.username, class: 'margen' %>
+          Hi! <%= content_tag :span, current_user.email, class: 'margen' %>
         </li>
         <li class="nav-item">
           <%= button_to 'Cerrar sesión', destroy_user_session_path, class: 'btn btn-outline-success', method: :delete %>
