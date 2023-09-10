@@ -1,33 +1,115 @@
 # Instrucciones para instalar y configurar la gema devise
 
-## Paso 1: Agregar Devise al proyecto
+## Agregar Devise al proyecto
 
 ```hash
 bundle add devise
 ```
 
-## Paso 2: Instalar la gema Devise
+## Instalar la gema Devise y seguir las instrucciones que salen al final.
 
 ```hash
 rails generate devise:install
 ```
 
-## Paso 3: Generar el modelo para User
+### Buscar en config>initializers>devise.rb
+_descomentar en la linea 266_
+_config.navigational_formats = ['*/*', :html, :turbo_stream]_
+
+## Generar el modelo para User
 
 ```hash
 rails generate devise User
 ```
 
-## Paso 4: Migrar la base de datos
+## Migrar la base de datos
 
 ```hash
 rails db:migrate
 ```
 
-## Paso 5: Crear vistas para poder personalizarlas (opcional)
+```hash
+git add .
+git commit -m "Se creó el modelo User."
+```
+
+## Crear vistas para poder personalizarlas
 
 ```hash
 rails generate devise:views
+```
+
+## Para que el navbar que está a continuación funcione hay que modificar el modelo User agregando el campo username y admin
+
+```hash
+rails g migration AddDetailsToUsers username:string admin:bolean
+```
+
+## Importamos los controladores de devise para persoanlizarlos
+
+```hash
+rails generate devise:controllers users
+```
+
+## Modificar las rutas para evitar errores app>config>routes.rb
+
+```hash
+devise_for :users, controllers: {
+  sessions: 'users/sessions',
+  registrations: 'users/registrations'
+}
+```
+
+## Ejecutar la migración:
+
+```hash
+rails db:migrate
+```
+
+## Hacer commit
+
+```hash
+git add .
+git commit -m "Se crearon las vistas y los campos username y admin del modelo User."
+```
+
+## Modificar app>controllers>users>registration_controllers.rb para agregar los strong parameters
+
+### Descomentamos las lineas 1 y 2
+  before_action :configure_sign_up_params, only: [:create]
+  before_action :configure_account_update_params, only: [:update]
+
+### Descomentamos y editamos métodos protegidos a patir de la línea 41 y agrago los nuevos campos
+
+  protected
+
+  #If you have extra params to permit, append them to the sanitizer.
+  def configure_sign_up_params
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :admin])
+  end
+
+  #If you have extra params to permit, append them to the sanitizer.
+  def configure_account_update_params
+    devise_parameter_sanitizer.permit(:account_update, keys: [:username, :admin])
+  end
+
+## Modificar app>controllers>application_controllers.rb para agregar los strong parameters
+
+```hash
+class ApplicationController < ActionController::Base
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :admin])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:username, :admin])
+  end
+
+  def after_sign_in_path_for(resource)
+    posts_path
+  end
+end
 ```
 
 ## Agregar el CDN de bootstrap al header del layout
@@ -80,22 +162,6 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
 </nav>
 ```
 
-## Para que este navbar funcione hay que modificar el modelo User agregando el campo name y admin
-
-```hash
-rails g migration AddAdminToUsers admin:boolean
-rails g migration AddNameToUsers username:string
-```
-
-## Ejecutar la migración:
-
-```hash
-rails db:migrate
-```
-## Agregar al 
-
-
-
 ## Agregar a la vista "Sign in" un formulario bootstrap
 
 ```hash
@@ -111,8 +177,12 @@ rails db:migrate
         <div class="card-body">
           <form>
             <div class="mb-4">                   
+                <%= f.label :username, class:'form-label' %><br />
+                <%= f.text_field :username, autofocus: true, autocomplete: "username", class:'form-control' %>
+            </div>
+            <div class="mb-4">                   
                 <%= f.label :email, class:'form-label' %><br />
-                <%= f.email_field :email, autofocus: true, autocomplete: "email", class:'form-control' %>
+                <%= f.email_field :email, autocomplete: "email", class:'form-control' %>
             </div>
             <div class="mb-4">
               <%= f.label :password, class:'form-label' %><br />
@@ -143,7 +213,6 @@ rails db:migrate
 ```hash
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
-
 <!-- Sign up Form -->
 <div class="container">
   <div class="row justify-content-center mt-5">
@@ -260,9 +329,21 @@ end
 ```
 
 
+## NOTAS DE SEGURIDAD
+
+### Si quiero obligar que en una vista se logee el usuario, debo colocar en el controller, en except se colocan las vistas permitidas sin logeo.
+
+```hash
+before_action :authenticated_user!, except: [:index, :show]
+```
+
+### Para asegurarme que solo el user que creo un registro lopueda modificar agregar en el método new y create
+
+```hash
+@xxxx = current_user.xxxx.xxxx
+`` 
 
 
-## Actualiza las vistas y controladores de Devise (opcional):
 
 
 ## crear el controlador de registration
