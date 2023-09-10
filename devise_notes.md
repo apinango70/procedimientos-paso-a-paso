@@ -76,8 +76,10 @@ git commit -m "Se crearon las vistas y los campos username y admin del modelo Us
 ## Modificar app>controllers>users>registration_controllers.rb para agregar los strong parameters
 
 ### Descomentamos las lineas 1 y 2
-  before_action :configure_sign_up_params, only: [:create]
-  before_action :configure_account_update_params, only: [:update]
+
+  _before_action :configure_sign_up_params, only: [:create]_
+  
+  _before_action :configure_account_update_params, only: [:update]_
 
 ### Descomentamos y editamos métodos protegidos a patir de la línea 41 y agrago los nuevos campos
 
@@ -284,32 +286,7 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
 </div>
 ```
 
-## Modelo estilo neumorfismo
 
-```hash
-<div class="wrapper">
-        <div class="logo">
-            <img src="https://www.freepnglogos.com/uploads/twitter-logo-png/twitter-bird-symbols-png-logo-0.png" alt="">
-        </div>
-        <div class="text-center mt-4 name">
-            Twitter
-        </div>
-        <form class="p-3 mt-3">
-            <div class="form-field d-flex align-items-center">
-                <span class="far fa-user"></span>
-                <input type="text" name="userName" id="userName" placeholder="Username">
-            </div>
-            <div class="form-field d-flex align-items-center">
-                <span class="fas fa-key"></span>
-                <input type="password" name="password" id="pwd" placeholder="Password">
-            </div>
-            <button class="btn mt-3">Login</button>
-        </form>
-        <div class="text-center fs-6">
-            <a href="#">Forget password?</a> or <a href="#">Sign up</a>
-        </div>
-    </div>
-```
 
 ## Modifico app>models>user.rb para verificar si el user es admin:
 
@@ -343,37 +320,13 @@ before_action :authenticated_user!, except: [:index, :show]
 @xxxx = current_user.xxxx.xxxx
 `` 
 
-
-
-
-## crear el controlador de registration
-
-```hash
-rails generate controller Registrations
-```
-
-## Editar las vistas de registro y edición (registrations/new.html.erb y registrations/edit.html.erb) para agregar un campo de entrada para el nombre.
-
-## En el controlador registrations_controller.rb, asegúrate de que el controlador esté configurado para permitir los parámetros name durante la creación y actualización de usuarios.
-
-## En este archivo, hereda de Devise::RegistrationsController y personaliza los métodos que desees modificar. Por ejemplo, puedes agregar o modificar los métodos new, create, edit, update, destroy, etc., según tus necesidades.
-
-## Aquí tienes un ejemplo de cómo podría lucir un registrations_controller.rb personalizado:
-
-class RegistrationsController < Devise::RegistrationsController
-  
-  private
-  # Define métodos personalizados si es necesario
-
-end
-
 ## Asegúrate de que en tu archivo routes.rb esté configurado para utilizar el controlador personalizado de Devise. Debería verse algo como esto:
 
 ```hash
 devise_for :users, controllers: { registrations: 'registrations' }
 ```
 
-class RegistrationsController < Devise::RegistrationsController
+## class RegistrationsController < Devise::RegistrationsController
 
 ```hash
   private
@@ -393,7 +346,6 @@ end
 devise_for :users, controllers: { registrations: 'registrations' }
 ```
 
-## Finalmente, actualiza las vistas de Devise para mostrar el campo name donde sea necesario.
 
  
 
