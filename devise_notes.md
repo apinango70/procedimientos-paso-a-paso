@@ -226,8 +226,16 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
         <div class="card-body">
           <form>
             <div class="mb-4">                   
+                <%= f.label :username, class:'form-label' %>
+                <%= f.text_field :username, autofocus: true, autocomplete: "username", class:'form-control' %>
+            </div>
+            <div class="mb-4">                   
                 <%= f.label :email, class:'form-label' %><br />
-                <%= f.email_field :email, autofocus: true, autocomplete: "email", class:'form-control' %>
+                <%= f.email_field :email, autocomplete: "email", class:'form-control' %>
+            </div>
+            <div class="mb-4">                   
+                <%= f.label :admin %>
+                <%= f.check_box :admin, class:'form-check-input' %>
             </div>
               <div class="mb-4">
                 <%= f.label :password, class:'form-label' %>
@@ -286,8 +294,6 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
 </div>
 ```
 
-
-
 ## Modifico app>models>user.rb para verificar si el user es admin:
 
 ```hash
@@ -297,14 +303,12 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-
  # Método para verificar si un usuario es administrador
  def admin?
    admin
  end
 end
 ```
-
 
 ## NOTAS DE SEGURIDAD
 
@@ -318,7 +322,7 @@ before_action :authenticated_user!, except: [:index, :show]
 
 ```hash
 @xxxx = current_user.xxxx.xxxx
-`` 
+``` 
 
 ## Asegúrate de que en tu archivo routes.rb esté configurado para utilizar el controlador personalizado de Devise. Debería verse algo como esto:
 
@@ -345,28 +349,4 @@ end
 ```hash
 devise_for :users, controllers: { registrations: 'registrations' }
 ```
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
