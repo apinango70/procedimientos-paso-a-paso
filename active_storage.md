@@ -26,6 +26,7 @@ rails db:migrate
 ## Hago commit
 
 ```hash
+git add .
 git  commit -m "Active storage instalado."
 ```
 
