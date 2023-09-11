@@ -42,10 +42,10 @@ rails generate devise:views
 ## Para que el navbar que está a continuación funcione hay que modificar el modelo User agregando el campo username y admin
 
 ```hash
-rails g migration AddDetailsToUsers username:string admin:boolean
+rails g migration AddDetailsToUsers username:string role:string
 ```
 
-## Importamos los controladores de devise para persoanlizarlos
+## Importamos los controladores de devise para personalizarlos
 
 ```hash
 rails generate devise:controllers users
@@ -70,7 +70,7 @@ rails db:migrate
 
 ```hash
 git add .
-git commit -m "Se crearon las vistas y los campos username y admin del modelo User."
+git commit -m "Se crearon las vistas y los campos username y role del modelo User."
 ```
 
 ## Modificar app>controllers>users>registration_controllers.rb para agregar los strong parameters
@@ -87,12 +87,12 @@ git commit -m "Se crearon las vistas y los campos username y admin del modelo Us
 
   #If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :admin])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :role])
   end
 
   #If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:username, :admin])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:username, :role])
   end
 
 ## Modificar app>controllers>application_controllers.rb para agregar los strong parameters
@@ -104,8 +104,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :admin])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:username, :admin])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :role])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:username, :role])
   end
 
   def after_sign_in_path_for(resource)
@@ -113,6 +113,31 @@ class ApplicationController < ActionController::Base
   end
 end
 ```
+
+## Agrego el enum de los tipos de usuarios a user.rb
+```hash
+class User < ApplicationRecord
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+
+  # Enum de roles
+  enum role: { normal: 'normal',
+                admin: 'admin',
+  }, _default: 'normal'
+
+end
+```
+
+## Hacer commit
+
+```hash
+git add .
+git commit -m "Se modificaron registration y application controller y se agregó el enum de los roles."
+```
+
+
 
 ## Agregar el CDN de bootstrap al header del layout
 
@@ -145,7 +170,8 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
       <ul class="navbar-nav ">
       <% if user_signed_in? %>
         <li class="nav-item">
-          Hi! <%= content_tag :span, current_user.email, class: 'margen' %>
+          <%= content_tag :span, "Hi: #{current_user.username} | Role: #{current_user.role}", class: 'nav-link margen' %>
+
         </li>
         <li class="nav-item">
           <%= button_to 'Cerrar sesión', destroy_user_session_path, class: 'btn btn-outline-success', method: :delete %>
@@ -233,10 +259,6 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
                 <%= f.label :email, class:'form-label' %><br />
                 <%= f.email_field :email, autocomplete: "email", class:'form-control' %>
             </div>
-            <div class="mb-4">                   
-                <%= f.label :admin %>
-                <%= f.check_box :admin, class:'form-check-input' %>
-            </div>
               <div class="mb-4">
                 <%= f.label :password, class:'form-label' %>
                 <% if @minimum_password_length %>
@@ -258,6 +280,15 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
       </div>
     </div>
   </div>
+</div>
+```
+NOTA: Si quiero agregar el listado de los roles para elegir en la vista new de sign_up, debo agregar:
+
+```hash
+<%# Defino el listado de los tipo de roles %>
+<div class="mb-4">     
+  <%= f.label :role, class:'form-label' %>
+  <%= f.select :role, User.roles.keys %>
 </div>
 ```
 
