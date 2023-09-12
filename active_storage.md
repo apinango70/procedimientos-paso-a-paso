@@ -15,6 +15,33 @@ sudo apt update
 sudo apt-get -y install mupdf
 sudo apt update
 ```
+## Proyecto de prueba:
+´´´hash
+rails new adjuntos -d postgresql
+´´´
+
+´´´hash
+cd adjuntos
+rails db:create
+´´´
+
+´´´hash
+git add .
+git commit -m "creacion inicial del proyecto"
+´´´
+
+´´´hash
+rails g scaffold article title body:text
+rails db:migrate
+´´´
+
+´´´hash
+git add .
+git commit -m "Scaffold creado"
+´´´
+## Habilitar la ruta principal en config>routes>routes.rb
+
+	root "articles#index"
 
 ## Instalación gema active_storage:
 
@@ -38,23 +65,60 @@ gem "image_processing", ">= 1.2"
 
 ## Ejecutar bundle
 
-## Copiar en el modelo en el que se quiere habilitar, para el modelo User copiar en app>models.user.rb 
+´´´hash
+bundle install
+´´´
 
-```hash
-#Active_storage para la foto del perfil
-has_one_attached :foto
-```
+## Copiar en el modelo que estemos usando app>model>modelo.rb, modelo del ejemplo "article".
 
-## Para agregar el campo foto en un formulario, agregar:
 
-```hash
-<div class="mb-4"> 
-  <%= f.file_field :foto %>
+class Article < ApplicationRecord
+
+´´´hash
+  has_one_attached :foto
+´´´
+
+end
+
+
+## para agregarlo a un formulario, en este caso app>views>articles>_form.html.erb:
+
+´´´hash
+<div>
+  <%= form.label :foto, style: "display: block" %>
+  <%= form.file_field :foto %>
 </div>
-```
+´´´
 
+## Agregar al controller el strong parameter app>controller>articles_controller.rb
 
+### Modelo User
+´´´hash
+  private
+    def user_params
+      params.require(:user).permit(:email_address, :password, :foto)
+    end
+´´´
 
+### Modelo Article
+
+´´´hash
+  private
+    def article_params
+      params.require(:article).permit(:title, :body, :foto)
+    end
+´´´
+
+### Mostrar la imagen en el formulario show al crear el registro
+
+### Modelo article app>views>articles>_article.html.erb
+
+´´´hash
+  <p>
+    <strong>Foto:</strong>
+    <%= image_tag article.foto %>
+  </p>  
+´´´
 
 
 
