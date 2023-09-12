@@ -38,9 +38,20 @@ gem "image_processing", ">= 1.2"
 
 ## Ejecutar bundle
 
+## Copiar en el modelo en el que se quiere habilitar, para el modelo User copiar en app>models.user.rb 
 
+```hash
+#Active_storage para la foto del perfil
+has_one_attached :foto
+```
 
+## Para agregar el campo foto en un formulario, agregar:
 
+```hash
+<div class="mb-4"> 
+  <%= f.file_field :foto %>
+</div>
+```
 
 
 
