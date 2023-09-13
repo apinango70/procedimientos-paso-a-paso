@@ -53,6 +53,8 @@ rails generate devise:controllers users
 
 ## Modificar las rutas para evitar errores app>config>routes.rb
 
+_Se debe reemplazar devise_for :users, por el texto:_
+
 ```hash
 devise_for :users, controllers: {
   sessions: 'users/sessions',
@@ -86,7 +88,7 @@ git commit -m "Se crearon las vistas y los campos username y role del modelo Use
 ### Descomentar
   protected
 
-### Reemplazar el texto
+### Reemplazar el texto de la línea 43 a la 51
 
 ```hash
   #If you have extra params to permit, append them to the sanitizer.
@@ -144,7 +146,7 @@ git commit -m "Se modificaron registration y application controller y se agregó
 
 
 
-## Agregar el CDN de bootstrap al header del layout
+## Agregar el CDN de bootstrap al header del layout app>views>layout>application.html.erb.
 
 ```hash
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -194,7 +196,27 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
 </nav>
 ```
 
-## Agregar a la vista "Sign in" un formulario bootstrap
+## Renderizar el navbar en el layout app>views>lalyout.application.html.erb.
+
+```hash
+ <header>
+    <%= render "shared/navbar" %>
+  </header>
+```
+
+## Para probar el navbar, crear un controlador con una vista.
+
+```hash
+rails g controller pages index
+```
+
+## Modificar app>config>routes.rb para configurar la vista root
+
+```hash
+root "pages#index"
+```
+
+## Agregar a la vista "Sign in" un formulario bootstrap, reemplazar todo el código de: app>views>devise>session>new.html.erb por:
 
 ```hash
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
@@ -240,7 +262,7 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
 </div>
 ```
 
-## Agregar a la vista "Sign up" un formulario bootstrap
+## Agregar a la vista "Sign up" un formulario bootstrap, sustituir todo el código de: app>views>devise>registration>new.html.erb por:
 
 ```hash
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
@@ -322,27 +344,7 @@ Users.all
 
 _salir de la cónsola_
 
-## Verificar en app>config>routes.rb que tenga definida la ruta para usar los controladores personalizados:
-
-```hash
-devise_for :users, controllers: { registrations: 'registrations' }
-```
-
-## class RegistrationsController < Devise::RegistrationsController
-
-```hash
-  private
-  def sign_up_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
-  end
-
-  def account_update_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :current_password)
-  end
-end
-```
-
-## Agregar a la vista "Forgot password" un formulario bootstrap
+## Agregar a la vista "Forgot password" un formulario bootstrap, sustituir todo el código de: app>views>devise>password>new.html.erb por:
 
 ```hash
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
@@ -376,6 +378,31 @@ end
 ```
 
 ## NOTAS DE SEGURIDAD
+
+## Verificar en app>config>routes.rb que tenga definida la ruta para usar los controladores personalizados:
+
+```hash
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
+    }
+```
+
+## Agregar en app>controller>users>registration_controller.rb los strong parameters
+
+_class RegistrationsController < Devise::RegistrationsController_
+
+```hash
+  private
+
+  def sign_up_params
+    params.require(:user).permit(:username, :email, :password, :password_confirmation)
+  end
+
+  def account_update_params
+    params.require(:user).permit(:username, :email, :password, :password_confirmation, :current_password)
+  end
+```
 
 ### Si quiero obligar que en una vista se logee el usuario, debo colocar en el controller, en except se colocan las vistas permitidas sin logeo.
 
