@@ -289,7 +289,7 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
 ```
 NOTA: Si quiero agregar el listado de los roles para elegir en la vista new de sign_up, debo agregar:
 
-OJO: este dropdown list solo lo debería ver el admin, no es aconsejable agregarlo al sign_up donde llegan todos los usuarios.
+OJO: este dropdown list solo lo debería ver el admin, NUNCA debe estar visible para los user normal, lo defino solo como práctica y para el ambiente de desarrollo.
 
 ```hash
 <%# Defino el listado de los tipo de roles %>
