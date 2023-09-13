@@ -204,6 +204,13 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
   </header>
 ```
 
+## Hacer commit
+
+```hash
+git add .
+git commit -m "Se agregó el CDN de bootstrap y se creó el partial navbar."
+```
+
 ## Para probar el navbar, crear un controlador con una vista.
 
 ```hash
@@ -376,6 +383,13 @@ _salir de la cónsola_
   </div>
 </div>
 ```
+
+```hash
+git add .
+git commit -m "Se agregó formato bootstrap a las vistas sign_in sign_up y forgot_password y se creó el controlador Pages con la vista index."
+```
+
+## -== devise ya está instalado y configurado para utilizarse ==-
 
 ## NOTAS DE SEGURIDAD
 
