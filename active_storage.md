@@ -90,6 +90,15 @@ end
 </div>
 ```
 
+Para agregarlo al modelo user:
+
+```hash
+<div>
+  <%= f.label :foto, style: "display: block" %>
+  <%= f.file_field :foto %>
+</div>
+```
+
 ## Agregar al controller el strong parameter app>controller>articles_controller.rb
 
 ### Modelo User
