@@ -119,7 +119,7 @@ class ApplicationController < ActionController::Base
 end
 ```
 
-## Agrego el enum de los tipos de usuarios a user.rb
+## Agrego el enum de los tipos de usuarios a app>models>user.rb
 ```hash
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
