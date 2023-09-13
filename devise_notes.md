@@ -81,12 +81,12 @@ git commit -m "Se crearon las vistas y los campos username y role del modelo Use
   
   _before_action :configure_account_update_params, only: [:update]_
 
-### Descomentamos y editamos métodos protegidos a patir de la línea 41 y agrago los nuevos campos
+### Descomentamos y editamos métodos protegidos a patir de la línea 41 y agrego los nuevos campos:
 
 ### Descomentar
   protected
 
-### Copiar
+### Reemplazar el texto
 
 ```hash
   #If you have extra params to permit, append them to the sanitizer.
