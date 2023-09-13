@@ -58,7 +58,7 @@ git add .
 git  commit -m "Active storage instalado."
 ```
 
-## Descomentar en el Gemfile
+## Descomentar en el Gemfile en la línea 49
 
 ```hash
 gem "image_processing", ">= 1.2"
