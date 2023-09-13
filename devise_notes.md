@@ -83,8 +83,12 @@ git commit -m "Se crearon las vistas y los campos username y role del modelo Use
 
 ### Descomentamos y editamos métodos protegidos a patir de la línea 41 y agrago los nuevos campos
 
+### Descomentar
   protected
 
+### Copiar
+
+```hash
   #If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
     devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :role])
@@ -94,6 +98,7 @@ git commit -m "Se crearon las vistas y los campos username y role del modelo Use
   def configure_account_update_params
     devise_parameter_sanitizer.permit(:account_update, keys: [:username, :role])
   end
+```
 
 ## Modificar app>controllers>application_controllers.rb para agregar los strong parameters
 
