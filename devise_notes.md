@@ -289,12 +289,58 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
 ```
 NOTA: Si quiero agregar el listado de los roles para elegir en la vista new de sign_up, debo agregar:
 
+OJO: este dropdown list solo lo debería ver el admin, no es aconsejable agregarlo al sign_up donde llegan todos los usuarios.
+
 ```hash
 <%# Defino el listado de los tipo de roles %>
 <div class="mb-4">     
   <%= f.label :role, class:'form-label' %>
   <%= f.select :role, User.roles.keys %>
 </div>
+```
+
+Cómo cambiar el rol del admin de normal a admin por cónsola.
+
+Ejecutar:
+
+## Asegúrate de que en tu archivo routes.rb esté configurado para utilizar el controlador personalizado de Devise. Debería verse algo como esto:
+
+```hash
+devise_for :users, controllers: { registrations: 'registrations' }
+```
+
+## class RegistrationsController < Devise::RegistrationsController
+
+```hash
+  private
+  def sign_up_params
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  end
+
+  def account_update_params
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :current_password)
+  end
+end
+```
+
+## Actualiza las rutas de Devise:
+
+```hash
+rails c
+```
+
+## En la consola ejecutar:
+
+```hash
+user = User.find_by(email: 'nombreemail@gmail.com')
+user.update(role: 'admin')
+user.save
+```
+
+## Verificamos el cambio ejecutando:
+
+```hash
+Users.all
 ```
 
 ## Agregar a la vista "Forgot password" un formulario bootstrap
@@ -338,35 +384,10 @@ NOTA: Si quiero agregar el listado de los roles para elegir en la vista new de s
 before_action :authenticated_user!, except: [:index, :show]
 ```
 
-### Para asegurarme que solo el user que creo un registro lopueda modificar agregar en el método new y create
+### Para asegurarme que solo el user que creo un registro lo pueda modificar agregar en el método new y create
 
 ```hash
 @xxxx = current_user.xxxx.xxxx
 ``` 
 
-## Asegúrate de que en tu archivo routes.rb esté configurado para utilizar el controlador personalizado de Devise. Debería verse algo como esto:
-
-```hash
-devise_for :users, controllers: { registrations: 'registrations' }
-```
-
-## class RegistrationsController < Devise::RegistrationsController
-
-```hash
-  private
-  def sign_up_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
-  end
-
-  def account_update_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :current_password)
-  end
-end
-```
-
-## Actualiza las rutas de Devise:
-
-```hash
-devise_for :users, controllers: { registrations: 'registrations' }
-```
 
