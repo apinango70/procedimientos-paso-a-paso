@@ -176,7 +176,6 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
       <% if user_signed_in? %>
         <li class="nav-item">
           <%= content_tag :span, "Hi: #{current_user.username} | Role: #{current_user.role}", class: 'nav-link margen' %>
-
         </li>
         <li class="nav-item">
           <%= button_to 'Cerrar sesión', destroy_user_session_path, class: 'btn btn-outline-success', method: :delete %>
@@ -303,7 +302,27 @@ Cómo cambiar el rol del admin de normal a admin por cónsola.
 
 Ejecutar:
 
-## Asegúrate de que en tu archivo routes.rb esté configurado para utilizar el controlador personalizado de Devise. Debería verse algo como esto:
+```hash
+rails c
+```
+
+## En la consola ejecutar:
+
+```hash
+user = User.find_by(email: 'nombreemail@gmail.com')
+user.update(role: 'admin')
+user.save
+```
+
+## Verificamos el cambio ejecutando:
+
+```hash
+Users.all
+```
+
+_salir de la cónsola_
+
+## Verificar en app>config>routes.rb que tenga definida la ruta para usar los controladores personalizados:
 
 ```hash
 devise_for :users, controllers: { registrations: 'registrations' }
@@ -321,26 +340,6 @@ devise_for :users, controllers: { registrations: 'registrations' }
     params.require(:user).permit(:name, :email, :password, :password_confirmation, :current_password)
   end
 end
-```
-
-## Actualiza las rutas de Devise:
-
-```hash
-rails c
-```
-
-## En la consola ejecutar:
-
-```hash
-user = User.find_by(email: 'nombreemail@gmail.com')
-user.update(role: 'admin')
-user.save
-```
-
-## Verificamos el cambio ejecutando:
-
-```hash
-Users.all
 ```
 
 ## Agregar a la vista "Forgot password" un formulario bootstrap
@@ -389,5 +388,3 @@ before_action :authenticated_user!, except: [:index, :show]
 ```hash
 @xxxx = current_user.xxxx.xxxx
 ``` 
-
-
