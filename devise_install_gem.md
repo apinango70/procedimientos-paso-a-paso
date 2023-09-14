@@ -12,6 +12,17 @@ bundle add devise annotate
 rails generate devise:install
 ```
 
+### Usar estos alerts con bootstrap
+
+```hash
+<% if notice %>
+  <p class="alert alert-success"><%= notice %></p>
+<% end %>
+<% if alert %>
+  <p class="alert alert-danger"><%= alert %></p>
+<% end %>
+```
+
 ### Buscar en config>initializers>devise.rb
 _descomentar en la linea 266_
 _config.navigational_formats = ['*/*', :html, :turbo_stream]_
