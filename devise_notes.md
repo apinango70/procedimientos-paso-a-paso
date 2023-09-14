@@ -418,11 +418,13 @@ _class RegistrationsController < Devise::RegistrationsController_
   end
 ```
 
-### Si quiero obligar que en una vista se logee el usuario, debo colocar en el controlador de donde quiero que que se logee el siguiente código, en el arreglo de except se colocan las vistas permitidas sin logeo.
+### Si quiero obligar que en una vista se logee el usuario, debo colocar al inicio del controlador de donde quiero obligar el logeo el siguiente código: 
 
 ```hash
 before_action :authenticated_user!, except: [:index, :show]
 ```
+
+_en el arreglo de except se colocan las vistas permitidas sin logeo._
 
 ### Para asegurarme que solo el user que creo un registro lo pueda modificar agregar en el método new y create
 
