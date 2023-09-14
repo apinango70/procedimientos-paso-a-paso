@@ -315,6 +315,7 @@ root "pages#index"
   </div>
 </div>
 ```
+
 NOTA: Si quiero agregar el listado de los roles para elegir en la vista new de sign_up, debo agregar:
 
 OJO: este dropdown list solo lo debería ver el admin, NUNCA debe estar visible para los user normal, lo defino solo como práctica y para el ambiente de desarrollo.
