@@ -76,7 +76,7 @@ bundle install
 class Article < ApplicationRecord
 
 ```hash
-  has_one_attached :foto
+  has_one_attached :photo
 ```
 
 end
@@ -85,8 +85,8 @@ end
 
 ```hash
 <div>
-  <%= form.label :foto, style: "display: block" %>
-  <%= form.file_field :foto %>
+  <%= form.label :photo, style: "display: block" %>
+  <%= form.file_field :photo %>
 </div>
 ```
 
@@ -94,27 +94,34 @@ Para agregarlo al modelo user:
 
 ```hash
 <div>
-  <%= f.label :foto, style: "display: block" %>
-  <%= f.file_field :foto %>
+  <%= f.label :photo, style: "display: block" %>
+  <%= f.file_field :photo %>
 </div>
 ```
 
-## Agregar al controller el strong parameter app>controller>articles_controller.rb
+## Agregar al controller el strong parameter 
 
-### Modelo User
+### Modelo User app>users>registration_controller.rb
 ```hash
-  private
-    def user_params
-      params.require(:user).permit(:email_address, :password, :foto)
+   protected
+
+    #If you have extra params to permit, append them to the sanitizer.
+    def configure_sign_up_params
+      devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :role, :photo])
+    end
+  
+    #If you have extra params to permit, append them to the sanitizer.
+    def configure_account_update_params
+      devise_parameter_sanitizer.permit(:account_update, keys: [:username, :role, :photo])
     end
 ```
 
-### Modelo Article
+### Modelo Article app>controller>articles_controller.rb
 
 ```hash
   private
     def article_params
-      params.require(:article).permit(:title, :body, :foto)
+      params.require(:article).permit(:title, :body, :photo)
     end
 ```
 
@@ -125,6 +132,6 @@ Para agregarlo al modelo user:
 ```hash
   <p>
     <strong>Foto:</strong>
-    <%= image_tag article.foto, style: "width: 50px" if article.foto.attached? %>
+    <%= image_tag article.photo, style: "width: 50px" if article.photo.attached? %>
   </p>
 ```
