@@ -299,6 +299,16 @@ root "pages#index"
                 <%= f.label :username, class:'form-label' %>
                 <%= f.text_field :username, autofocus: true, autocomplete: "username", class:'form-control' %>
             </div>
+              <% if User.where(role: User.roles[:admin]).exists? %>
+                <!-- El administrador ya existe, ocultar el select de roles -->
+                <%= f.hidden_field :role, value: User.roles[:admin] %>
+              <% else %>
+                <!-- El administrador no existe, mostrar el select de roles -->
+                <div class="mb-4">     
+                  <%= f.label :role, class:'form-label' %>
+                  <%= f.select :role, User.roles.keys %>
+                </div>
+              <% end %>
             <div class="mb-4">                   
                 <%= f.label :email, class:'form-label' %><br />
                 <%= f.email_field :email, autocomplete: "email", class:'form-control' %>
@@ -327,17 +337,7 @@ root "pages#index"
 </div>
 ```
 
-NOTA: Si quiero agregar el listado de los roles para elegir en la vista new de sign_up, debo agregar:
-
-OJO: este dropdown list solo lo debería ver el admin, NUNCA debe estar visible para los user normal, lo defino solo como práctica y para el ambiente de desarrollo.
-
-```hash
-<%# Defino el listado de los tipo de roles %>
-<div class="mb-4">     
-  <%= f.label :role, class:'form-label' %>
-  <%= f.select :role, User.roles.keys %>
-</div>
-```
+NOTA: El enum que muestra los tipos de user para elegir el admin, solo aparecerá en el registro mientras no exista ningún admin, luego de aginar admin un user, el enum desaparecerá del registro.
 
 Cómo cambiar el rol del admin de normal a admin por cónsola.
 
