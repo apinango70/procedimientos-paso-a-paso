@@ -267,3 +267,11 @@ Para agregarlo al modelo user: app>views>devise>registrations>new.html.erb
   </div>
 </div> 
 ```
+
+## Agregar al css para mostrar la foto de forma circular:
+
+```hash
+ .foto_circular {
+    border-radius: 50%;
+  }
+```
