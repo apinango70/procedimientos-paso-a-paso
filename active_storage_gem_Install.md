@@ -160,55 +160,57 @@ Para agregarlo al modelo user:
                 <p> No Photo </p>
               <% end %>
             </div>
- 
-                <div class="mb-4">
-                  <%= f.label :username %><br />
-                  <%= f.text_field :username, autofocus: true, autocomplete: "username" %>
-                </div>
+            <!--Permite cambiar la foto actual del perfil-->
+            <div class="mb-4">
+              <%= f.label :photo, style: "display: block" %>
+              <%= f.file_field :photo %>
+            </div>
+            <div class="mb-4">
+              <%= f.label :username %><br />
+              <%= f.text_field :username, autofocus: true, autocomplete: "username" %>
+            </div>
 
-                <div class="mb-4">
-                  <%= f.label :email %><br />
-                  <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-                </div>
+            <div class="mb-4">
+              <%= f.label :email %><br />
+              <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+            </div>
 
-                <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-                  <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-                <% end %>
+            <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+              <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+            <% end %>
 
-                <div class="mb-4">
-                  <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-                  <%= f.password_field :password, autocomplete: "new-password" %>
-                  <% if @minimum_password_length %>
-                    <br />
-                    <em><%= @minimum_password_length %> characters minimum</em>
-                  <% end %>
-                </div>
-
-                <div class="mb-4">
-                  <%= f.label :password_confirmation %><br />
-                  <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-                </div>
-
-                <div class="mb-4">
-                  <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-                  <%= f.password_field :current_password, autocomplete: "current-password" %>
-                </div>
-
-                <div class="actions">
-                  <%= f.submit "Update" %>
-                </div>
+            <div class="mb-4">
+              <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+              <%= f.password_field :password, autocomplete: "new-password" %>
+              <% if @minimum_password_length %>
+                <br />
+                <em><%= @minimum_password_length %> characters minimum</em>
               <% end %>
+            </div>
 
-              <h3>Cancel my account</h3>
+            <div class="mb-4">
+              <%= f.label :password_confirmation %><br />
+              <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+            </div>
 
-              <div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
+            <div class="mb-4">
+              <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+              <%= f.password_field :current_password, autocomplete: "current-password" %>
+            </div>
 
-              <%= link_to "Back", :back %>.
+            <div class="actions">
+              <%= f.submit "Update" %>
+            </div>
+            <% end %>
+
+            <h3>Cancel my account</h3>
+
+            <div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
+            <%= link_to "Back", :back %>.
           </form>
         </div>
       </div>
     </div>
   </div>
-</div>
-
+</div> 
 ```
