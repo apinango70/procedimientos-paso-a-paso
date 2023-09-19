@@ -90,12 +90,65 @@ end
 </div>
 ```
 
-Para agregarlo al modelo user:
+Para agregarlo al modelo user: app>views>devise>registrations>new.html.erb
 
 ```hash
-<div>
-  <%= f.label :photo, style: "display: block" %>
-  <%= f.file_field :photo %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+<!-- Sign up Form -->
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-lg-4 col-md-6 col-sm-6">
+      <div class="card shadow">
+        <div class="card-title text-center border-bottom">
+          <h2 class="p-3">Sign up</h2>
+        </div>
+        <div class="card-body">
+          <form>
+            <!--Selector de foto del perfil-->
+            <div class="mb-4">
+              <%= f.label :photo, style: "display: block" %>
+              <%= f.file_field :photo %>
+            </div>
+            <div class="mb-4">                   
+                <%= f.label :username, class:'form-label' %>
+                <%= f.text_field :username, autofocus: true, autocomplete: "username", class:'form-control' %>
+            </div>
+              <% if User.where(role: User.roles[:admin]).exists? %>
+                <!-- El administrador ya existe, ocultar el select de roles -->
+                <%= f.hidden_field :role, value: User.roles[:admin] %>
+              <% else %>
+                <!-- El administrador no existe, mostrar el select de roles -->
+                <div class="mb-4">     
+                  <%= f.label :role, class:'form-label' %>
+                  <%= f.select :role, User.roles.keys %>
+                </div>
+              <% end %>
+            <div class="mb-4">                   
+                <%= f.label :email, class:'form-label' %><br />
+                <%= f.email_field :email, autocomplete: "email", class:'form-control' %>
+            </div>
+              <div class="mb-4">
+                <%= f.label :password, class:'form-label' %>
+                <% if @minimum_password_length %>
+                <em>(<%= @minimum_password_length %> characters minimum)</em>
+                <% end %><br />
+                <%= f.password_field :password, autocomplete: "new-password",class:'form-control' %>
+            </div>             
+            <div class="mb-4">
+                <%= f.label :password_confirmation, class:'form-label' %><br />
+                <%= f.password_field :password_confirmation, autocomplete: "new-password",class:'form-control' %>
+            </div>
+            <div class="d-grid">
+                  <%= f.submit "Sign up", class:"btn btn-success" %>
+              <% end %>
+            <%= render "devise/shared/links" %>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 ```
 
