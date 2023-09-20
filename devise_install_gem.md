@@ -300,8 +300,8 @@ root "pages#index"
                 <%= f.text_field :username, autofocus: true, autocomplete: "username", class:'form-control' %>
             </div>
               <% if User.where(role: User.roles[:admin]).exists? %>
-                <!-- El administrador ya existe, ocultar el select de roles -->
-                <%= f.hidden_field :role, value: User.roles[:admin] %>
+                <!-- El administrador ya existe, ocultar el select de role y define user por defecto-->
+                <%= f.hidden_field :role, value: User.roles[:user] %>
               <% else %>
                 <!-- El administrador no existe, mostrar el select de roles -->
                 <div class="mb-4">     
