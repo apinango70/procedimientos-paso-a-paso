@@ -181,7 +181,7 @@ _Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agrega
         </li>
         <li class="nav-item">
           <% if user_signed_in? && current_user.admin? %>
-            <%= link_to '#', root_path, class: 'nav-link' %>  
+            <%= link_to 'Edit profile', edit_user_registration_path, class: 'nav-link' %>  
           <% end %>
         </li>
       </ul>
@@ -337,7 +337,7 @@ root "pages#index"
 </div>
 ```
 
-NOTA: El enum que muestra los tipos de user para elegir el admin, solo aparecerá en el registro mientras no exista ningún admin, luego de aginar admin un user, el enum desaparecerá del registro.
+NOTA: El enum que muestra los tipos de user para elegir el admin, solo aparecerá en el registro mientras no exista ningún admin, luego de asignar admin a un user, el enum desaparecerá del registro.
 
 Cómo cambiar el rol del admin de normal a admin por cónsola.
 
