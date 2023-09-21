@@ -1,9 +1,9 @@
 # Instrucciones para instalar y configurar la gema devise
 
-## Agregar las gemas devise y annotate al proyecto.
+## Agregar las gemas devise, annotate y faker al proyecto.
 
 ```hash
-bundle add devise annotate
+bundle add devise annotate faker
 ```
 
 ## Instalar la gema Devise y seguir las instrucciones que salen al final.
