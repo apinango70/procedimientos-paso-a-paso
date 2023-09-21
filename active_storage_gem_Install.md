@@ -275,3 +275,10 @@ Para agregarlo al modelo user: app>views>devise>registrations>new.html.erb
     border-radius: 50%;
   }
 ```
+
+## Hacer commit
+
+```hash
+git add .
+git commit -m "Se configuró active_storage y se modificaron las vistas del modelo user para poder agregar una foto al perfil.
+```
