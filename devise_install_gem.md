@@ -96,12 +96,12 @@ git commit -m "Se crearon las vistas y los campos username y role del modelo Use
 
 ### Descomentamos y editamos métodos protegidos a patir de la línea 41 y agrego los nuevos campos:
 
-### Descomentar
-  protected
 
-### Reemplazar el texto de la línea 43 a la 51
+### Reemplazar el texto de la línea 41 a la 51
 
 ```hash
+  protected
+
   #If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
     devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :role])
