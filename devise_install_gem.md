@@ -413,19 +413,6 @@ _salir de la cónsola_
         </div>
         <div class="card-body">
           <form>
-            <div class="mb-4">  
-              <% if current_user.photo.attached? %>
-                <%= f.label :photo %><br />
-                <%= image_tag current_user.photo, style: "width: 150px", class: "foto_circular" %>
-              <% else %>
-                <p> No Photo </p>
-              <% end %>
-            </div>
-            <!--Permite cambiar la foto actual del perfil-->
-            <div class="mb-4">
-              <%= f.label :photo, style: "display: block" %>
-              <%= f.file_field :photo %>
-            </div>
             <div class="mb-4">
               <%= f.label :username %><br />
               <%= f.text_field :username, autofocus: true, autocomplete: "username" %>
