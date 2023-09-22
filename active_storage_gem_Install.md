@@ -70,12 +70,13 @@ gem "image_processing", ">= 1.2"
 bundle install
 ```
 
-## Copiar en el modelo que estemos usando app>model>modelo.rb, modelo del ejemplo "article" app>model>article.rb y para integrarlo al modelo user app>model>user.rb.
+## Copiar en el modelo que estemos usando app>models>modelo.rb, modelo del ejemplo "article" app>model>article.rb y **para integrarlo al modelo user app>model>user.rb**.
 
 
 class Article < ApplicationRecord
 
 ```hash
+  # Defino una foto al usuario
   has_one_attached :photo
 ```
 
