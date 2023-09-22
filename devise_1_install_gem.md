@@ -146,6 +146,13 @@ class User < ApplicationRecord
                 moderator: 'moderator',
   }, _default: 'user'
 
+  
+  # Defino una foto al usuario
+  has_one_attached :photo
+  
+  # Validaciones
+  validates :username, presence: { message: "Username field cannot be blank" }, uniqueness: { message: "Username is already in use" }
+
 end
 ```
 
