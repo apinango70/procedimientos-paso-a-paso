@@ -90,7 +90,7 @@ end
 </div>
 ```
 
-Para agregarlo al modelo user: app>views>devise>registrations>new.html.erb
+## Para agregarlo al modelo user: app>views>devise>registrations>new.html.erb
 
 ```hash
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
