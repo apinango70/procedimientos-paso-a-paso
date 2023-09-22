@@ -141,14 +141,30 @@ end
         </div>
         <div class="card-body">
           <form>
-            <% @users.each do |user| %>
-              <%= form_for(user, url: admin_path(user), remote: true, metohd: :patch) do |f| %>
-
-                <p><%= f.text_field :email %> - <%= f.text_field :username %> - <%= f.select(:role, User.roles.keys.map { |w| [w.humanize, w] }) %> - <%= f.submit "Update", class:"btn btn-success" %></p>
-
-              <% end %>
-            <% end %>
-            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Email</th>
+                  <th>Username</th>
+                  <th>Role</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @users.each do |user| %>
+                  <tr>
+                    <td><%= user.email %></td>
+                    <td><%= user.username %></td>
+                    <td><%= user.role.humanize %></td>
+                    <td>
+                      <%= form_for(user, url: admin_path(user), remote: true, method: :patch) do |f| %>
+                        <%= f.submit "Update", class: "btn btn-success" %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
           </form>
         </div>
       </div>
