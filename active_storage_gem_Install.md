@@ -253,13 +253,13 @@ end
             </div>
 
             <div class="actions">
-              <%= f.submit "Update" %>
+              <%= f.submit "Update", class:"btn btn-success"  %>
             </div>
             <% end %>
 
             <h3>Cancel my account</h3>
 
-            <div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
+            <div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class:"btn btn-danger"  %></div>
             <%= link_to "Back", :back %>.
           </form>
         </div>
