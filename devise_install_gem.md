@@ -143,6 +143,7 @@ class User < ApplicationRecord
   # Enum de roles
   enum role: { user: 'user',
                 admin: 'admin',
+                moderator: 'moderator',
   }, _default: 'user'
 
 end
