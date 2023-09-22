@@ -396,9 +396,88 @@ _salir de la cónsola_
 </div>
 ```
 
+## Agregar a la vista "User edit" un formulario bootstrap, sustituir todo el código de: app>views>devise>registrations>edit.html.erb por:
+
+```hash
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+<%= render "devise/shared/error_messages", resource: resource %>
+
+<!-- Edit Form with photo and username added-->
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-lg-4 col-md-6 col-sm-6">
+      <div class="card shadow">
+        <div class="card-title text-center border-bottom">
+          <h2 class="p-3">Edit <%= resource_name.to_s.humanize %></h2>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="mb-4">  
+              <% if current_user.photo.attached? %>
+                <%= f.label :photo %><br />
+                <%= image_tag current_user.photo, style: "width: 150px", class: "foto_circular" %>
+              <% else %>
+                <p> No Photo </p>
+              <% end %>
+            </div>
+            <!--Permite cambiar la foto actual del perfil-->
+            <div class="mb-4">
+              <%= f.label :photo, style: "display: block" %>
+              <%= f.file_field :photo %>
+            </div>
+            <div class="mb-4">
+              <%= f.label :username %><br />
+              <%= f.text_field :username, autofocus: true, autocomplete: "username" %>
+            </div>
+
+            <div class="mb-4">
+              <%= f.label :email %><br />
+              <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+            </div>
+
+            <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+              <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+            <% end %>
+
+            <div class="mb-4">
+              <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+              <%= f.password_field :password, autocomplete: "new-password" %>
+              <% if @minimum_password_length %>
+                <br />
+                <em><%= @minimum_password_length %> characters minimum</em>
+              <% end %>
+            </div>
+
+            <div class="mb-4">
+              <%= f.label :password_confirmation %><br />
+              <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+            </div>
+
+            <div class="mb-4">
+              <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+              <%= f.password_field :current_password, autocomplete: "current-password" %>
+            </div>
+
+            <div class="mb-4">
+              <%= f.submit "Update", class:"btn btn-success" %>
+            </div>
+            <% end %>
+            <hr>
+            <h3>Cancel my account</h3>
+
+            <div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class:"btn btn-danger" %></div>
+            <%= link_to "Back", :back %>.
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
+```
+
 ```hash
 git add .
-git commit -m "Se agregó formato bootstrap a las vistas sign_in sign_up y forgot_password y se creó el controlador Pages con la vista index."
+git commit -m "Se agregó formato bootstrap a las vistas sign_in sign_up, forgot_password y edit_user y se creó el controlador Pages con la vista index."
 ```
 
 ## -== devise ya está instalado y configurado para utilizarse ==-
