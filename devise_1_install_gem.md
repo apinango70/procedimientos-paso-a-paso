@@ -145,10 +145,6 @@ class User < ApplicationRecord
                 admin: 'admin',
                 moderator: 'moderator',
   }, _default: 'user'
-
-  
-  # Defino una foto al usuario
-  has_one_attached :photo
   
   # Validaciones
   validates :username, presence: { message: "Username field cannot be blank" }, uniqueness: { message: "Username is already in use" }
@@ -410,7 +406,7 @@ _salir de la cónsola_
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
 <%= render "devise/shared/error_messages", resource: resource %>
 
-<!-- Edit Form with photo and username added-->
+<!-- Edit Form with username added-->
 <div class="container">
   <div class="row justify-content-center mt-5">
     <div class="col-lg-4 col-md-6 col-sm-6">
