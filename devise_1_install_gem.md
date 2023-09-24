@@ -50,7 +50,7 @@ git commit -m "Se creó el modelo User."
 rails generate devise:views
 ```
 
-## Para que el navbar que está a continuación funcione hay que modificar el modelo User agregando el los campos username y role
+## Para que el navbar que está a continuación funcione hay que modificar el modelo User agregando los campos username y role
 
 ```hash
 rails g migration AddDetailsToUsers username:string role:string
