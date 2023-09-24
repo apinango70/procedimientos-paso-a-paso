@@ -177,7 +177,7 @@ git commit -m "Se modificaron registration y application controller y se agregó
 
 ## Agregar navbar en un partial para devise y cargarlo en el layout
 
-_Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agregar el siguiente código de Bootstrap_
+Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agregar el siguiente código de Bootstrap
 
 ```hash
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
