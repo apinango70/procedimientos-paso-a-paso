@@ -43,7 +43,6 @@ class AdminController < ApplicationController
     @users = User.all
     @user = User.new
   end
-end
 
   def create_user
     @user = User.new(user_params)
@@ -81,6 +80,7 @@ end
   def set_user
     @user = User.find(params[:id])
   end
+end
 ```
 
 ## Diseño de la vista create_user con bootstrap app>views>admin>create_user.html.erb
