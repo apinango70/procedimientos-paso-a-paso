@@ -49,7 +49,7 @@ class AdminController < ApplicationController
     if @user.save
       redirect_to admin_index_path, notice: 'User was successfully created.'
     else
-      <!--Muestro los mensajes personalizados de error definidos en las validaciones -->
+     #Muestro los mensajes personalizados de error definidos en las validaciones
       error_messages = @user.errors.full_messages.join(', ')
       redirect_to admin_index_path, alert: "User was not created. #{error_messages}"
     end
