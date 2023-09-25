@@ -5,10 +5,10 @@
 + Tener instalado devise en el proyecto
 + Tener instalado active_storage en el proyecto
 
-## Generar el controlador y las vistas donde se crearan los usuarios
+## Generar el controlador admin con las vistas edit y create user
 
 ```bash
-rails g controller admin index
+rails g controller admin create_user edit_user
 ```
 
 ## Verificar que exista el enum role en el modelo user app>models>user.rb
@@ -39,12 +39,13 @@ class AdminController < ApplicationController
   before_action :authenticate_user!
   before_action :authorize_admin!
 
-  def index
+  def edit_user
     @users = User.all
     @user = User.new
   end
+end
 
-  def create
+  def create_user
     @user = User.new(user_params)
     if @user.save
       redirect_to admin_index_path, notice: 'User was successfully created.'
@@ -54,7 +55,6 @@ class AdminController < ApplicationController
       redirect_to admin_index_path, alert: "User was not created. #{error_messages}"
     end
   end
-  
 
   def new
     @user = User.new
@@ -81,11 +81,9 @@ class AdminController < ApplicationController
   def set_user
     @user = User.find(params[:id])
   end
-
-end
 ```
 
-## Diseñar el form con bootstrap para crear y editar usuarios en la vista index de admin app>views>admin>index.html.erb
+## Diseño de la vista create_user con bootstrap app>views>admin>create_user.html.erb
 
 ```ruby
 <!--Crear nuevo user, Debo crear un nuevo controlador solo para crear users, por ahora lo dejo aquí-->
@@ -132,7 +130,12 @@ end
     </div>
   </div>
 </div>
+<br >
+```
 
+## Diseño de la vista edit_user con bootstrap app>views>admin>edit_user.html.erb
+
+```ruby
 <!--Listar todos los user y poder editar sus campos-->
 
 <div class="container">
@@ -180,12 +183,12 @@ end
           <li class="nav-item">
               <%= link_to 'Edit profile', edit_user_registration_path, class: 'nav-link' %>  
           </li>
-          <!--Opción para ir a la vista index del admin-->
+          <!--Opción para ir a la vista edit users del admin-->
           <li class="nav-item">
-              <%= link_to 'Edit Users', admin_index_path, class: 'nav-link' %>  
+              <%= link_to 'Edit Users', admin_edit_user_path, class: 'nav-link' %>  
           </li>
           <li class="nav-item">
-              <%= link_to '#', root_path, class: 'nav-link' %>  
+              <%= link_to 'Create user', admin_create_user_path, class: 'nav-link' %>  
           </li>
         <% end %>
         <!--Fin condicional admin-->
