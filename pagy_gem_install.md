@@ -16,6 +16,18 @@ class ApplicationController < ActionController::Base
 end
 ```
 
+## Agregar el helper de pagy en app>helpers>application_helper.rb para que todas las vistas lo hereden
+
+```ruby
+module ApplicationHelper
+
+  include Pagy::Frontend
+
+end
+```
+
+## Reiniciar el server
+
 ## Cambiar en el Controller que quiero agregar pagy el metodo index app>controllers>xxxx_controller.rb, en este caso es _posts_controller.rb_
 
   def index
@@ -28,14 +40,10 @@ end
   end
 ```
 
-## Agregar el helper de pagy en app>helpers>application_helper.rb para que todas las vistas lo hereden
+## Para agregar estilo Bootstrap al helper hay que crear el archivo pagy.rb en app>config>pagy.rb y copiar
 
 ```ruby
-module ApplicationHelper
-
-  include Pagy::Frontend
-
-end
+require 'pagy/extras/bootstrap' # Booststrap styling
 ```
 
 ## Agregar el helper al final de la vista index en que se desea mostar la paginación
@@ -44,10 +52,4 @@ end
 <div class=" d-flex justify-content-center align-items-center">
   <%== pagy_bootstrap_nav(@pagy) %>
 </div>
-```
-
-## Para agregar estilo Bootstrap al helper hay que crear el archivo pagy.rb en app>config>pagy.rb y copiar
-
-```ruby
-require 'pagy/extras/bootstrap' # Booststrap styling
 ```
