@@ -40,18 +40,19 @@ class AdminController < ApplicationController
   before_action :authorize_admin!
 
   def edit_user
-    @users = User.all
-    @user = User.new
+    @users = User.order(:id)
   end
   
   def create
     @user = User.new(user_params)
+    puts "Received parameters: #{params.inspect}"
+
     if @user.save
-      redirect_to admin_index_path, notice: 'User was successfully created.'
+      redirect_to admin_create_user_path, notice: 'User was successfully created.'
     else
       #Muestro los mensajes personalizados de error definidos en las validaciones
       error_messages = @user.errors.full_messages.join(', ')
-      redirect_to admin_index_path, alert: "User was not created. #{error_messages}"
+      redirect_to admin_create_user_path, alert: "User was not created. #{error_messages}"
     end
   end
   
@@ -61,9 +62,9 @@ class AdminController < ApplicationController
   
   def update
     if @user.update(user_params)
-      redirect_to admin_index_path, notice: 'User was successfully updated.'
+      redirect_to admin_edit_user_path, notice: 'User was successfully updated.'
     else
-      redirect_to admin_index_path, alert: 'User was not updated.'
+      redirect_to admin_edit_user_path, alert: 'User was not updated.'
     end
   end
   
@@ -73,56 +74,60 @@ class AdminController < ApplicationController
     redirect_to root_path, alert: 'Access Denied' unless current_user.admin?
   end
 
+  # Método para pasar parámetros anidados bajo un hash con la clave :user en la solicitud por seguridad
   def user_params
-    params.permit(:username, :email, :role, :password, :password_confirmation)
+    params.require(:user).permit(:email, :password, :password_confirmation, :role, :username)
   end
-
+  
   def set_user
     @user = User.find(params[:id])
   end
   
 end
+
 ```
 
 ## Diseño de la vista create_user con bootstrap app>views>admin>create_user.html.erb
 
 ```ruby
-<!--Crear nuevo user, Debo crear un nuevo controlador solo para crear users, por ahora lo dejo aquí-->
 <%= form_with(model: @user, url: admin_create_path, method: :post) do |f| %>
-<div class="container">
-  <div class="row justify-content-center mt-5">
-    <div class="col-lg-4 col-md-6 col-sm-6">
-      <div class="card shadow">
-        <div class="card-title text-center border-bottom">
-          <h2 class="p-3">Create new user</h2>
-        </div>
-        <div class="card-body">
-          <form>
-            <div class="mb-4">                   
-                <%= f.label :username, class:'form-label' %><br />
-                <%= f.text_field :username, autofocus: true, autocomplete: "username", class:'form-control' %>
+  <%= f.fields_for :user do |user_fields| %>
+    <div class="container">
+      <div class="row justify-content-center mt-5">
+        <div class="col-lg-4 col-md-6 col-sm-6">
+          <div class="card shadow">
+            <div class="card-title text-center border-bottom">
+              <h2 class="p-3">Create new user</h2>
             </div>
-            <div class="mb-4">                   
-                <%= f.label :email, class:'form-label' %><br />
-                <%= f.email_field :email, autocomplete: "email", class:'form-control' %>
-            </div>
-            <div class="mb-4">     
-              <%= f.label :role, class:'form-label' %><br />
-              <%= f.select :role, User.roles.keys.map { |w| [w.humanize, w] }, include_blank: "Select a role" %>
-            </div>
-              <div class="mb-4">
-                <%= f.label :password, class:'form-label' %>
-                <% if @minimum_password_length %>
-                <em>(<%= @minimum_password_length %> characters minimum)</em>
-                <% end %><br />
-                <%= f.password_field :password, autocomplete: "new-password",class:'form-control' %>
-            </div>             
-            <div class="mb-4">
-                <%= f.label :password_confirmation, class:'form-label' %><br />
-                <%= f.password_field :password_confirmation, autocomplete: "new-password",class:'form-control' %>
-            </div> 
-            <div class="d-grid">
+            <div class="card-body">
+              <form>
+                <div class="mb-4">                  
+                  <%= user_fields.label :username %><br />
+                  <%= user_fields.text_field :username, autofocus: true, autocomplete: "username"  %>
+                </div>
+                <div class="mb-4">                   
+                  <%= user_fields.label :email %><br />
+                  <%= user_fields.email_field :email, autocomplete: "email"  %>
+                </div>
+                <div class="mb-4">     
+                  <%= user_fields.label :role %><br />
+                  <%= user_fields.select :role, User.roles.keys.map { |w| [w.humanize, w] }, include_blank: "Select a role" %>
+                </div>
+                <div class="mb-4">
+                  <%= user_fields.label :password %>
+                  <% if @minimum_password_length %>
+                    <em>(<%= @minimum_password_length %> characters minimum)</em>
+                  <% end %><br />
+                  <%= user_fields.password_field :password, autocomplete: "new-password" %>
+                </div>             
+                <div class="mb-4">
+                  <%= user_fields.label :password_confirmation %><br />
+                  <%= user_fields.password_field :password_confirmation, autocomplete: "new-password" %>
+                </div> 
+                <% end %>
+                <div>
                   <%= f.submit "Create user", class:"btn btn-success" %>
+                </div>
               <% end %>
             </div>
           </form>
@@ -145,16 +150,14 @@ end
       <div class="card shadow">
         <div class="card-title text-center border-bottom">
           <h2 class="p-3">Edit user</h2>
-        </div>
-        <div class="card-body">
-          <form>
-            <% @users.each do |user| %>
-              <%= form_for(user, url: admin_path(user), remote: true, metohd: :patch) do |f| %>
-
-                <p><%= f.text_field :email %> - <%= f.text_field :username %> - <%= f.select(:role, User.roles.keys.map { |w| [w.humanize, w] }) %> - <%= f.submit "Update", class:"btn btn-success" %></p>
-
+          </div>
+          <div class="card-body">
+            <form>
+              <% @users.each do |user| %>
+                <%= form_for(user, url: admin_path(user), remote: true, method: :patch) do |f| %>
+                  <p><%= f.text_field :email %> - <%= f.text_field :username %> - <%= f.select(:role, User.roles.keys.map { |w| [w.humanize, w] }) %> - <%= f.submit "Update", class: "btn btn-success" %></p>
+                <% end %>
               <% end %>
-            <% end %>
             </div>
           </form>
         </div>
