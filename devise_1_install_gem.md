@@ -348,66 +348,6 @@ root "pages#index"
   </div>
 </div>
 ```
-
-NOTA: El enum que muestra los tipos de user para elegir el admin, solo aparecerá en el registro mientras no exista ningún admin, luego de asignar admin a un user, el enum desaparecerá del registro.
-
-Cómo cambiar el rol del admin de normal a admin por cónsola.
-
-Ejecutar:
-
-```hash
-rails c
-```
-
-## En la consola ejecutar:
-
-```hash
-user = User.find_by(email: 'nombreemail@gmail.com')
-user.update(role: 'admin')
-user.save
-```
-
-## Verificamos el cambio ejecutando:
-
-```hash
-Users.all
-```
-
-_salir de la cónsola_
-
-## Agregar a la vista "Forgot password" un formulario bootstrap, sustituir todo el código de: app>views>devise>password>new.html.erb por:
-
-```hash
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-<!-- Forgot your password Form -->
-<div class="container">
-  <div class="row justify-content-center mt-5">
-    <div class="col-lg-4 col-md-6 col-sm-6">
-      <div class="card shadow">
-        <div class="card-title text-center border-bottom">
-          <h2 class="p-3">Forgot your password?</h2>
-        </div>
-        <div class="card-body">
-          <form>
-            <div class="mb-4">                   
-              <%= f.label :email, class:'form-label' %><br />
-              <%= f.email_field :email, autofocus: true, autocomplete: "email", class:'form-control' %>
-            </div>
-            <div class="d-grid">
-              <%= f.submit "Send me reset password instructions", class:"btn btn-success" %>
-              </div>
-            <% end %>
-            <%= render "devise/shared/links" %>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-```
-
 ## Agregar a la vista "User edit" un formulario bootstrap, sustituir todo el código de: app>views>devise>registrations>edit.html.erb por:
 
 ```hash
@@ -472,6 +412,65 @@ _salir de la cónsola_
     </div>
   </div>
 </div> 
+```
+
+NOTA: El enum que muestra los tipos de user para elegir el admin, solo aparecerá en el registro mientras no exista ningún admin, luego de asignar admin a un user, el enum desaparecerá de la vista new user.
+
+## Cómo cambiar el rol del admin de normal a admin por cónsola.
+
+### Ejecutar en la consola:
+
+```hash
+rails c
+```
+
+## Ejecutar:
+
+```hash
+user = User.find_by(email: 'nombre_email@gmail.com')
+user.update(role: 'admin')
+user.save
+```
+
+## Verificamos el cambio ejecutando:
+
+```hash
+Users.all
+```
+
+_salir de la cónsola_
+
+## Agregar a la vista "Forgot password" un formulario bootstrap, sustituir todo el código de: app>views>devise>password>new.html.erb por:
+
+```hash
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+<!-- Forgot your password Form -->
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-lg-4 col-md-6 col-sm-6">
+      <div class="card shadow">
+        <div class="card-title text-center border-bottom">
+          <h2 class="p-3">Forgot your password?</h2>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="mb-4">                   
+              <%= f.label :email, class:'form-label' %><br />
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", class:'form-control' %>
+            </div>
+            <div class="d-grid">
+              <%= f.submit "Send me reset password instructions", class:"btn btn-success" %>
+              </div>
+            <% end %>
+            <%= render "devise/shared/links" %>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 ```
 
 ```hash
