@@ -40,6 +40,8 @@ end
   end
 ```
 
+## Reiniciar el server
+
 ## Para agregar estilo Bootstrap al helper hay que crear el archivo pagy.rb en app>config>pagy.rb y copiar
 
 ```ruby
