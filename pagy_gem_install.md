@@ -55,3 +55,10 @@ require 'pagy/extras/bootstrap' # Booststrap styling
   <%== pagy_bootstrap_nav(@pagy) %>
 </div>
 ```
+
+## Hago commit
+
+```ruby
+git add .
+git commit -m "Gema pagy instalada y configurada"
+```
