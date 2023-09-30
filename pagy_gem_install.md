@@ -26,7 +26,7 @@ module ApplicationHelper
 end
 ```
 
-## Reiniciar el server
+## ++++++++++++++ Reiniciar el server ++++++++++++++ 
 
 ## Cambiar en el Controller que quiero agregar pagy el metodo index app>controllers>xxxx_controller.rb, en este caso es _posts_controller.rb_
 
