@@ -16,8 +16,6 @@ rails g controller admin create_user edit_user
 ```ruby
   # Enum de roles
   enum role: {  user: 'user',
-                moderator: 'moderator',
-                creator: 'creator',
                 admin: 'admin',
   }, _default: 'user' 
 ```
