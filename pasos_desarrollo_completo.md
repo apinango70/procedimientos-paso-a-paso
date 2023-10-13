@@ -12,6 +12,15 @@ rails g model ViviendasEspacios vivienda:references espacio:references
 rails db:migrate
 ```
 
+```bash
+rails g scaffold book title:string description:text year:date user:references
+rails g scaffold author name:string biography:text  
+rails g scaffold publisher name:string country:string
+rails g model genre name:string
+rails g model bookGenre book:references genre:references
+rails db:migrate
+```
+
 ## Paso 2: Definir las asociaciones en los modelos
 
 ### User Model app/models/user.rb:
