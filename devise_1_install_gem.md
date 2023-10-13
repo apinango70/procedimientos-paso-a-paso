@@ -171,11 +171,6 @@ git commit -m "Se modificaron registration y application controller y se agregó
 
 ```hash
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-```
-
-### Antes de cerrar el body
-
-```hash
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 ```
 
@@ -195,28 +190,34 @@ Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agregar
         <li class="nav-item">
           <%= link_to "Home", root_path, class: 'nav-link' %>
         </li>
-        <li class="nav-item">
+          <!--Si el user es admin mustra este menu-->
           <% if user_signed_in? && current_user.admin? %>
-            <%= link_to 'Edit profile', edit_user_registration_path, class: 'nav-link' %>  
+            <li class="nav-item">
+                <%= link_to 'Edit profile', edit_user_registration_path, class: 'nav-link' %>
+            </li>
           <% end %>
-        </li>
+          <!--Fin opciones del admin-->
       </ul>
+      <!--identificación en el nabvar del user y tipo de role-->
       <ul class="navbar-nav ">
-      <% if user_signed_in? %>
-        <li class="nav-item">
-          <%= content_tag :span, "Hi: #{current_user.username} | Role: #{current_user.role}", class: 'nav-link margen' %>
-        </li>
-        <li class="nav-item">
-          <%= button_to 'Cerrar sesión', destroy_user_session_path, class: 'btn btn-outline-success', method: :delete %>
-        </li>
-      <% else %>
-        <li class="nav-item">
-          <%= link_to 'Iniciar sesión', new_user_session_path, class: 'nav-link margen' %>
-        </li>
-        <li class="nav-item">
-          <%= link_to 'Registro', new_user_registration_path, class: 'btn btn-outline-success' %>
-        </li>
-      <% end %>
+        <% if user_signed_in? %>
+          <li class="nav-item">
+            <%= content_tag :span, "Hi: #{current_user.username} | Role: #{current_user.role}", class: 'nav-link margen' %>
+          </li>
+      <!--Fin identificación user-->
+          <!--Opciones para cualquier tipo de user-->
+          <li class="nav-item">
+            <%= button_to 'Cerrar sesión', destroy_user_session_path, class: 'btn btn-outline-success', method: :delete %>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to 'Iniciar sesión', new_user_session_path, class: 'nav-link margen' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Registro', new_user_registration_path, class: 'btn btn-outline-success' %>
+          </li>
+        <% end %>
+        <!--Fin opciones cualquier tipo de user-->
       </ul>
     </div>
   </div>
