@@ -1,8 +1,8 @@
-#Pasos modelo 1:n y n:n
+# Pasos modelo 1:n y n:n
 
-##Se debe instalar devise y active storage antes de seguir con estas instrucciones
+## Se debe instalar devise y active storage antes de seguir con estas instrucciones
 
-##Paso 1: Crear scaffolds y modelos relacionales
+## Paso 1: Crear scaffolds y modelos relacionales
 
 ```bash
 rails g scaffold Viviendas superficie:integer direccion:string user:references
@@ -12,9 +12,9 @@ rails g model ViviendasEspacios vivienda:references espacio:references
 rails db:migrate
 ```
 
-##Paso 2: Definir las asociaciones en los modelos
+## Paso 2: Definir las asociaciones en los modelos
 
-###User Model app/models/user.rb:
+### User Model app/models/user.rb:
 
 ```bash
 class User < ApplicationRecord
@@ -23,7 +23,7 @@ class User < ApplicationRecord
 end
 ```
 
-###app/model/vivienda.rb:
+### app/model/vivienda.rb:
 
 ```bash
 class Vivienda < ApplicationRecord
@@ -34,7 +34,7 @@ class Vivienda < ApplicationRecord
 end
 ```
 
-###app/models/tipo_vivienda.rb:
+### app/models/tipo_vivienda.rb:
 
 ```bash
 class TipoVivienda < ApplicationRecord
@@ -42,7 +42,7 @@ class TipoVivienda < ApplicationRecord
 end
 ```
 
-###app/model/espacio.rb:
+### app/model/espacio.rb:
 
 ```bash
 class Espacio < ApplicationRecord
@@ -51,7 +51,7 @@ class Espacio < ApplicationRecord
 end
 ```
 
-###app/models/viviendas_espacios.rb:
+### app/models/viviendas_espacios.rb:
 
 ```bash
 class ViviendasEspacio < ApplicationRecord
@@ -60,9 +60,9 @@ class ViviendasEspacio < ApplicationRecord
 end
 ```
 
-##Paso 3: Crear checkboxes de espacios y listbox de tipo_vivienda en la vista de Vivienda
+## Paso 3: Crear checkboxes de espacios y listbox de tipo_vivienda en la vista de Vivienda
 
-###Agregar el el formulario en app/views/viviendas/_form.html.erb
+### Agregar el el formulario en app/views/viviendas/_form.html.erb
 
 ```bash
   <div>
@@ -81,7 +81,7 @@ end
   </div>
 ```
 
-##Agregar strong parameters app/controllers/viviendas_controllers.rb
+## Agregar strong parameters app/controllers/viviendas_controllers.rb
 
 ```bash
     def vivienda_params
@@ -89,9 +89,9 @@ end
     end
 ```
 
-##Paso 4:
+## Paso 4:
 
-##Mostrar en la vista viviendas los campos de tipo_vivienda y espacios app/views/viviendas/_vivienda.html.erb
+## Mostrar en la vista viviendas los campos de tipo_vivienda y espacios app/views/viviendas/_vivienda.html.erb
 
 ```bash
   <p>
@@ -105,20 +105,20 @@ end
   </p>
 ```
 
-##Definir por defecto el user_id del user logeado cambiar en app/controllers/viviendas_controllers.rb
+## Definir por defecto el user_id del user logeado cambiar en app/controllers/viviendas_controllers.rb
 
 ```bash
   def create
     @vivienda = current_user.viviendas.build(vivienda_params)
 ```
 
-##Para crear una nueva vivienda obligar a logearse
+## Para crear una nueva vivienda obligar a logearse
 
 ```bash
   before_action :authenticate_user!, only: [:new, :create]
 ```
 
-##El user solo puedo hacer CRUD con sus registros, el admin puede hacer CRUD con todos los registros
+## El user solo puedo hacer CRUD con sus registros, el admin puede hacer CRUD con todos los registros
 
 _app/controllers/viviendas_controllers.rb_
 
@@ -135,9 +135,9 @@ before_action :authorize_user!, only: [:edit, :update, :destroy]
     end
 ```
 
-##Muestra la opción new en la vista index si el user esta logeado
+## Muestra la opción new en la vista index si el user esta logeado
 
-###app/views/viviendas/index.html.erb
+### app/views/viviendas/index.html.erb
 
 ```bash
  <div class="container">
@@ -157,9 +157,9 @@ before_action :authorize_user!, only: [:edit, :update, :destroy]
  </div>
  ```
 
-##Muestra las opciones edit y destroy en la vista show si el user es el creador o es el admin
+## Muestra las opciones edit y destroy en la vista show si el user es el creador o es el admin
 
-###app/views/viviendas/index.html.erb
+### app/views/viviendas/index.html.erb
 
 ```bash
 <div class="container">
