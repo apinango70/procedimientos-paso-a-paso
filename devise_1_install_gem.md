@@ -145,9 +145,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   # Enum de roles
-  enum role: { user: 'user',
+  enum role: {  user: 'user',
                 admin: 'admin',
-                moderator: 'moderator',
   }, _default: 'user'
   
   # Validaciones
