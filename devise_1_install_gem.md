@@ -24,8 +24,12 @@ rails generate devise:install
 ```
 
 ### Buscar en config>initializers>devise.rb
-_descomentar en la linea 266_
-_config.navigational_formats = ['*/*', :html, :turbo_stream]_
+
+*descomentar en la linea 247 y cambiar a true*
+config.scoped_views = true
+   
+*descomentar en la linea 266*
+config.navigational_formats = ['*/*', :html, :turbo_stream]
 
 ## Generar el modelo para User
 
