@@ -264,14 +264,6 @@ root "pages#index"
         <div class="card-body">
           <form>
             <div class="mb-4">                   
-                <%= f.label :firstname, class:'form-label' %><br />
-                <%= f.text_field :firstname, autofocus: true, autocomplete: "firstname", class:'form-control' %>
-            </div>
-            <div class="mb-4">                   
-                <%= f.label :lastname, class:'form-label' %><br />
-                <%= f.text_field :lastname, autofocus: true, autocomplete: "lastname", class:'form-control' %>
-            </div>
-            <div class="mb-4">                   
                 <%= f.label :email, class:'form-label' %><br />
                 <%= f.email_field :email, autocomplete: "email", class:'form-control' %>
             </div>
