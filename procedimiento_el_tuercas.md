@@ -1,9 +1,9 @@
 # pasos prueba "el tuercas"
 
 ## user creado por devise con campos adicionales:
-*role
-*firstname
-*lastname
+* role
+* firstname
+* lastname
 
 ## scaffold vehicle
 
