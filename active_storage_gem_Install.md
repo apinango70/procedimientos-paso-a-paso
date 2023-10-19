@@ -80,17 +80,6 @@ class Article < ApplicationRecord
   has_one_attached :photo
 ```
 
-end
-
-## para agregarlo a un formulario, en este caso app>views>articles>_form.html.erb:
-
-```hash
-<div>
-  <%= form.label :photo, style: "display: block" %>
-  <%= form.file_field :photo %>
-</div>
-```
-
 ## Para agregarlo al modelo user: app>views>devise>registrations>new.html.erb
 
 ```hash
