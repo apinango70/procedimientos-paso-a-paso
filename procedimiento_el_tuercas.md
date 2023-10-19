@@ -32,6 +32,116 @@ git commit -m "Scaffold vehicle creado, relacion con user definida"
 
 **NOTA**: En este modelo, un vehículo pertenece a un usuario (belongs_to :user) y el user puede tener muchos vehicles (has_many :vehicles).
 
+## Mostrar en el index de vehicle los vehicles asociados a cada user: 
+
+## app/views/vehicles.html.erb sustituir:
+
+```bash
+<div class="container">
+  <div id="vehicles">
+    <% @users_with_vehicles.each do |user_name, vehicles| %>
+      <h2><%= user_name %></h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Brand</th>
+            <th scope="col">Model</th>
+            <th scope="col">Plate number</th>
+             
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+  
+      <% if vehicles.present? %>
+        <% vehicles.each do |vehicle| %>
+          <%= render partial: 'vehicle', locals: { vehicle: vehicle, show_link: true } %>
+  
+        <% end %>
+      <% else %>
+        <p>No hay vehículo registrado para este usuario.</p>
+      <% end %>
+    </table>
+    <% end %>
+  </div>
+</div>
+```
+
+## en app/views/vehicles/_vehicle.html.erb sustituir:
+
+```bash
+<div id="<%= dom_id vehicle %>">
+
+<tbody>
+  <tr>
+    <td><%= vehicle.brand %></td>
+    <td><%= vehicle.model %></td>
+    <td><%= vehicle.plate_number %></td>
+    <td>  <% if local_assigns[:show_link] %>
+    <p>
+      <%= link_to 'Show this vehicle', vehicle %>
+    </p>
+  <% end %></td>
+  </tr>
+</tbody>
+```
+
+## Creo el modelo  appointment y efino relacion 1:n entre vehicle y appointment
+
+```bash
+rails g model appointment appointment_date:datetime vehicle_id:integer vehicle:references
+```
+
+## Agregar al modelo appointment
+
+```bash
+  belongs_to :vehicle
+
+  validates :appointment_date , presence: true
+end
+```
+
+## Agregar al modelo vehicle
+
+```bash
+  has_one :appointment
+```
+
+NOTA: cada vehicle solo puede tener un appointment y un appointment puede tener vairos vehicles
+
+## Ocultar en el show el enlace [show this vehicle]
+
+## Sustituir en app/views/vehicles/show.html.erb
+
+```bash
+<div class="container">
+  <%= render @vehicle %>
+  <h2>Appointment Details</h2>
+  
+    <% if @vehicle.appointment %>
+      <p><strong>Appointment Date:</strong> <%= @vehicle.appointment.appointment_date %></p>
+    <% else %>
+      <p>No appointment scheduled for this vehicle.</p>
+    <% end %>
+
+  <%= form_with(model: [@vehicle, Appointment.new], url: vehicle_path(@vehicle), method: :patch, local: true) do |form| %>
+    <div class="field">
+      <%= form.label :appointment_date, 'Appointment Date' %>
+      <%= form.datetime_local_field :appointment_date %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit "Schedule Appointment", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+
+  <%= link_to "Edit this vehicle", edit_vehicle_path(@vehicle) %> |
+  <%= link_to "Back to vehicles", vehicles_path %>
+  <%= button_to "Destroy this vehicle", @vehicle, method: :delete %>
+</div>
+```
+
+# =============================================
+
 ## Crear scaffold service:
 
 ```bash
@@ -89,25 +199,4 @@ rails g migration CreateVehicleServices vehicle:references service:references
 
  NOTA:Un servicio tiene y pertenece a muchos vehículos (has_and_belongs_to_many :vehicles).
 
-## Creo el modelo  appointment y efino relacion 1:n entre vehicle y appointment
 
-```bash
-rails g model appointment appointment_date:datetime vehicle_id:integer vehicle:references
-```
-
-## Agregar al modelo appointment
-
-```bash
-  belongs_to :vehicle
-
-  validates :appointment_date , presence: true
-end
-```
-
-## Agregar al modelo vehicle
-
-```bash
-  has_one :appointment
-```
-
-NOTA: cada vehicle solo puede tener un appointment y un appointment puede tener vairos vehicles
