@@ -74,7 +74,7 @@ class AdminController < ApplicationController
 
   # Método para pasar parámetros anidados bajo un hash con la clave :user en la solicitud por seguridad
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :role, :username)
+    params.require(:user).permit(:email, :password, :password_confirmation, :role, :firstname, :lastname)
   end
   
   def set_user
@@ -99,10 +99,17 @@ end
             </div>
             <div class="card-body">
               <form>
+
                 <div class="mb-4">                  
-                  <%= user_fields.label :username %><br />
-                  <%= user_fields.text_field :username, autofocus: true, autocomplete: "username"  %>
+                  <%= user_fields.label :firstname %><br />
+                  <%= user_fields.text_field :firstname, autofocus: true, autocomplete: "firstname"  %>
                 </div>
+
+                <div class="mb-4">                  
+                  <%= user_fields.label :lastname %><br />
+                  <%= user_fields.text_field :lastname, autofocus: true, autocomplete: "lastname"  %>
+                </div>
+
                 <div class="mb-4">                   
                   <%= user_fields.label :email %><br />
                   <%= user_fields.email_field :email, autocomplete: "email"  %>
@@ -111,17 +118,20 @@ end
                   <%= user_fields.label :role %><br />
                   <%= user_fields.select :role, User.roles.keys.map { |w| [w.humanize, w] }, include_blank: "Select a role" %>
                 </div>
+
                 <div class="mb-4">
                   <%= user_fields.label :password %>
                   <% if @minimum_password_length %>
                     <em>(<%= @minimum_password_length %> characters minimum)</em>
                   <% end %><br />
                   <%= user_fields.password_field :password, autocomplete: "new-password" %>
-                </div>             
+                </div>
+        
                 <div class="mb-4">
                   <%= user_fields.label :password_confirmation %><br />
                   <%= user_fields.password_field :password_confirmation, autocomplete: "new-password" %>
-                </div> 
+                </div>
+
                 <% end %>
                 <div>
                   <%= f.submit "Create user", class:"btn btn-success" %>
@@ -153,7 +163,7 @@ end
             <form>
               <% @users.each do |user| %>
                 <%= form_for(user, url: admin_path(user), remote: true, method: :patch) do |f| %>
-                  <p><%= f.text_field :email %> - <%= f.text_field :username %> - <%= f.select(:role, User.roles.keys.map { |w| [w.humanize, w] }) %> - <%= f.submit "Update", class: "btn btn-success" %></p>
+                  <p><%= f.text_field :email %> - <%= f.text_field :firstname %> - <%= f.text_field :lastname %> - <%= f.select(:role, User.roles.keys.map { |w| [w.humanize, w] }) %> - <%= f.submit "Update", class: "btn btn-success" %></p>
                 <% end %>
               <% end %>
             </div>
@@ -198,7 +208,7 @@ end
       <ul class="navbar-nav ">
       <% if user_signed_in? %>
         <li class="nav-item">
-          <%= content_tag :span, "Hi: #{current_user.username} | Role: #{current_user.role}", class: 'nav-link margen' %>
+          <%= content_tag :span, "Hi: #{current_user.firstname} #{current_user.lastname} | Role: #{current_user.role}", class: 'nav-link margen' %>
         </li>
         <li class="nav-item">
           <%= button_to 'Cerrar sesión', destroy_user_session_path, class: 'btn btn-outline-success', method: :delete %>
