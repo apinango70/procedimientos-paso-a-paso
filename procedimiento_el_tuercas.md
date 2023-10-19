@@ -7,50 +7,53 @@
 
 ## scaffold vehicle
 
-
+```bash
 rails g scaffold vehicle brand:string model:string plate_number:string user_id:integer
+```
 
-
-
+```bash
 Modelo User:
 class User < ApplicationRecord
   has_many :vehiculos
 end
-
-
+```
 
 ## Modelo Vehicle:
 
-
+```bash
 class Vehicle < ApplicationRecord
   belongs_to :user
 end
-
+```
 
 ## scaffold service:
 
-
+```bash
 rails g scaffold service service_name:string spare_parts:string deadline:datetime status:string vehicle_id:integer
-
+```
 
 ## Tabla intermedia vehicle_services relación n:n
 
-
+```bash
 rails g migration CreateVehicleServices vehicle:references service:references
+```
 
 ## Modelo vehicle:
 
+```bash
 class Vehicle < ApplicationRecord
   belongs_to :service
   has_and_belongs_to_many :services
 
   validates :brand, :model, :year, :plate_number, presence: true
 end
+```
 
-### En este modelo, un vehículo pertenece a un usuario (belongs_to :user), tiene muchas citas (has_many :appointments), y tiene y pertenece a muchos servicios (has_and_belongs_to_many :services).
+**NOTA**: En este modelo, un vehículo pertenece a un usuario (belongs_to :user), tiene muchas citas (has_many :appointments), y tiene y pertenece a muchos servicios (has_and_belongs_to_many :services).
 
 ## Modelo service:
 
+```bash
 class Service < ApplicationRecord
     has_and_belongs_to_many :vehicles
   
@@ -69,18 +72,23 @@ class Service < ApplicationRecord
   
     validates :service_name, :status, presence: true
   end
+```
 
-## Un servicio tiene y pertenece a muchos vehículos (has_and_belongs_to_many :vehicles).
+ NOTA:Un servicio tiene y pertenece a muchos vehículos (has_and_belongs_to_many :vehicles).
 
-modelo appointment y la relacion 1:n a vehicle
+## Modelo appointment y la relacion 1:n a vehicle
+
+```bash
 rails g model appointment appointment_date:datetime vehicle_id:integer vehicle:references
+```
 
+```bash
 class Appointment < ApplicationRecord
   belongs_to :vehicle
 
   validates :appointment_date , presence: true
 end
-
+```
 
 
 
