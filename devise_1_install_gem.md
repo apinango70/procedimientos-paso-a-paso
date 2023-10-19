@@ -57,7 +57,7 @@ rails generate devise:views
 ## Para que el navbar que está a continuación funcione hay que modificar el modelo User agregando los campos username y role
 
 ```hash
-rails g migration AddDetailsToUsers username:string role:string
+rails g migration AddDetailsToUsers firstname:string lastname:string role:string
 ```
 
 ## Importamos los controladores de devise para personalizarlos
