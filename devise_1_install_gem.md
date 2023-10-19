@@ -71,10 +71,13 @@ rails generate devise:controllers users
 _Se debe reemplazar devise_for :users, por el texto:_
 
 ```hash
-devise_for :users, controllers: {
-  sessions: 'users/sessions',
-  registrations: 'users/registrations'
-}
+Rails.application.routes.draw do
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations'
+  }
+  # root "articles#index"
+end
 ```
 
 ## Ejecutar la migración:
