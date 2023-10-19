@@ -111,12 +111,12 @@ git commit -m "Se crearon las vistas y los campos username y role del modelo Use
 
   #If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :role])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:firstname, :lastname, :role])
   end
 
   #If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:username, :role])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:firstname, :lastname, :role])
   end
 ```
 
@@ -129,8 +129,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :role])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:username, :role])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:firstname, :lastname, :role])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:firstname, :lastname, :role])
   end
 
   def after_sign_in_path_for(resource)
@@ -140,6 +140,7 @@ end
 ```
 
 ## Agrego el enum de los tipos de usuarios a app>models>user.rb
+
 ```hash
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
@@ -151,9 +152,6 @@ class User < ApplicationRecord
   enum role: {  user: 'user',
                 admin: 'admin',
   }, _default: 'user'
-  
-  # Validaciones
-  validates :username, presence: { message: "Username field cannot be blank" }, uniqueness: { message: "Username is already in use" }
 
 end
 ```
@@ -164,8 +162,6 @@ end
 git add .
 git commit -m "Se modificaron registration y application controller y se agregó el enum de los roles."
 ```
-
-
 
 ## Agregar el CDN de bootstrap al header del layout app>views>layout>application.html.erb.
 
@@ -204,7 +200,7 @@ Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agregar
       <ul class="navbar-nav ">
         <% if user_signed_in? %>
           <li class="nav-item">
-            <%= content_tag :span, "Hi: #{current_user.username} | Role: #{current_user.role}", class: 'nav-link margen' %>
+            <%= content_tag :span, "Hi: #{current_user.firstname} #{current_user.lastname} | Role: #{current_user.role}", class: 'nav-link margen' %>
           </li>
       <!--Fin identificación user-->
           <!--Opciones para cualquier tipo de user-->
@@ -268,8 +264,12 @@ root "pages#index"
         <div class="card-body">
           <form>
             <div class="mb-4">                   
-                <%= f.label :username, class:'form-label' %><br />
-                <%= f.text_field :username, autofocus: true, autocomplete: "username", class:'form-control' %>
+                <%= f.label :firstname, class:'form-label' %><br />
+                <%= f.text_field :firstname, autofocus: true, autocomplete: "firstname", class:'form-control' %>
+            </div>
+            <div class="mb-4">                   
+                <%= f.label :lastname, class:'form-label' %><br />
+                <%= f.text_field :lastname, autofocus: true, autocomplete: "lastname", class:'form-control' %>
             </div>
             <div class="mb-4">                   
                 <%= f.label :email, class:'form-label' %><br />
@@ -315,8 +315,12 @@ root "pages#index"
         <div class="card-body">
           <form>
             <div class="mb-4">                   
-                <%= f.label :username, class:'form-label' %>
-                <%= f.text_field :username, autofocus: true, autocomplete: "username", class:'form-control' %>
+                <%= f.label :firstname, class:'form-label' %>
+                <%= f.text_field :firstname, autofocus: true, autocomplete: "firstname", class:'form-control' %>
+            </div>
+            <div class="mb-4">                   
+                <%= f.label :lastname, class:'form-label' %>
+                <%= f.text_field :lastname, autofocus: true, autocomplete: "lastname", class:'form-control' %>
             </div>
               <% if User.where(role: User.roles[:admin]).exists? %>
                 <!-- El administrador ya existe, ocultar el select de role y define user por defecto-->
@@ -371,9 +375,15 @@ root "pages#index"
         </div>
         <div class="card-body">
           <form>
-            <div class="mb-4">
-              <%= f.label :username %><br />
-              <%= f.text_field :username, autofocus: true, autocomplete: "username" %>
+
+            <div class="mb-4">                   
+                <%= f.label :firstname, class:'form-label' %>
+                <%= f.text_field :firstname, autofocus: true, autocomplete: "firstname", class:'form-control' %>
+            </div>
+
+            <div class="mb-4">                   
+                <%= f.label :lastname, class:'form-label' %>
+                <%= f.text_field :lastname, autofocus: true, autocomplete: "lastname", class:'form-control' %>
             </div>
 
             <div class="mb-4">
