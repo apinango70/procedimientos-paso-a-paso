@@ -184,7 +184,7 @@ class Article < ApplicationRecord
             <div class="mb-4">  
               <% if current_user.photo.attached? %>
                 <%= f.label :photo %><br />
-                <%= image_tag current_user.photo, style: "width: 150px", class: "foto_circular",class:'form-control' %>
+                <%= image_tag current_user.photo, style: "width: 150px", class: "foto_circular" %>
               <% else %>
                 <p> No Photo </p>
               <% end %>
@@ -207,16 +207,16 @@ class Article < ApplicationRecord
 
             <div class="mb-4">
               <%= f.label :email %><br />
-              <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", class:'form-control' %>
             </div>
 
             <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-              <div>Currently waiting confirmation for: <%= resource.unconfirmed_email,class:'form-control' %></div>
+              <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
             <% end %>
 
             <div class="mb-4">
               <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-              <%= f.password_field :password, autocomplete: "new-password",class:'form-control' %>
+              <%= f.password_field :password, autocomplete: "new-password", class:'form-control' %>
               <% if @minimum_password_length %>
                 <br />
                 <em><%= @minimum_password_length %> characters minimum</em>
@@ -225,12 +225,12 @@ class Article < ApplicationRecord
 
             <div class="mb-4">
               <%= f.label :password_confirmation %><br />
-              <%= f.password_field :password_confirmation, autocomplete: "new-password",class:'form-control' %>
+              <%= f.password_field :password_confirmation, autocomplete: "new-password", class:'form-control' %>
             </div>
 
             <div class="mb-4">
               <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-              <%= f.password_field :current_password, autocomplete: "current-password",class:'form-control' %>
+              <%= f.password_field :current_password, autocomplete: "current-password", class:'form-control' %>
             </div>
 
             <div class="actions">
