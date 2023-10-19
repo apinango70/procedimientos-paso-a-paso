@@ -156,7 +156,7 @@ class Article < ApplicationRecord
 
   #If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:firstname, :lastname, :role], :photo)
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:firstname, :lastname, :role, :photo])
   end
 
   #If you have extra params to permit, append them to the sanitizer.
