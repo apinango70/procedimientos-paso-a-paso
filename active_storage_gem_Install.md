@@ -112,9 +112,15 @@ end
               <%= f.file_field :photo %>
             </div>
             <div class="mb-4">                   
-                <%= f.label :username, class:'form-label' %>
-                <%= f.text_field :username, autofocus: true, autocomplete: "username", class:'form-control' %>
+                <%= f.label :firstname, class:'form-label' %>
+                <%= f.text_field :firstname, autofocus: true, autocomplete: "firstname", class:'form-control' %>
             </div>
+
+            <div class="mb-4">                   
+                <%= f.label :lastname, class:'form-label' %>
+                <%= f.text_field :lastname, autofocus: true, autocomplete: "lastname", class:'form-control' %>
+            </div>
+
               <% if User.where(role: User.roles[:admin]).exists? %>
                 <!-- El administrador ya existe, ocultar el select de roles y asigna user por defecto. -->
                 <%= f.hidden_field :role, value: User.roles[:user] %>
@@ -157,40 +163,20 @@ end
 
 ### Modelo User app>users>registration_controller.rb
 ```hash
-   protected
+  protected
 
-    #If you have extra params to permit, append them to the sanitizer.
-    def configure_sign_up_params
-      devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :role, :photo])
-    end
-  
-    #If you have extra params to permit, append them to the sanitizer.
-    def configure_account_update_params
-      devise_parameter_sanitizer.permit(:account_update, keys: [:username, :role, :photo])
-    end
+  #If you have extra params to permit, append them to the sanitizer.
+  def configure_sign_up_params
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:firstname, :lastname, :role], :photo)
+  end
+
+  #If you have extra params to permit, append them to the sanitizer.
+  def configure_account_update_params
+    devise_parameter_sanitizer.permit(:account_update, keys: [:firstname, :lastname, :role, :photo])
+  end
 ```
 
-### Modelo Article app>controller>articles_controller.rb
-
-```hash
-  private
-    def article_params
-      params.require(:article).permit(:title, :body, :photo)
-    end
-```
-
-### Mostrar la imagen en el formulario show al crear el registro
-
-### Modelo article app>views>articles>_article.html.erb
-
-```hash
-  <p>
-    <strong>Foto:</strong>
-    <%= image_tag article.photo, style: "width: 50px" if article.photo.attached? %>
-  </p>
-```
-
-### Mostrar foto y username en edit user, al modelo user app>views>devise>registrations>edit.html.erb
+### Mostrar foto en edit user, al modelo user app>views>devise>registrations>edit.html.erb
 
 ```hash
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
@@ -219,9 +205,15 @@ end
               <%= f.label :photo, style: "display: block" %>
               <%= f.file_field :photo %>
             </div>
-            <div class="mb-4">
-              <%= f.label :username %><br />
-              <%= f.text_field :username, autofocus: true, autocomplete: "username" %>
+
+            <div class="mb-4">                   
+                <%= f.label :firstname, class:'form-label' %>
+                <%= f.text_field :firstname, autofocus: true, autocomplete: "firstname", class:'form-control' %>
+            </div>
+
+            <div class="mb-4">                   
+                <%= f.label :lastname, class:'form-label' %>
+                <%= f.text_field :lastname, autofocus: true, autocomplete: "lastname", class:'form-control' %>
             </div>
 
             <div class="mb-4">
