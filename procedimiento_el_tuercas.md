@@ -42,6 +42,20 @@ belongs_to :user
   end
 ```
 
+```bash
+  def new
+    @vehicle = Vehicle.new
+    @user = User.find(params[:user_id]) # Obtén el usuario correspondiente
+  end
+```
+
+```bash
+  def create
+    @vehicle = Vehicle.new(vehicle_params)
+    @user = User.find(params[:vehicle][:user_id])
+```
+  ... resto del codigo de create
+
 ## Ejecutar migracion y hacer commit
 
 ```bash
@@ -52,35 +66,33 @@ git commit -m "Scaffold vehicle creado, relacion con user definida"
 
 **NOTA**: En este modelo, un vehículo pertenece a un usuario (belongs_to :user) y el user puede tener muchos vehicles (has_many :vehicles).
 
-
 ## app/views/vehicles/index.html.erb sustituir:
 
 ```bash
-<div class="container">
-  <div id="vehicles">
-    <% @users_with_vehicles.each do |user, vehicles| %>
-  <h5><%= user.full_name %> <%= link_to 'Create New Vehicle', new_vehicle_path(user_id: user.id) %></h5>
-      <% if vehicles.present? %>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Brand</th>
-              <th scope="col">Model</th>
-              <th scope="col">Plate number</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% vehicles.each do |vehicle| %>
-              <%= render partial: 'vehicle', locals: { vehicle: vehicle, show_link: true } %>
-            <% end %>
-          </tbody>
-        </table>
-      <% else %>
-        <p>No hay vehículo registrado para este usuario.</p>
-      <% end %>
+<div class='container'>
+<div id="vehicles">
+  <% @users_with_vehicles.each do |user, vehicles| %>
+<h5><%= user.full_name %> <%= link_to 'Create New Vehicle', new_vehicle_path(user_id: user.id) %></h5>
+    <% if vehicles.present? %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Brand</th>
+            <th scope="col">Model</th>
+            <th scope="col">Plate number</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% vehicles.each do |vehicle| %>
+            <%= render partial: 'vehicle', locals: { vehicle: vehicle, show_link: true } %>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p>No hay vehículo registrado para este usuario.</p>
     <% end %>
-  </div>
+  <% end %>
 </div>
 ```
 
@@ -110,7 +122,6 @@ git commit -m "Scaffold vehicle creado, relacion con user definida"
   <% if vehicle.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(vehicle.errors.count, "error") %> prohibited this vehicle from being saved:</h2>
-
       <ul>
         <% vehicle.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -121,24 +132,25 @@ git commit -m "Scaffold vehicle creado, relacion con user definida"
 
   <div>
     <%= form.label :brand, style: "display: block" %>
-    <%= form.text_field :brand %>
+    <%= form.text_field :brand, class:'form-control', required: true %>
   </div>
 
   <div>
     <%= form.label :model, style: "display: block" %>
-    <%= form.text_field :model %>
+    <%= form.text_field :model, class:'form-control', required: true %>
   </div>
 
   <div>
     <%= form.label :plate_number, style: "display: block" %>
-    <%= form.text_field :plate_number %>
+    <%= form.text_field :plate_number, class:'form-control', required: true %>
   </div>
 
   #Toma el user_id del user seleccionado y lo pasa al form para rrelación
   <%= form.hidden_field :user_id, value: params[:user_id] %>
-
+  
+  
   <div>
-    <%= form.submit %>
+    <%= form.submit "Create", class:"btn btn-success" %>
   </div>
 <% end %>
 ```
