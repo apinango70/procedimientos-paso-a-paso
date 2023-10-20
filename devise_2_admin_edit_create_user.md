@@ -8,7 +8,7 @@
 ## Generar el controlador admin con las vistas edit y create user
 
 ```bash
-rails g controller admin create_user edit_user
+rails g controller admin create_user edit_user show_user
 ```
 
 ## Verificar que exista el enum role en el modelo user app>models>user.rb
@@ -36,6 +36,10 @@ class AdminController < ApplicationController
   before_action :set_user, only: [ :update]
   before_action :authenticate_user!
   before_action :authorize_admin!
+
+  def show_user
+    @users = User.all
+  end
 
   def edit_user
     @users = User.order(:id)
@@ -82,7 +86,6 @@ class AdminController < ApplicationController
   end
   
 end
-
 ```
 
 ## Diseño de la vista create_user con bootstrap app>views>admin>create_user.html.erb
@@ -102,21 +105,21 @@ end
 
                 <div class="mb-4">                  
                   <%= user_fields.label :firstname %><br />
-                  <%= user_fields.text_field :firstname, autofocus: true, autocomplete: "firstname"  %>
+                  <%= user_fields.text_field :firstname, autofocus: true, autocomplete: "firstname", class:'form-control'  %>
                 </div>
 
                 <div class="mb-4">                  
                   <%= user_fields.label :lastname %><br />
-                  <%= user_fields.text_field :lastname, autofocus: true, autocomplete: "lastname"  %>
+                  <%= user_fields.text_field :lastname, autocomplete: "lastname", class:'form-control'  %>
                 </div>
 
                 <div class="mb-4">                   
                   <%= user_fields.label :email %><br />
-                  <%= user_fields.email_field :email, autocomplete: "email"  %>
+                  <%= user_fields.email_field :email, autocomplete: "email", class:'form-control'  %>
                 </div>
                 <div class="mb-4">     
                   <%= user_fields.label :role %><br />
-                  <%= user_fields.select :role, User.roles.keys.map { |w| [w.humanize, w] }, include_blank: "Select a role" %>
+                  <%= user_fields.select :role, User.roles.keys.map { |w| [w.humanize, w] }, include_blank: "Select a role", class:'form-select' %>
                 </div>
 
                 <div class="mb-4">
@@ -124,12 +127,12 @@ end
                   <% if @minimum_password_length %>
                     <em>(<%= @minimum_password_length %> characters minimum)</em>
                   <% end %><br />
-                  <%= user_fields.password_field :password, autocomplete: "new-password" %>
+                  <%= user_fields.password_field :password, autocomplete: "new-password", class:'form-control' %>
                 </div>
         
                 <div class="mb-4">
                   <%= user_fields.label :password_confirmation %><br />
-                  <%= user_fields.password_field :password_confirmation, autocomplete: "new-password" %>
+                  <%= user_fields.password_field :password_confirmation, autocomplete: "new-password", class:'form-control' %>
                 </div>
 
                 <% end %>
@@ -176,7 +179,43 @@ end
 <br>
 ```
 
-## Agregar la opcíon de crear usuarios para el user admin en el partial app>views>shared>_navbar.html.erb
+## Vista show_user app/views/admin/show_user.html.erb
+
+```ruby
+<div class="container">
+  <h1 class="mt-5 mb-4">Lista de Usuarios</h1>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Email</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellido</th>
+        <th scope="col">Rol</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.email %></td>
+          <td><%= user.firstname %></td>
+          <td><%= user.lastname %></td>
+          <td><%= user.role %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+```
+
+
+## Definir rutas personalizadas en app/config/routes.rb
+
+  get 'create_user', to: 'admin#user', as: 'create'
+  get 'edit_user', to: 'admin#user', as: 'edit'
+  get 'show_user', to: 'admin#user', as: 'show'
+
+## Agregar al partial del navbar la opción de administrar usuers en app>views>shared>_navbar.html.erb
 
 ```ruby
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -190,37 +229,44 @@ end
         <li class="nav-item">
           <%= link_to "Home", root_path, class: 'nav-link' %>
         </li>
-        <!--Si es admin muestra estas opciones en el navbar-->
-        <% if user_signed_in? && current_user.admin? %>
+          <!--Si el user es admin mustra este menu-->
+          <% if user_signed_in? && current_user.admin? %>
+            <li class="nav-item">
+                <%= link_to 'Edit profile', edit_user_registration_path, class: 'nav-link' %>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Users
+                </a>
+                <ul class="dropdown-menu">
+                    <li><%= link_to 'Create user', admin_create_user_path, class: 'nav-link' %></li>
+                    <li><%= link_to 'Edit Users', admin_edit_user_path, class: 'nav-link' %></li>
+                    <li><%= link_to 'List all users', admin_show_user_path, class: 'nav-link' %></li>
+                </ul>
+            </li>
+          <% end %>
+          <!--Fin opciones del admin-->
+      </ul>
+      <!--identificación en el nabvar del user y tipo de role-->
+      <ul class="navbar-nav ">
+        <% if user_signed_in? %>
           <li class="nav-item">
-              <%= link_to 'Edit profile', edit_user_registration_path, class: 'nav-link' %>  
+            <%= content_tag :span, "Hi: #{current_user.firstname} #{current_user.lastname} | Role: #{current_user.role}", class: 'nav-link margen' %>
           </li>
-          <!--Opción para ir a la vista edit users del admin-->
+      <!--Fin identificación user-->
+          <!--Opciones para cualquier tipo de user-->
           <li class="nav-item">
-              <%= link_to 'Edit Users', admin_edit_user_path, class: 'nav-link' %>  
+            <%= button_to 'Cerrar sesión', destroy_user_session_path, class: 'btn btn-outline-success', method: :delete %>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to 'Iniciar sesión', new_user_session_path, class: 'nav-link margen' %>
           </li>
           <li class="nav-item">
-              <%= link_to 'Create user', admin_create_user_path, class: 'nav-link' %>  
+            <%= link_to 'Registro', new_user_registration_path, class: 'btn btn-outline-success' %>
           </li>
         <% end %>
-        <!--Fin condicional admin-->
-      </ul>
-      <ul class="navbar-nav ">
-      <% if user_signed_in? %>
-        <li class="nav-item">
-          <%= content_tag :span, "Hi: #{current_user.firstname} #{current_user.lastname} | Role: #{current_user.role}", class: 'nav-link margen' %>
-        </li>
-        <li class="nav-item">
-          <%= button_to 'Cerrar sesión', destroy_user_session_path, class: 'btn btn-outline-success', method: :delete %>
-        </li>
-      <% else %>
-        <li class="nav-item">
-          <%= link_to 'Iniciar sesión', new_user_session_path, class: 'nav-link margen' %>
-        </li>
-        <li class="nav-item">
-          <%= link_to 'Registro', new_user_registration_path, class: 'btn btn-outline-success' %>
-        </li>
-      <% end %>
+        <!--Fin opciones cualquier tipo de user-->
       </ul>
     </div>
   </div>
