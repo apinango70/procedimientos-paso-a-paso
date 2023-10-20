@@ -155,6 +155,30 @@ git commit -m "Scaffold vehicle creado, relacion con user definida"
 <% end %>
 ```
 
+## Agregar bootstrap al form new app/views/vehicles/new.html.erb
+
+```bash
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-lg-4 col-md-6 col-sm-6">
+      <div class="card shadow">
+        <div class="card-title text-center border-bottom">
+          <h2 class="p-3">New vehicle for <%= @user.full_name %></h2>
+        </div>
+        <div class="card-body">
+          <div class="mb-4">
+            <%= render "form", vehicle: @vehicle %>
+            <div>
+              <%= link_to "Back to vehicles", vehicles_path %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
 ## Agregar al navbar la opción list all vehicles dentro de las opciones del admin
 
 ```bash
