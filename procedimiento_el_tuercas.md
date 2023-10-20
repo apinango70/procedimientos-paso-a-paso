@@ -59,27 +59,27 @@ git commit -m "Scaffold vehicle creado, relacion con user definida"
 <div class="container">
   <div id="vehicles">
     <% @users_with_vehicles.each do |user_name, vehicles| %>
-      <h2><%= user_name %></h2>
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Brand</th>
-            <th scope="col">Model</th>
-            <th scope="col">Plate number</th>
-             
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-  
       <% if vehicles.present? %>
-        <% vehicles.each do |vehicle| %>
-          <%= render partial: 'vehicle', locals: { vehicle: vehicle, show_link: true } %>
-  
-        <% end %>
+        <h4><%= user_name %></h4>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Brand</th>
+              <th scope="col">Model</th>
+              <th scope="col">Plate number</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% vehicles.each do |vehicle| %>
+              <%= render partial: 'vehicle', locals: { vehicle: vehicle, show_link: true } %>
+            <% end %>
+          </tbody>
+        </table>
       <% else %>
+        <h4><%= user_name %></h4>
         <p>No hay vehículo registrado para este usuario.</p>
       <% end %>
-    </table>
     <% end %>
   </div>
 </div>
