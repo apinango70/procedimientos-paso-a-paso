@@ -294,5 +294,5 @@ end
 
 ```ruby
 git add .
-git commit -m "Se creó el controlador y la vista admin view y los formularios para que el admin pueda crear y editar users."
+git commit -m "Se creó el controlador y la vista admin view y los formularios para que el admin pueda crear, editar y listar users."
 ```
