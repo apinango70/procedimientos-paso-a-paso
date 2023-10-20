@@ -52,9 +52,8 @@ git commit -m "Scaffold vehicle creado, relacion con user definida"
 
 **NOTA**: En este modelo, un vehículo pertenece a un usuario (belongs_to :user) y el user puede tener muchos vehicles (has_many :vehicles).
 
-## Mostrar en el index de vehicle los vehicles asociados a cada user: 
 
-## app/views/vehicles.html.erb sustituir:
+## app/views/vehicles/index.html.erb sustituir:
 
 ```bash
 <div class="container">
@@ -103,6 +102,50 @@ git commit -m "Scaffold vehicle creado, relacion con user definida"
   <% end %></td>
   </tr>
 </tbody>
+```
+
+## Agregar al navbar la opción list all vehicles dentro de las opciones del admin
+
+```bash
+<li class="nav-item">
+    <%= link_to 'List vehicles', vehicles_path, class: 'nav-link' %>  
+</li>
+```
+
+## Para evitar errores por las relaciones, se debe poblar la base de datos con varios vehicles y asociarlos a los users, copiar el app/db/see.rb
+
+```bash
+# Crea 10 usuarios con datos ficticios
+10.times do
+    User.create(
+      email: Faker::Internet.email,
+      password: Faker::Internet.password,
+      firstname: Faker::Name.first_name,
+      lastname: Faker::Name.last_name,
+      role: "user"
+    )
+  end
+  
+  # Crea 30 vehículos asociados a usuarios existentes
+  users = User.all
+  
+  30.times do
+    Vehicle.create(
+      brand: Faker::Vehicle.make,
+      model: Faker::Vehicle.model,
+      plate_number: Faker::Vehicle.license_plate,
+      user: users.sample
+    )
+  end
+  
+  puts "Seed data generated successfully!"
+  ```
+
+## Hago commit
+
+```bash
+git add .
+git commit -m "Se modificaron las vistas index y _vehicle, se agregó al seed la creacion de 30 vehicles asociados a users"
 ```
 
 ## Creo el modelo  appointment y efino relacion 1:n entre vehicle y appointment
