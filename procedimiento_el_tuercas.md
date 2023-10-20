@@ -37,8 +37,8 @@ belongs_to :user
     # Obtener todos los usuarios con sus vehículos asociados
     @users = User.includes(:vehicles)
   
-    # Preparar un array de [Nombre Completo, Vehículos] para la vista
-    @users_with_vehicles = @users.map { |user| [user.full_name, user.vehicles] }
+    # Preparar un array de [user, Vehículos] para la vista
+    @users_with_vehicles = @users.map { |user| [user, user.vehicles] }
   end
 ```
 
@@ -58,9 +58,9 @@ git commit -m "Scaffold vehicle creado, relacion con user definida"
 ```bash
 <div class="container">
   <div id="vehicles">
-    <% @users_with_vehicles.each do |user_name, vehicles| %>
+    <% @users_with_vehicles.each do |user, vehicles| %>
+  <h5><%= user.full_name %> <%= link_to 'Create New Vehicle', new_vehicle_path(user_id: user.id) %></h5>
       <% if vehicles.present? %>
-        <h4><%= user_name %></h4>
         <table class="table">
           <thead>
             <tr>
@@ -77,7 +77,6 @@ git commit -m "Scaffold vehicle creado, relacion con user definida"
           </tbody>
         </table>
       <% else %>
-        <h4><%= user_name %></h4>
         <p>No hay vehículo registrado para este usuario.</p>
       <% end %>
     <% end %>
@@ -102,6 +101,46 @@ git commit -m "Scaffold vehicle creado, relacion con user definida"
   <% end %></td>
   </tr>
 </tbody>
+```
+
+## Sustituir el formulario vehicle app/views/vehicles/_form.html.erb
+
+```bash
+<%= form_with(model: vehicle) do |form| %>
+  <% if vehicle.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(vehicle.errors.count, "error") %> prohibited this vehicle from being saved:</h2>
+
+      <ul>
+        <% vehicle.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :brand, style: "display: block" %>
+    <%= form.text_field :brand %>
+  </div>
+
+  <div>
+    <%= form.label :model, style: "display: block" %>
+    <%= form.text_field :model %>
+  </div>
+
+  <div>
+    <%= form.label :plate_number, style: "display: block" %>
+    <%= form.text_field :plate_number %>
+  </div>
+
+  #Toma el user_id del user seleccionado y lo pasa al form para rrelación
+  <%= form.hidden_field :user_id, value: params[:user_id] %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
 ```
 
 ## Agregar al navbar la opción list all vehicles dentro de las opciones del admin
