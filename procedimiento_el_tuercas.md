@@ -14,14 +14,34 @@ rails g scaffold vehicle brand:string model:string plate_number:string user:refe
 ## agregar al modelo User:
 
 ```bash
+# Relación uno a muchos con vehicles
 has_many :vehicles
+
+# Método para obtener el nombre completo del usuario en la vista index de vehicles
+def full_name
+  "#{firstname} #{lastname}"
+end
 ```
 
 ## Agregar al modelo Vehicle:
 
 ```bash
+# Relación con user
 belongs_to :user
 ```
+
+## Para mostrar todos los users con su vehicles asociados se debe sustituir en el vehicle_controller el método de acción index en app/controllers/vehicle_controller.rb
+
+```bash
+  def index
+    # Obtener todos los usuarios con sus vehículos asociados
+    @users = User.includes(:vehicles)
+  
+    # Preparar un array de [Nombre Completo, Vehículos] para la vista
+    @users_with_vehicles = @users.map { |user| [user.full_name, user.vehicles] }
+  end
+```
+
 ## Ejecutar migracion y hacer commit
 
 ```bash
