@@ -26,21 +26,20 @@ module ApplicationHelper
 end
 ```
 
-## ++++++++++++++ Reiniciar el server ++++++++++++++ 
-
 ## Cambiar en el Controller que quiero agregar pagy el metodo index app>controllers>xxxx_controller.rb, en este caso es _posts_controller.rb_
 
+
+```ruby
   def index
     @posts = Post.order(created_at: :desc) #el post más reciente se muestra primero
   end
+```
 
 ```ruby
   def index
     @pagy, @posts = pagy(Post.order(created_at: :desc), items: 5) # Paginación
   end
 ```
-
-## Reiniciar el server
 
 ## Para agregar estilo Bootstrap al helper hay que crear el archivo pagy.rb en app>config>initializers>pagy.rb y copiar
 
@@ -56,7 +55,7 @@ require 'pagy/extras/bootstrap' # Booststrap styling
 </div>
 ```
 
-_NOTA: Reinicar el server _
+## ++++++++++++++ Reiniciar el server ++++++++++++++ 
 
 ## Hago commit
 
