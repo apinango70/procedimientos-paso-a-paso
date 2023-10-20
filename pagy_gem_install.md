@@ -56,6 +56,8 @@ require 'pagy/extras/bootstrap' # Booststrap styling
 </div>
 ```
 
+_NOTA: Reinicar el server _
+
 ## Hago commit
 
 ```ruby
