@@ -157,7 +157,7 @@ end
 
 <div class="container">
   <div class="row justify-content-center mt-5">
-    <div class="col-lg-8 col-md-6 col-sm-6">
+    <div class="col-lg-10 col-md-6 col-sm-6">
       <div class="card shadow">
         <div class="card-title text-center border-bottom">
           <h2 class="p-3">Edit user</h2>
@@ -212,7 +212,9 @@ end
 ## Definir rutas personalizadas en app/config/routes.rb
 
   get 'create_user', to: 'admin#user', as: 'create'
+  
   get 'edit_user', to: 'admin#user', as: 'edit'
+  
   get 'show_user', to: 'admin#user', as: 'show'
 
 ## Agregar al partial del navbar la opción de administrar usuers en app>views>shared>_navbar.html.erb
