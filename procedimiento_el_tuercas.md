@@ -321,7 +321,9 @@ end
 ## Agrego al modelo vehicle
 
 ```bash
-  has_one :appointment
+    has_one :appointment, dependent: :destroy
+    #Para ceptar atributos anidados
+    accepts_nested_attributes_for :appointment
 ```
 
 NOTA: cada vehicle solo puede tener un appointment y un appointment puede tener varios vehicles
@@ -329,30 +331,130 @@ NOTA: cada vehicle solo puede tener un appointment y un appointment puede tener 
 ## Modifico el vehicle_controller en método show para pasar el nombre del user para una vista show personalizada
 
 ```bash
+class VehiclesController < ApplicationController
+  before_action :set_vehicle, only: %i[ show edit update destroy ]
+
+  # GET /vehicles or /vehicles.json
+  def index
+    # Obtener todos los usuarios con sus vehículos asociados
+    @users = User.includes(:vehicles)
+    @pagy, @users = pagy(User.order(created_at: :desc), items: 5) # Paginación
+    # Preparar un array de [user, Vehículos] para la vista
+    @users_with_vehicles = @users.map { |user| [user, user.vehicles] }
+
+  end
+
+  # GET /vehicles/1 or /vehicles/1.json
   def show
     @vehicle = Vehicle.find(params[:id])
     @user = @vehicle.user
+    @appointment = @vehicle.appointment
   end
+
+  # GET /vehicles/new
+  def new
+    @vehicle = Vehicle.new
+    @user = User.find(params[:user_id]) # Obtén el usuario correspondiente
+    @vehicle.user_id = @user.id # Asigna el user_id del usuario al vehículo
+    @vehicle.build_appointment # Esto crea un objeto Appointment asociado al vehículo
+  end
+
+  # GET /vehicles/1/edit
+  def edit
+    @vehicle = Vehicle.find(params[:id])
+    @appointment = @vehicle.appointment || @vehicle.build_appointment
+  end
+  
+  # POST /vehicles or /vehicles.json
+  def create
+    @vehicle = Vehicle.new(vehicle_params)
+    @vehicle.user_id = params[:vehicle][:user_id] # Asigna el user_id del formulario al vehículo
+    @user = User.find(params[:vehicle][:user_id]) # Obtén el usuario correspondiente
+ 
+    respond_to do |format|
+      if @vehicle.save
+        format.html { redirect_to vehicle_url(@vehicle), notice: "Vehicle was successfully created." }
+        format.json { render :show, status: :created, location: @vehicle }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @vehicle.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /vehicles/1 or /vehicles/1.json
+  def update
+    @vehicle = Vehicle.find(params[:id])
+    @appointment = @vehicle.appointment
+    
+    # Actualiza la fecha de cita en el Appointment, no en el Vehicle
+    if @appointment.update(appointment_date: params[:vehicle][:appointment_date])
+      respond_to do |format|
+        if @vehicle.update(vehicle_params)
+          format.html { redirect_to vehicle_url(@vehicle), notice: "Vehicle was successfully updated." }
+          format.json { render :show, status: :ok, location: @vehicle }
+        else
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @vehicle.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      # Maneja errores de validación del appointment si es necesario
+      # ...
+    end
+  end
+  
+
+  # DELETE /vehicles/1 or /vehicles/1.json
+  def destroy
+    @vehicle.destroy
+
+    respond_to do |format|
+      format.html { redirect_to vehicles_url, notice: "Vehicle was successfully destroyed." }
+      format.json { head :no_content }
+    end
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_vehicle
+      @vehicle = Vehicle.find(params[:id])
+    end
+
+    # Only allow a list of trusted parameters through.
+    def vehicle_params
+      params.require(:vehicle).permit(
+        :brand, 
+        :model, 
+        :plate_number, 
+        :user_id, 
+        appointment_attributes: [:id, :appointment_date]  # Asegúrate de incluir los atributos del appointment
+      )
+    end
+    
+end
 ```
 
 ## Creo un partial personalizado para renderizarlo en la vista show de vehicle en app/views/vehicles/_vehicle_details.html.erb
 
 ```bash
 <div id="<%= dom_id vehicle %>">
+  <div class="card-body">
+    <h5 class="card-title"><%= label_tag "Client: " %> <%= @user.full_name %></h5>
+    <p class="card-text"><%= label_tag "Brand: " %> <%= vehicle.brand %></p>
+    <p class="card-text"><%= label_tag "Model: " %> <%= vehicle.model %></p>
+    <p class="card-text"><%= label_tag "Plate number: " %> <%= vehicle.plate_number %></p>
 
-<tbody>
-  <tr>
-    <td><%= @user.full_name %></td>
-    <td><%= vehicle.brand %></td>
-    <td><%= vehicle.model %></td>
-    <td><%= vehicle.plate_number %></td>
-    <td>  <% if local_assigns[:show_link] %>
-    <p>
-      <%= link_to 'Show this vehicle', vehicle %>
-    </p>
-  <% end %></td>
-  </tr>
-</tbody>
+    <% if @appointment && @appointment.appointment_date %>
+      <p><strong>Appointment date:</strong> <%= @appointment.appointment_date.to_date.strftime('%d-%m-%Y') %></p>
+    <% else %>
+      <p><strong>No hay cita programada para este vehículo.</strong></p>
+    <% end %>
+    
+    <%= link_to 'Edit', edit_vehicle_path(vehicle), class: "btn btn-primary" %>
+    <%= link_to "Back to vehicles", vehicles_path, class: "btn btn-primary" %>
+  </div>
+</div>
 ```
 
 ## Sustituyo el codigo de app/views/vehicles/show.html.erb para que renderize el partial personalizado y aplique estilo bootstrap:
@@ -368,13 +470,11 @@ NOTA: cada vehicle solo puede tener un appointment y un appointment puede tener 
             <div class="card-body">
               <div id="<%= dom_id @vehicle %>">
                 <%= render partial: 'vehicles/vehicle_details', locals: { vehicle: @vehicle, show_link: false } %>
+
               </div>
               
-            <div>
-              <%= link_to "Edit this vehicle", edit_vehicle_path(@vehicle) %> |
-              <%= link_to "Back to vehicles", vehicles_path %>
+              <%= button_to "Destroy this vehicle", @vehicle, method: :delete, class: "btn btn-danger", style: "text-decoration:none;color:white;" %>
 
-              <%= button_to "Destroy this vehicle", @vehicle, method: :delete %>
             </div>
         </div>
       </div>
@@ -383,45 +483,111 @@ NOTA: cada vehicle solo puede tener un appointment y un appointment puede tener 
 </div>
 ```
 
-## Agrego el control selector de fecha en el partial personalizado _vehicle_detail.html.erb para signar un appointment
+## Agrego el control selector de fecha en el form para signar un appointment app/views/vehicles/_form.html.erb
 
 ```bash
+<%= form_with(model: vehicle) do |form| %>
+  <% if vehicle.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(vehicle.errors.count, "error") %> prohibited this vehicle from being saved:</h2>
+      <ul>
+        <% vehicle.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
+  <div>
+    <%= form.label :brand, style: "display: block" %>
+    <%= form.text_field :brand, class:'form-control', required: true %>
+  </div>
 
+  <div>
+    <%= form.label :model, style: "display: block" %>
+    <%= form.text_field :model, class:'form-control', required: true %>
+  </div>
+
+  <div>
+    <%= form.label :plate_number, style: "display: block" %>
+    <%= form.text_field :plate_number, class:'form-control', required: true %>
+  </div>
+
+<%= form.fields_for :appointment do |appointment_form| %>
+  <%= appointment_form.hidden_field :id %>
+  <div>
+    <%= appointment_form.label :appointment_date, "Fecha de Cita", style: "display: block" %>
+    <%= appointment_form.date_field :appointment_date, class: 'form-control' %>
+  </div>
+<% end %>
+  
+  <!--Toma el user_id del user seleccionado y lo pasa al form para la relación-->
+  <%= form.hidden_field :user_id, value: @vehicle.user_id %>
+  
+  <div>
+    <%= form.submit "Create", class:"btn btn-success" %>
+  </div>
+<% end %>
 ```
 
-## Ocultar en el show el enlace [show this vehicle]
+## Modifico la vista edit app/views/vehicles/edit.html.erb
+
+```bash
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-lg-4 col-md-6 col-sm-6">
+      <div class="card shadow">
+        <div class="card-title text-center border-bottom">
+          <h2 class="p-3">Edit vehicle </h2>
+        </div>
+        <div class="card-body">
+          <div class="mb-4">
+            <%= render "form", vehicle: @vehicle %>
+            <div>
+              <%= link_to "Show this vehicle", @vehicle %> |
+              <%= link_to "Back to vehicles", vehicles_path %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
 
 ## Sustituir en app/views/vehicles/show.html.erb
 
 ```bash
-<div class="container">
-  <%= render @vehicle %>
-  <h2>Appointment Details</h2>
-  
-    <% if @vehicle.appointment %>
-      <p><strong>Appointment Date:</strong> <%= @vehicle.appointment.appointment_date %></p>
-    <% else %>
-      <p>No appointment scheduled for this vehicle.</p>
-    <% end %>
+    <div class="container">
+      <div class="row justify-content-center mt-5">
+        <div class="col-lg-4 col-md-6 col-sm-6">
+          <div class="card shadow">
+            <div class="card-title text-center border-bottom">
+              <h2 class="p-3">Vehicle info</h2>
+            </div>
+            <div class="card-body">
+              <div id="<%= dom_id @vehicle %>">
+                <%= render partial: 'vehicles/vehicle_details', locals: { vehicle: @vehicle, show_link: false } %>
 
-  <%= form_with(model: [@vehicle, Appointment.new], url: vehicle_path(@vehicle), method: :patch, local: true) do |form| %>
-    <div class="field">
-      <%= form.label :appointment_date, 'Appointment Date' %>
-      <%= form.datetime_local_field :appointment_date %>
+              </div>
+              
+              <%= button_to "Destroy this vehicle", @vehicle, method: :delete, class: "btn btn-danger", style: "text-decoration:none;color:white;" %>
+
+            </div>
+        </div>
+      </div>
     </div>
-
-    <div class="actions">
-      <%= form.submit "Schedule Appointment", class: "btn btn-primary" %>
-    </div>
-  <% end %>
-
-  <%= link_to "Edit this vehicle", edit_vehicle_path(@vehicle) %> |
-  <%= link_to "Back to vehicles", vehicles_path %>
-  <%= button_to "Destroy this vehicle", @vehicle, method: :delete %>
+  </div>
 </div>
 ```
 
+## Hago migración y ejecuto commit
+
+```bash
+git add .
+git commit -m "Vistas y métodos modificados para anidar appointment a vehicle"
+end
+```
 
 ## [[[[SERVICE]]]]
 
