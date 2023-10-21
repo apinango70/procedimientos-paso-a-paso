@@ -1,9 +1,17 @@
 # pasos prueba "el tuercas"
 
-## user creado por devise con campos adicionales:
-* role
-* firstname
-* lastname
+## Estructura del proyecto:
+
+* user
+* vehicle
+* appointment
+* service
+
+## Relaciones:
+
+* user:vehicles 1:n
+* vehicle:appointment 1:n1
+* vehicle:service n:n
 
 ## [[[[VEHICLES]]]]
 
