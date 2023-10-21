@@ -326,9 +326,69 @@ end
 
 NOTA: cada vehicle solo puede tener un appointment y un appointment puede tener varios vehicles
 
-## Coloco el control selector de fecha en la vista de vehicle
+## Modifico el vehicle_controller en método show para pasar el nombre del user para una vista show personalizada
+
+```bash
+  def show
+    @vehicle = Vehicle.find(params[:id])
+    @user = @vehicle.user
+  end
+```
+
+## Creo un partial personalizado para renderizarlo en la vista show de vehicle en app/views/vehicles/_vehicle_details.html.erb
+
+```bash
+<div id="<%= dom_id vehicle %>">
+
+<tbody>
+  <tr>
+    <td><%= @user.full_name %></td>
+    <td><%= vehicle.brand %></td>
+    <td><%= vehicle.model %></td>
+    <td><%= vehicle.plate_number %></td>
+    <td>  <% if local_assigns[:show_link] %>
+    <p>
+      <%= link_to 'Show this vehicle', vehicle %>
+    </p>
+  <% end %></td>
+  </tr>
+</tbody>
+```
+
+## Sustituyo el codigo de app/views/vehicles/show.html.erb para que renderize el partial personalizado y aplique estilo bootstrap:
+
+```bash
+    <div class="container">
+      <div class="row justify-content-center mt-5">
+        <div class="col-lg-4 col-md-6 col-sm-6">
+          <div class="card shadow">
+            <div class="card-title text-center border-bottom">
+              <h2 class="p-3">Vehicle info</h2>
+            </div>
+            <div class="card-body">
+              <div id="<%= dom_id @vehicle %>">
+                <%= render partial: 'vehicles/vehicle_details', locals: { vehicle: @vehicle, show_link: false } %>
+              </div>
+              
+            <div>
+              <%= link_to "Edit this vehicle", edit_vehicle_path(@vehicle) %> |
+              <%= link_to "Back to vehicles", vehicles_path %>
+
+              <%= button_to "Destroy this vehicle", @vehicle, method: :delete %>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+## Agrego el control selector de fecha en el partial personalizado _vehicle_detail.html.erb para signar un appointment
+
+```bash
 
 
+```
 
 ## Ocultar en el show el enlace [show this vehicle]
 
@@ -362,7 +422,8 @@ NOTA: cada vehicle solo puede tener un appointment y un appointment puede tener 
 </div>
 ```
 
-# =============================================
+
+## [[[[SERVICE]]]]
 
 ## Crear scaffold service:
 
