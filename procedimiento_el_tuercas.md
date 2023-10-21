@@ -292,13 +292,24 @@ git add .
 git commit -m "Se modificaron las vistas index y _vehicle, se agregó al seed la creacion de 30 vehicles asociados a users"
 ```
 
-## Creo el modelo  appointment y efino relacion 1:n entre vehicle y appointment
+## [[[[APPOINMENT]]]]
+
+## Creo el modelo appointment y defino relacion 1:n entre vehicle y appointment
 
 ```bash
-rails g model appointment appointment_date:datetime vehicle_id:integer vehicle:references
+rails g model appointment appointment_date:date vehicle:references
 ```
 
-## Agregar al modelo appointment
+## Hago migración y ejecuto commit
+
+```bash
+rails db:migrate
+git add .
+git commit -m "Modelo appointment creado"
+end
+```
+
+## Agrego al modelo appointment
 
 ```bash
   belongs_to :vehicle
@@ -307,13 +318,17 @@ rails g model appointment appointment_date:datetime vehicle_id:integer vehicle:r
 end
 ```
 
-## Agregar al modelo vehicle
+## Agrego al modelo vehicle
 
 ```bash
   has_one :appointment
 ```
 
-NOTA: cada vehicle solo puede tener un appointment y un appointment puede tener vairos vehicles
+NOTA: cada vehicle solo puede tener un appointment y un appointment puede tener varios vehicles
+
+## Coloco el control selector de fecha en la vista de vehicle
+
+
 
 ## Ocultar en el show el enlace [show this vehicle]
 
