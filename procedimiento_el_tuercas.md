@@ -10,7 +10,7 @@
 ## Relaciones:
 
 * user:vehicle 1:n
-* vehicle:appointment 1:n1
+* vehicle:appointment 1:n
 * vehicle:service n:n
 
 ## [[[[VEHICLES]]]]
