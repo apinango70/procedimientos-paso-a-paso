@@ -9,7 +9,7 @@
 
 ## Relaciones:
 
-* user:vehicles 1:n
+* user:vehicle 1:n
 * vehicle:appointment 1:n1
 * vehicle:service n:n
 
