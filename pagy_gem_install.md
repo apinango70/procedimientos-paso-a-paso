@@ -1,6 +1,6 @@
 # Instalación e implementación gema Pagy
 
-## Agregar pagema al gemfile
+## Agregar la gema pagy al proyecto
 
 ```ruby
 bundle add pagy
