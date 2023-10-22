@@ -306,7 +306,6 @@ rails g model appointment appointment_date:date vehicle:references
 rails db:migrate
 git add .
 git commit -m "Modelo appointment creado"
-end
 ```
 
 ## Agrego al modelo appointment
