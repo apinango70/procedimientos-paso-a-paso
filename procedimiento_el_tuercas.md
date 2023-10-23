@@ -25,7 +25,7 @@ rails g scaffold vehicle brand:string model:string plate_number:string user:refe
 
 ```bash
 # Relación uno a muchos con vehicles
-has_many :vehicles
+has_many :vehicles, dependent: :destroy
 
 # Método para obtener el nombre completo del usuario en la vista index de vehicles
 def full_name
