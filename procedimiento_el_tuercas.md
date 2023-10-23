@@ -314,7 +314,6 @@ git commit -m "Modelo appointment creado"
   belongs_to :vehicle
 
   validates :appointment_date , presence: true
-end
 ```
 
 ## Agrego al modelo vehicle
@@ -327,7 +326,7 @@ end
 
 NOTA: cada vehicle solo puede tener un appointment y un appointment puede tener varios vehicles
 
-## Modifico el vehicle_controller en método show para pasar el nombre del user para una vista show personalizada
+## Sustituyo el código del vehicle_controller para pasar el nombre del user para una vista show personalizada
 
 ```bash
 class VehiclesController < ApplicationController
@@ -585,6 +584,44 @@ end
 ```bash
 git add .
 git commit -m "Vistas y métodos modificados para anidar appointment a vehicle"
+```
+
+## Sustituyo el seed.rb para crear vehículos con citas asginadas y ejecuto rails rb:seed
+
+```bash
+# Borra todos los registros existentes antes de crear nuevos registros
+User.destroy_all
+Vehicle.destroy_all
+Appointment.destroy_all
+
+# Crea 10 usuarios con datos ficticios
+10.times do
+  User.create(
+    email: Faker::Internet.email,
+    password: Faker::Internet.password,
+    firstname: Faker::Name.first_name,
+    lastname: Faker::Name.last_name,
+    role: "user"
+  )
+end
+
+# Crea 30 vehículos asociados a usuarios existentes y establece fechas de cita
+users = User.all
+
+30.times do
+  user = users.sample
+  vehicle = Vehicle.create(
+    brand: Faker::Vehicle.make,
+    model: Faker::Vehicle.model,
+    plate_number: Faker::Vehicle.license_plate,
+    user: user
+  )
+
+  # Establece una fecha de cita para el vehículo
+  vehicle.create_appointment(appointment_date: Faker::Date.forward(days: 30))
+end
+
+puts "Seed data generated successfully!"
 ```
 
 ## [[[[SERVICE]]]]
