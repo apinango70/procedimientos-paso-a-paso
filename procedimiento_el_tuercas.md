@@ -312,8 +312,6 @@ git commit -m "Modelo appointment creado"
 
 ```bash
   belongs_to :vehicle
-
-  validates :appointment_date , presence: true
 ```
 
 ## Agrego al modelo vehicle
