@@ -585,7 +585,6 @@ end
 ```bash
 git add .
 git commit -m "Vistas y métodos modificados para anidar appointment a vehicle"
-end
 ```
 
 ## [[[[SERVICE]]]]
