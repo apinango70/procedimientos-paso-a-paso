@@ -150,6 +150,7 @@ git commit -m "Scaffold vehicle creado, relacion con user definida"
             <th scope="col">Brand</th>
             <th scope="col">Model</th>
             <th scope="col">Plate number</th>
+            <th scope="col">Appointment</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
@@ -170,19 +171,28 @@ git commit -m "Scaffold vehicle creado, relacion con user definida"
 
 ```bash
 <div id="<%= dom_id vehicle %>">
-
-<tbody>
-  <tr>
-    <td><%= vehicle.brand %></td>
-    <td><%= vehicle.model %></td>
-    <td><%= vehicle.plate_number %></td>
-    <td>  <% if local_assigns[:show_link] %>
-    <p>
-      <%= link_to 'Show this vehicle', vehicle %>
-    </p>
-  <% end %></td>
-  </tr>
-</tbody>
+  <tbody>
+    <tr>
+      <td><%= vehicle.brand %></td>
+      <td><%= vehicle.model %></td>
+      <td><%= vehicle.plate_number %></td>
+      <td>
+        <% if vehicle.appointment && vehicle.appointment.appointment_date %>
+          <p><%= vehicle.appointment.appointment_date.strftime('%d-%m-%Y') %></p>
+        <% else %>
+          <p><strong>There is no appointment scheduled for this vehicle.</strong></p>
+        <% end %>  
+      </td>
+      <td>
+        <% if show_link %>
+          <p>
+            <%= link_to 'Show this vehicle', vehicle %>
+          </p>
+        <% end %>
+      </td>
+    </tr>
+  </tbody>
+</div>
 ```
 
 ## Sustituir el formulario vehicle app/views/vehicles/_form.html.erb
