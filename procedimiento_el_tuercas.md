@@ -598,6 +598,22 @@ end
 puts "Seed data generated successfully!"
 ```
 
+## Agregar pagy a la vista index de vehicle. Seguir los pasos de instlación de la gema pagy. En app/controllers/vehicle_controller.rb sustituir en el método index:
+
+* @users = User.order(created_at: :desc)
+
+```bash
+@pagy, @users = pagy(User.order(created_at: :desc), items: 5) # Paginación
+```
+
+## Agregar el control de pagy con bootstrap al final de la vista index. En app/views/index.html.erb:
+
+```bash
+<div class=" d-flex justify-content-center align-items-center">
+  <%== pagy_bootstrap_nav(@pagy) %>
+</div>
+```
+
 ## [[[[SERVICE]]]]
 
 ## Crear scaffold service:
