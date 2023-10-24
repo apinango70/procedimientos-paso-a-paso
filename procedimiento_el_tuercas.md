@@ -601,7 +601,7 @@ puts "Seed data generated successfully!"
 ## Crear scaffold service:
 
 ```bash
-rails g scaffold service service_name:string spare_parts:string deadline:datetime status:string vehicle_id:integer
+rails g scaffold service service_name:string spare_parts:string deadline:date status:string vehicle_id:integer
 ```
 
 ## Agregar en el modelo vehicle:
@@ -647,12 +647,59 @@ git add .
 git commit -m "Scaffold service y enumeradores creados"
 ```
 
-## Tabla intermedia vehicle_services relación n:n
+## Creo la tabla intermedia vehicle_services relación n:n
 
 ```bash
 rails g migration CreateVehicleServices vehicle:references service:references
 ```
 
  NOTA:Un servicio tiene y pertenece a muchos vehículos (has_and_belongs_to_many :vehicles).
+
+## Muestro en un collection los datos de los enum definidos en el modelo service.rb, sustituyo en app/views/services/_form.html.erb
+
+```bash
+<%= form_with(model: service) do |form| %>
+  <% if service.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(service.errors.count, "error") %> prohibited this service from being saved:</h2>
+
+      <ul>
+        <% service.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :service_name, style: "display: block" %>
+    <%= form.select :service_name, Service.service_names.keys, {}%>
+  </div>
+
+  <div>
+    <%= form.label :spare_parts, style: "display: block" %>
+    <%= form.text_field :spare_parts %>
+  </div>
+
+  <div>
+    <%= form.label :deadline, style: "display: block" %>
+    <%= form.date_field :deadline %>
+  </div>
+
+  <div>
+    <%= form.label :status, style: "display: block" %>
+    <%= form.select :status, Service.statuses.keys, {}%>
+  </div>
+
+  <div>
+    <%= form.label :vehicle_id, style: "display: block" %>
+    <%= form.number_field :vehicle_id %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+```
 
 
