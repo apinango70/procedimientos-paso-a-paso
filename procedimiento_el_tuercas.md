@@ -551,32 +551,6 @@ end
 </div>
 ```
 
-## Sustituir en app/views/vehicles/show.html.erb
-
-```bash
-    <div class="container">
-      <div class="row justify-content-center mt-5">
-        <div class="col-lg-4 col-md-6 col-sm-6">
-          <div class="card shadow">
-            <div class="card-title text-center border-bottom">
-              <h2 class="p-3">Vehicle info</h2>
-            </div>
-            <div class="card-body">
-              <div id="<%= dom_id @vehicle %>">
-                <%= render partial: 'vehicles/vehicle_details', locals: { vehicle: @vehicle, show_link: false } %>
-
-              </div>
-              
-              <%= button_to "Destroy this vehicle", @vehicle, method: :delete, class: "btn btn-danger", style: "text-decoration:none;color:white;" %>
-
-            </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-```
-
 ## Hago migración y ejecuto commit
 
 ```bash
@@ -637,7 +611,7 @@ class Vehicle < ApplicationRecord
   belongs_to :service
   has_and_belongs_to_many :services
 
-  validates :brand, :model, :year, :plate_number, presence: true
+  validates :brand, :model, :plate_number, presence: true
 end
 ```
 
