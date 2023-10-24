@@ -673,7 +673,7 @@ rails g migration CreateVehicleServices vehicle:references service:references
 
   <div>
     <%= form.label :service_name, style: "display: block" %>
-    <%= form.select :service_name, Service.service_names.keys, {}%>
+    <%= form.select :service_name, Service.service_names.keys, { prompt: 'Select a status' } %>
   </div>
 
   <div>
@@ -688,7 +688,7 @@ rails g migration CreateVehicleServices vehicle:references service:references
 
   <div>
     <%= form.label :status, style: "display: block" %>
-    <%= form.select :status, Service.statuses.keys, {}%>
+    <%= form.select :status, Service.statuses.keys, { prompt: 'Select a status' } %>
   </div>
 
   <div>
