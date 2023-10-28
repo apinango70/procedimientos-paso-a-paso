@@ -500,7 +500,7 @@ end
   <% end %></td>
   </tr>
 </tbody>
-`` 
+``` 
 
 ## Creo un partial personalizado para renderizarlo en la vista show de vehicle en app/views/vehicles/_vehicle_details.html.erb
 
