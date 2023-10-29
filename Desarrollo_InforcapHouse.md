@@ -316,7 +316,52 @@ git commit -m "Modelo typeOffer y seed creado"
 rails g model feature name && rails db:migrate && annotate --models
 ```
 
+## Defino las validaciones en el modelo feature
+
+```bash
+class Feature < ApplicationRecord
+  # Validaciones
+  validates :name, presence: true, uniqueness: true
+end
+```
+
+##  Creo el seed para feature para importar un csv, en app/db/seeds/csv/reatures.csv
+
+```bash
+feature_id,name
+1,Sala
+2,Comedor
+3,Cocina
+4,Vestier
+5,Closets
+6,Despensa
+7,Lavanderia
+8,Oficina
+9,Bodega
+10,Atico
+```
+
+## Agrego en el seed el enlace al csv, para ejecutar este seed, se debe comentar el bloque typeProperty y typeOffer para evitar errores de duplicado
+
+```bash
+puts 'Importing features...'
+CSV.foreach(Rails.root.join('db/seeds/csv/features.csv'), headers: true) do |row|
+  Feature.create! do |feature|
+    feature.id = row[0]
+    feature.name = row[1]
+  end
+end
+```
+
+## Agrego un commit
+
+```bash
+git add .
+git commit -m "Modelo feature y seed creado"
+```
+
 ## 
+
 ```bash
 
 ```
