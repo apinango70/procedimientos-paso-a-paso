@@ -155,9 +155,40 @@ rails runner 'load(File.join(Rails.root, "db", "seeds", "rb", "contacts.rb"))'
 end
 ```
 
-## Elimino de las vistas de contact las que no necesito y solo dejaré:
+## Elimino de las vistas de contact las que no necesito y solo dejaré
 
 Eliminar los archivos:
 - _form.html.erb
 - new.html.erb
 
+## Modifico las rutas del scaffold de contacts para que no de error
+
+```bash
+  # Contacts
+  resources :contacts, only: %i[new create]
+```
+
+## Modifico la redirección luego de crear un mensaje en el contacs_controller del método create
+
+```bash
+  def create
+    @contact = Contact.new(contact_params)
+
+    respond_to do |format|
+      if @contact.save
+        #Luego de crear el mensaje, se redirecciona al enlace root_path
+        format.html { redirect_to root_path, notice: "Contact was successfully created." }
+        format.json { render :show, status: :created, location: @contact }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @contact.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+```
+
+## 
+
+```bash
+
+```
