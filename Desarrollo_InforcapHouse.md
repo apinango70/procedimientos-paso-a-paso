@@ -239,7 +239,16 @@ class TypeProperty < ApplicationRecord
 end
 ```
 
-##  Creo el seed para typeProperty para importar un csv, debo crear una carpeta /csv en app/db/seeds/csv
+##  Creo el seed para typeProperty para importar sus datos, debo crear una carpeta "csv" y dentro de ella el archivo en app/db/seeds/csv/typeProperty.csv
+
+```bash
+type_property_id,name
+1,Apartamento
+2,Casa
+3,Finca
+4,Habitacion
+5,Cabaña
+```
 
 ## Agrego en el seed el enlace al csv
 
@@ -253,8 +262,48 @@ CSV.foreach(Rails.root.join('db/seeds/csv/typeProperties.csv'), headers: true) d
 end
 ```
 
-## 
+## Agrego un commit
 
 ```bash
-
+git add .
+git commit -m "Modelo typeProperty y seed creado"
 ```
+
+## Genero el modelo de typeOffer
+
+```bash
+rails g model typeOffer name
+```
+
+##  Creo el seed para typeOffer para importar un csv, en app/db/seeds/csv/typeOffer.csv
+
+```bash
+type_offer_id,name
+1,Venta
+2,Alquiler
+```
+
+## Agrego en el seed el enlace al csv, para ejecutar este seed, se debe comentar el bloque typePrpperty para evitar errores de duplicado
+
+```bash
+puts 'Importing typeOffers...'
+CSV.foreach(Rails.root.join('db/seeds/csv/typeOffers.csv'), headers: true) do |row|
+  TypeOffer.create! do |type_offer|
+    type_offer.id = row[0]
+   end
+end
+```
+
+## Agrego un commit
+
+```bash
+git add .
+git commit -m "Modelo typeOffer y seed creado"
+```
+
+## Creo el modelo feature
+
+```bash
+rails g model feature name
+```
+
