@@ -227,7 +227,7 @@ git commit -m "Devise y seed users listo"
 ## Genero el modelo typeProperty
 
 ```bash
-rails g model typeProperty name
+rails g model typeProperty name && rails db:migrate && annotate --models
 ```
 
 ## Defino las validaciones en el modelo typeProperty
@@ -266,13 +266,22 @@ end
 
 ```bash
 git add .
-git commit -m "Modelo typeProperty y seed creado"
+git commit -m "Modelo typeProperty y seed creado" 
 ```
 
 ## Genero el modelo de typeOffer
 
 ```bash
-rails g model typeOffer name
+rails g model typeOffer name && rails db:migrate && annotate --models
+```
+
+## Defino las validaciones en el modelo typeOffer
+
+```bash
+class TypeOffer < ApplicationRecord
+  # Validaciones
+  validates :name, presence: true, uniqueness: true
+end
 ```
 
 ##  Creo el seed para typeOffer para importar un csv, en app/db/seeds/csv/typeOffer.csv
@@ -304,6 +313,10 @@ git commit -m "Modelo typeOffer y seed creado"
 ## Creo el modelo feature
 
 ```bash
-rails g model feature name
+rails g model feature name && rails db:migrate && annotate --models
 ```
 
+## 
+```bash
+
+```
