@@ -168,7 +168,7 @@ Eliminar los archivos:
   resources :contacts, only: %i[new create]
 ```
 
-## Modifico la redirección luego de crear un mensaje en el contacs_controller del método create
+## Modifico la redirección luego de crear un mensaje en el contacts_controller del método create
 
 ```bash
   def create
@@ -185,6 +185,72 @@ Eliminar los archivos:
       end
     end
   end
+```
+
+## Creo un commit
+
+```bash
+git add .
+git commit -m "Formulario de contacto listo"
+```
+
+## Configuro la gema devise para el control de acceso
+
+- Ver pasos devise_1
+- Agregar campo phone
+
+## Creo un seed para crear users.rb
+
+```bash
+# rails runner 'load(File.join(Rails.root, "db", "seeds", "rb", "users.rb"))'
+puts 'Importing users...'
+
+20.times do
+  User.create(
+    email: Faker::Internet.email,
+    password: '123456',
+    password_confirmation: '123456',
+    name: Faker::Name.name_with_middle,
+    phone: Faker::PhoneNumber.cell_phone,
+    role: rand(0..1)
+  )
+end
+```
+
+## Agrego un commit
+
+```bash
+git add .
+git commit -m "Devise y seed users listo"
+```
+
+## Genero el modelo typeProperty
+
+```bash
+rails g model typeProperty name
+```
+
+## Defino las validaciones en el modelo typeProperty
+
+```bash
+class TypeProperty < ApplicationRecord
+  # Validaciones
+  validates :name, presence: true, uniqueness: true
+end
+```
+
+##  Creo el seed para typeProperty para importar un csv, debo crear una carpeta /csv en app/db/seeds/csv
+
+## Agrego en el seed el enlace al csv
+
+```bash
+puts 'Importing typeProperties...'
+CSV.foreach(Rails.root.join('db/seeds/csv/typeProperties.csv'), headers: true) do |row|
+  TypeProperty.create! do |type_property|
+    type_property.id = row[0]
+    type_property.name = row[1]
+  end
+end
 ```
 
 ## 
