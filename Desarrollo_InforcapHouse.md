@@ -360,8 +360,143 @@ git add .
 git commit -m "Modelo feature y seed creado"
 ```
 
-## 
+## Genero el scaffold para property relación n:n 
 
 ```bash
+grails g scaffold user:references type_offer:references type_property:references description:text price:decimal area:integer
+```
 
+## Ejecuto migración y agrego un commit
+
+```bash
+rails db:migrate
+git add .
+git commit -m "Scaffold property"
+```
+
+## Defino validaciones en el modelo property.rb
+
+```bash
+  # Validaciones
+  validates :description, presence: true
+  validates :area, presence: true
+  validates :price, presence: true
+```
+
+## Defino validaciones en la vista _formhtml.erb de property
+
+```bash
+<%= form_with(model: property) do |form| %>
+  <% if property.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(property.errors.count, "error") %> prohibited this property from being saved:</h2>
+
+      <ul>
+        <% property.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :user_id, style: "display: block" %>
+    <%= form.collection_select :user_id, User.all, :id, :name %>
+  </div>
+
+  <div>
+    <%= form.label :type_offer_id, style: "display: block" %>
+    <%= form.collection_select :type_offer_id, TypeOffer.all, :id, :name %>
+  </div>
+
+  <div>
+    <%= form.label :type_property_id, style: "display: block" %>
+    <%= form.collection_select :type_property_id, TypeProperty.all, :id, :name %>
+  </div>
+
+  <div>
+    <%= form.label :features, style: "display: block" %>
+    <%= form.collection_check_boxes :feature_ids, Feature.all, :id, :name %>
+  </div>
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= form.text_area :description, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :area, style: "display: block" %>
+    <%= form.number_field :area, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :price, style: "display: block" %>
+    <%= form.text_field :price, required: true %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+```
+
+## Defino las relaciones de user con property 1:n en elmodelo user
+
+```bash
+#relaciones
+  has_many :properties, dependent: :destroy
+```
+
+## creo un seed properties.rb para generar 100 properties 
+
+```bash
+# rails runner 'load(File.join(Rails.root, "db", "seeds", "rb", "properties.rb"))'
+puts 'Importing properties...'
+
+100.times do
+  Property.create(
+    user_id: User.all.sample.id,
+    type_offer_id: TypeOffer.all.sample.id,
+    type_property_id: rand(1..5),
+    description: Faker::Lorem.paragraph(sentence_count: 2),
+    area: rand(50..200),
+    price: rand(100_000..1_000_000)
+  )
+end
+```
+
+## Creo la tabla intermedia entre property y feature n:n
+
+```bash
+rails g model propertyFeature property:references feauture:references
+```
+
+## Ejecuto migración y agrego un commit
+
+```bash
+rails db:migrate
+git add .
+git commit -m "modelo propertyFeature creado"
+```
+
+## Agrego validacion en el modelo propertyFeature.rb
+
+```bash
+  validates :property, :feature, presence: true
+```
+
+## Agrego relaccion n:n en el modelo feature.rb
+
+```bash
+  #relaciones
+  has_many :property_features. dependent: :destroy
+  has_many :properties, through: :property_features 
+```
+
+## Agrego relaccion n:n en el modelo property.rb
+
+```bash
+  #relaciones
+  has_many :property_features. dependent: :destroy
+  has_many :features, through: :property_features 
 ```
