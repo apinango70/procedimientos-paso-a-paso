@@ -415,11 +415,6 @@ git commit -m "Scaffold property"
   </div>
 
   <div>
-    <%= form.label :features, style: "display: block" %>
-    <%= form.collection_check_boxes :feature_ids, Feature.all, :id, :name %>
-  </div>
-
-  <div>
     <%= form.label :description, style: "display: block" %>
     <%= form.text_area :description, required: true %>
   </div>
@@ -500,3 +495,123 @@ git commit -m "modelo propertyFeature creado"
   has_many :property_features. dependent: :destroy
   has_many :features, through: :property_features 
 ```
+
+## Hago commit
+
+```bash
+git add .
+git commit -m "modelo relacion n:n property_feature"
+```
+
+## agrego feature en la vista _form de property
+
+```bash
+<%= form_with(model: property) do |form| %>
+  <% if property.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(property.errors.count, "error") %> prohibited this property from being saved:</h2>
+
+      <ul>
+        <% property.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :user_id, style: "display: block" %>
+    <%= form.collection_select :user_id, User.all, :id, :name %>
+  </div>
+
+  <div>
+    <%= form.label :type_offer_id, style: "display: block" %>
+    <%= form.collection_select :type_offer_id, TypeOffer.all, :id, :name %>
+  </div>
+
+  <div>
+    <%= form.label :type_property_id, style: "display: block" %>
+    <%= form.collection_select :type_property_id, TypeProperty.all, :id, :name %>
+  </div>
+
+  <div>
+    <%= form.label :features, style: "display: block" %>
+    <%= form.collection_check_boxes :feature_ids, Feature.all, :id, :name %>
+  </div>
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= form.text_area :description, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :area, style: "display: block" %>
+    <%= form.number_field :area, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :price, style: "display: block" %>
+    <%= form.text_field :price, required: true %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+```
+
+## Agrego los strong parameters de feature en el properties_controller.rb
+
+```bash
+  def property_params
+    params.require(:property).permit(:user_id, :type_offer_id, :type_property_id, :description, :area, :price, feature_ids: [])
+  end
+```
+
+## Muestro las opciones seleccionadas en features en la vista de _property.html.erb 
+
+```bash
+<div id="<%= dom_id property %>">
+<div class="card">
+  <%# <img src="..." class="card-img-top" alt="..."> %>
+  <div class="card-body">
+    <h5 class="card-title">
+      <%= property.type_property.name %> en <%= property.type_offer.name %>
+    </h5>
+    <p class="card-text"><%= property.description %></p>
+
+    <p>
+      <strong>Contacto:</strong>
+      <%= property.user.name %><br>
+      <a href="mailto:<%= property.user.email %>"><%= property.user.email %></a><br>
+      <a href="tel:+<%= property.user.phone %>"><%= property.user.phone %></a>
+    </p>
+
+    <p>
+      <strong>Features:</strong>
+      <% property.features.each do |item| %>
+        <%= content_tag :span, item.name, class: "tag"  %>
+      <% end %>
+    </p>
+
+    <p>
+      <strong>Area:</strong>
+      <%= property.area %>
+    </p>
+
+    <p>
+      <strong>Price:</strong>
+      <%= property.price %>
+    </p>
+  </div>
+</div>
+</div>
+```
+
+## Hago commit
+
+```bash
+git add .
+git commit -m "campo features agregado al form y a la vista de property"
+```
+
