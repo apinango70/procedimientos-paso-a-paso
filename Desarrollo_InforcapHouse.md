@@ -615,3 +615,29 @@ git add .
 git commit -m "campo features agregado al form y a la vista de property"
 ```
 
+## Creo el seed para poblar property_features.rb
+
+```bash
+# rails runner 'load(File.join(Rails.root, "db", "seeds", "rb", "propertyFeatures.rb"))'
+puts 'Importing propertyFeatures...'
+
+1000.times do
+  PropertyFeature.create(
+    property_id: Property.all.sample.id,
+    feature_id: Feature.all.sample.id,
+  )
+end
+```
+
+## Hago commit
+
+```bash
+git add .
+git commit -m "Seed property_feaures creado"
+```
+
+## Defino que solo los user logeados pueden crear, editar y borrar registros, coloco en el properties_controller.rb
+
+```bash
+before_action :authenticate_user!, except: %i[ index show ]
+```
