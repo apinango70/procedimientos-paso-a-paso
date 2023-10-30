@@ -46,7 +46,7 @@ git commit -m "Páginas estáticas"
 ## Creo el formulario de contacto
 
 ```bash
-rails g scaffold contac name email message:text
+rails g scaffold contact name email message:text
 ```
 
 ## Agrego validaciones al modelo contact con validates
