@@ -61,7 +61,7 @@ class Contact < ApplicationRecord
 end
 ```
 
-## Agrego validaciones a la vista contact agregando a cada campo  required: true
+## Agrego validaciones a formulario _form.html.erb de contact agregando a cada campo "required: true"
 
 ```bash
 <%= form_with(model: contact) do |form| %>
