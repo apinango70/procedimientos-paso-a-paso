@@ -122,7 +122,9 @@ rails runner 'load(File.join(Rails.root, "db", "seeds", "rb", "contacts.rb"))'
 ## Edito el contacts_controller para eliminar los métodos que no necesito (before_action, index, show, edit, update y destroy)
 
 ```bash
-# GET /contacts/new
+class ContactsController < ApplicationController
+
+  # GET /contacts/new
   def new
     @contact = Contact.new
   end
