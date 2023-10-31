@@ -468,7 +468,7 @@ end
 ## Creo la tabla intermedia entre property y feature n:n
 
 ```bash
-rails g model propertyFeature property:references feauture:references
+rails g model propertyFeature property:references feature:references
 ```
 
 ## Ejecuto migración y agrego un commit
