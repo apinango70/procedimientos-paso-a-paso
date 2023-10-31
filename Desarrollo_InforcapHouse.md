@@ -489,7 +489,7 @@ git commit -m "modelo propertyFeature creado"
 
 ```bash
   #relaciones
-  has_many :property_features. dependent: :destroy
+  has_many :property_features, dependent: :destroy
   has_many :properties, through: :property_features 
 ```
 
@@ -497,7 +497,7 @@ git commit -m "modelo propertyFeature creado"
 
 ```bash
   #relaciones
-  has_many :property_features. dependent: :destroy
+  has_many :property_features, dependent: :destroy
   has_many :features, through: :property_features 
 ```
 
