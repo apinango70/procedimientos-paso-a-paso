@@ -15,9 +15,7 @@ rails g controller admin create_user edit_user show_user
 
 ```ruby
   # Enum de roles
-  enum role: {  user: 'user',
-                admin: 'admin',
-  }, _default: 'user' 
+  enum role: [:user, :admin] 
 ```
 
 ## Configurar las rutas para el controlador admin app>config>routes.rb
