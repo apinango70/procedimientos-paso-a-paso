@@ -368,7 +368,7 @@ git commit -m "Modelo feature y seed creado"
 ## Genero el scaffold para property relación n:n 
 
 ```bash
-grails g scaffold user:references type_offer:references type_property:references description:text price:decimal area:integer
+rails g scaffold property user:references type_offer:references type_property:references description:text price:decimal area:integer
 ```
 
 ## Ejecuto migración y agrego un commit
