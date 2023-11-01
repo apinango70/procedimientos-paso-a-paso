@@ -378,7 +378,7 @@ root "pages#index"
 
             <div class="mb-4">
               <%= f.label :email %><br />
-              <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", class:'form-control' %>
             </div>
 
             <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -387,7 +387,7 @@ root "pages#index"
 
             <div class="mb-4">
               <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-              <%= f.password_field :password, autocomplete: "new-password" %>
+              <%= f.password_field :password, autocomplete: "new-password", class:'form-control' %>
               <% if @minimum_password_length %>
                 <br />
                 <em><%= @minimum_password_length %> characters minimum</em>
@@ -396,12 +396,12 @@ root "pages#index"
 
             <div class="mb-4">
               <%= f.label :password_confirmation %><br />
-              <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+              <%= f.password_field :password_confirmation, autocomplete: "new-password", class:'form-control' %>
             </div>
 
             <div class="mb-4">
               <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-              <%= f.password_field :current_password, autocomplete: "current-password" %>
+              <%= f.password_field :current_password, autocomplete: "current-password", class:'form-control' %>
             </div>
 
             <div class="mb-4">
