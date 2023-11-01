@@ -1,6 +1,6 @@
 # Configuración gema active_storage
 
-## Instalaciones previas.
+## Instalaciones previas en wsl.
 
 ### En el termina ejecutar:
 
@@ -15,34 +15,6 @@ sudo apt update
 sudo apt-get -y install mupdf
 sudo apt update
 ```
-
-## Proyecto de prueba:
-```hash
-rails new adjuntos -d postgresql
-```
-
-```hash
-cd adjuntos
-rails db:create
-```
-
-```hash
-git add .
-git commit -m "creacion inicial del proyecto"
-```
-
-```hash
-rails g scaffold article title body:text
-rails db:migrate
-```
-
-```hash
-git add .
-git commit -m "Scaffold creado"
-```
-## Habilitar la ruta principal en config>routes>routes.rb
-
-	_root "articles#index"_
 
 ## Instalación gema active_storage:
 
@@ -98,7 +70,7 @@ class Article < ApplicationRecord
             <!--Selector de foto del perfil-->
             <div class="mb-4">
               <%= f.label :photo, style: "display: block" %>
-              <%= f.file_field :photo %>
+              <%= f.file_field :photo, class:'form-control' %>
             </div>
             <div class="mb-4">                   
                 <%= f.label :firstname, class:'form-label' %>
@@ -192,7 +164,7 @@ class Article < ApplicationRecord
             <!--Permite cambiar la foto actual del perfil-->
             <div class="mb-4">
               <%= f.label :photo, style: "display: block" %>
-              <%= f.file_field :photo %>
+              <%= f.file_field :photo, class:'form-control' %>
             </div>
 
             <div class="mb-4">                   
