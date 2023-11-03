@@ -22,13 +22,13 @@ sudo service postgresql enable
 sudo service postgresql status
 ```
 
-# to start running your database.
+## to start running your database.
 
 ```bash
 sudo service postgresql start
 ```
 
-# to stop running your database.
+## to stop running your database.
 
 ```bash
 sudo service postgresql stop
