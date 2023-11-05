@@ -314,7 +314,7 @@ root "pages#index"
             </div>
               <% if User.where(role: User.roles[:admin]).exists? %>
                 <!-- El administrador ya existe, ocultar el select de role y define user por defecto-->
-                <%= f.hidden_field :role, value: User.roles[:user] %>
+                <%= f.hidden_field :role, value: User.roles.key(User.roles[:user]) %>
               <% else %>
                 <!-- El administrador no existe, mostrar el select de roles -->
                 <div class="mb-4">     
