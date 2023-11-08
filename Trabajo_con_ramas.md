@@ -20,7 +20,7 @@ git checkout nombre_de_la_rama
 
 ## hacer push a una rama
 
-- Verificar que se estoy en la rama que quiero actualizar
+- Verificar que estoy en la rama que quiero actualizar
 
 ```hash
 git push origin nombre_de_la_rama
