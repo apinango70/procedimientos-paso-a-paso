@@ -26,13 +26,19 @@ git checkout nombre_de_la_rama
 git push origin nombre_de_la_rama
 ```
 
-## hacer push a una rama
-
-- Verificar que se estoy en la rama que quiero actualizar
+## Forzar actualización de una rama a gihub
 
 ```hash
-git push origin nombre_de_la_rama
+git push origin develop:main --force
 ```
+
+## Actualiza la rama develop desde el repositorio remoto
+
+```hash
+git pull origin develop
+```
+
+
 
 ## Fusionar una rama a main
 
@@ -55,4 +61,5 @@ git branch -d nombre_de_la_rama
 ```hash
 git clone -b nombre_de_la_rama
 ```
+
 
