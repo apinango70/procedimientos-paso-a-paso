@@ -57,7 +57,7 @@ rails generate devise:views
 ## Para que el navbar que está a continuación funcione hay que modificar el modelo User agregando los campos username y role
 
 ```hash
-rails g migration AddDetailsToUsers firstname:string lastname:string role:integer
+rails g migration AddDetailsToUsers first_name:string last_name:string role:integer
 ```
 
 ## Importamos los controladores de devise para personalizarlos
@@ -111,12 +111,12 @@ git commit -m "Se crearon las vistas y los campos username y role del modelo Use
 
   #If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:firstname, :lastname, :role])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :role])
   end
 
   #If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:firstname, :lastname, :role])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :role])
   end
 ```
 
@@ -129,8 +129,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:firstname, :lastname, :role])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:firstname, :lastname, :role])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :role])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :role])
   end
 
   def after_sign_in_path_for(resource)
@@ -198,7 +198,7 @@ Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agregar
       <ul class="navbar-nav ">
         <% if user_signed_in? %>
           <li class="nav-item">
-            <%= content_tag :span, "Hi: #{current_user.firstname} #{current_user.lastname} | Role: #{current_user.role}", class: 'nav-link margen' %>
+            <%= content_tag :span, "Hi: #{current_user.first_name} #{current_user.last_name} | Role: #{current_user.role}", class: 'nav-link margen' %>
           </li>
       <!--Fin identificación user-->
           <!--Opciones para cualquier tipo de user-->
@@ -305,12 +305,12 @@ root "pages#index"
         <div class="card-body">
           <form>
             <div class="mb-4">                   
-                <%= f.label :firstname, class:'form-label' %>
-                <%= f.text_field :firstname, autofocus: true, autocomplete: "firstname", class:'form-control' %>
+                <%= f.label :first_name, class:'form-label' %>
+                <%= f.text_field :first_name, autofocus: true, autocomplete: "first_name", class:'form-control' %>
             </div>
             <div class="mb-4">                   
-                <%= f.label :lastname, class:'form-label' %>
-                <%= f.text_field :lastname, autofocus: true, autocomplete: "lastname", class:'form-control' %>
+                <%= f.label :last_name, class:'form-label' %>
+                <%= f.text_field :last_name, autofocus: true, autocomplete: "last_name", class:'form-control' %>
             </div>
               <% if User.where(role: User.roles[:admin]).exists? %>
                 <!-- El administrador ya existe, ocultar el select de role y define user por defecto-->
@@ -367,13 +367,13 @@ root "pages#index"
           <form>
 
             <div class="mb-4">                   
-                <%= f.label :firstname, class:'form-label' %>
-                <%= f.text_field :firstname, autofocus: true, autocomplete: "firstname", class:'form-control' %>
+                <%= f.label :first_name, class:'form-label' %>
+                <%= f.text_field :first_name, autofocus: true, autocomplete: "first_name", class:'form-control' %>
             </div>
 
             <div class="mb-4">                   
-                <%= f.label :lastname, class:'form-label' %>
-                <%= f.text_field :lastname, autofocus: true, autocomplete: "lastname", class:'form-control' %>
+                <%= f.label :last_name, class:'form-label' %>
+                <%= f.text_field :last_name, autofocus: true, autocomplete: "last_name", class:'form-control' %>
             </div>
 
             <div class="mb-4">
