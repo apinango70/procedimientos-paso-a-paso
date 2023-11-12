@@ -76,7 +76,7 @@ class AdminController < ApplicationController
 
   # Método para pasar parámetros anidados bajo un hash con la clave :user en la solicitud por seguridad
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :role, :firstname, :lastname)
+    params.require(:user).permit(:email, :password, :password_confirmation, :role, :first_name, :last_name)
   end
   
   def set_user
@@ -102,13 +102,13 @@ end
               <form>
 
                 <div class="mb-4">                  
-                  <%= user_fields.label :firstname %><br />
-                  <%= user_fields.text_field :firstname, autofocus: true, autocomplete: "firstname", class:'form-control'  %>
+                  <%= user_fields.label :first_name %><br />
+                  <%= user_fields.text_field :first_name, autofocus: true, autocomplete: "first_name", class:'form-control'  %>
                 </div>
 
                 <div class="mb-4">                  
-                  <%= user_fields.label :lastname %><br />
-                  <%= user_fields.text_field :lastname, autocomplete: "lastname", class:'form-control'  %>
+                  <%= user_fields.label :last_name %><br />
+                  <%= user_fields.text_field :last_name, autocomplete: "last_name", class:'form-control'  %>
                 </div>
 
                 <div class="mb-4">                   
@@ -164,7 +164,7 @@ end
             <form>
               <% @users.each do |user| %>
                 <%= form_for(user, url: admin_path(user), remote: true, method: :patch) do |f| %>
-                  <p><%= f.text_field :email %> - <%= f.text_field :firstname %> - <%= f.text_field :lastname %> - <%= f.select(:role, User.roles.keys.map { |w| [w.humanize, w] }) %> - <%= f.submit "Update", class: "btn btn-success" %></p>
+                  <p><%= f.text_field :email %> - <%= f.text_field :first_name %> - <%= f.text_field :last_name %> - <%= f.select(:role, User.roles.keys.map { |w| [w.humanize, w] }) %> - <%= f.submit "Update", class: "btn btn-success" %></p>
                 <% end %>
               <% end %>
             </div>
@@ -190,15 +190,18 @@ end
         <th scope="col">Nombre</th>
         <th scope="col">Apellido</th>
         <th scope="col">Rol</th>
+        <th scope="col">Actions</th>
+
       </tr>
     </thead>
     <tbody>
       <% @users.each do |user| %>
         <tr>
           <td><%= user.email %></td>
-          <td><%= user.firstname %></td>
-          <td><%= user.lastname %></td>
+          <td><%= user.first_name %></td>
+          <td><%= user.last_name %></td>
           <td><%= user.role %></td>
+          <td><%= link_to "Edit", edit_user_path(user) %></td>
         </tr>
       <% end %>
     </tbody>
@@ -251,7 +254,7 @@ end
       <ul class="navbar-nav ">
         <% if user_signed_in? %>
           <li class="nav-item">
-            <%= content_tag :span, "Hi: #{current_user.firstname} #{current_user.lastname} | Role: #{current_user.role}", class: 'nav-link margen' %>
+            <%= content_tag :span, "Hi: #{current_user.first_name} #{current_user.last_name} | Role: #{current_user.role}", class: 'nav-link margen' %>
           </li>
       <!--Fin identificación user-->
           <!--Opciones para cualquier tipo de user-->
@@ -281,8 +284,8 @@ end
     User.create(
       email: Faker::Internet.email,
       password: Faker::Internet.password,
-      firstname: Faker::Name.first_name,
-      lastname: Faker::Name.last_name,
+      first_name: Faker::Name.first_name,
+      last_name: Faker::Name.last_name,
       role: "user"
     )
   end
