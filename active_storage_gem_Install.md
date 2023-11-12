@@ -7,8 +7,8 @@
 ```hash
 sudo apt update
 sudo apt-get -y install libvips-dev
-sudo apt install ffmpeg
-sudo apt-get install libpoppler-dev
+sudo apt install -y ffmpeg
+sudo apt-get install -y libpoppler-dev
 sudo apt-get -y install mupdf
 ```
 
