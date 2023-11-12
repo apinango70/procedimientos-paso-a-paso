@@ -8,7 +8,7 @@
 ## Generar el controlador admin con las vistas edit y create user
 
 ```bash
-rails g controller admin create_user edit_user show_user
+rails g controller admin create_user edit_user list_user
 ```
 
 ## Verificar que exista el enum role en el modelo user app>models>user.rb
@@ -35,7 +35,7 @@ class AdminController < ApplicationController
   before_action :authenticate_user!
   before_action :authorize_admin!
 
-  def show_user
+  def list_user
     @users = User.all
   end
 
@@ -177,7 +177,7 @@ end
 <br>
 ```
 
-## Vista show_user app/views/admin/show_user.html.erb
+## Vista list_user app/views/admin/list_user.html.erb
 
 ```ruby
 <div class="container">
@@ -216,7 +216,7 @@ end
   
   get 'edit_user', to: 'admin#user', as: 'edit'
   
-  get 'show_user', to: 'admin#user', as: 'show'
+  get 'list_user', to: 'admin#user', as: 'show'
 
 ## Agregar al partial del navbar la opción de administrar usuers en app>views>shared>_navbar.html.erb
 
@@ -244,7 +244,7 @@ end
                 <ul class="dropdown-menu">
                     <li><%= link_to 'Create user', admin_create_user_path, class: 'nav-link' %></li>
                     <li><%= link_to 'Edit Users', admin_edit_user_path, class: 'nav-link' %></li>
-                    <li><%= link_to 'List all users', admin_show_user_path, class: 'nav-link' %></li>
+                    <li><%= link_to 'List all users', admin_list_user_path, class: 'nav-link' %></li>
                 </ul>
             </li>
           <% end %>
