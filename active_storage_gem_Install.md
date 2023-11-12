@@ -7,13 +7,9 @@
 ```hash
 sudo apt update
 sudo apt-get -y install libvips-dev
-sudo apt update
 sudo apt install ffmpeg
-sudo apt update
 sudo apt-get install libpoppler-dev
-sudo apt update
 sudo apt-get -y install mupdf
-sudo apt update
 ```
 
 ## Instalación gema active_storage:
