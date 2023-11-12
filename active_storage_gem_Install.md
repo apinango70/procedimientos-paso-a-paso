@@ -69,13 +69,13 @@ class Article < ApplicationRecord
               <%= f.file_field :photo, class:'form-control' %>
             </div>
             <div class="mb-4">                   
-                <%= f.label :firstname, class:'form-label' %>
-                <%= f.text_field :firstname, autofocus: true, autocomplete: "firstname", class:'form-control' %>
+                <%= f.label :first_name, class:'form-label' %>
+                <%= f.text_field :first_name, autofocus: true, autocomplete: "first_name", class:'form-control' %>
             </div>
 
             <div class="mb-4">                   
-                <%= f.label :lastname, class:'form-label' %>
-                <%= f.text_field :lastname, autofocus: true, autocomplete: "lastname", class:'form-control' %>
+                <%= f.label :last_name, class:'form-label' %>
+                <%= f.text_field :last_name, autofocus: true, autocomplete: "last_name", class:'form-control' %>
             </div>
 
               <% if User.where(role: User.roles[:admin]).exists? %>
@@ -124,12 +124,12 @@ class Article < ApplicationRecord
 
   #If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:firstname, :lastname, :role, :photo])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :role, :photo])
   end
 
   #If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:firstname, :lastname, :role, :photo])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :role, :photo])
   end
 ```
 
@@ -164,13 +164,13 @@ class Article < ApplicationRecord
             </div>
 
             <div class="mb-4">                   
-                <%= f.label :firstname, class:'form-label' %>
-                <%= f.text_field :firstname, autofocus: true, autocomplete: "firstname", class:'form-control' %>
+                <%= f.label :first_name, class:'form-label' %>
+                <%= f.text_field :first_name, autofocus: true, autocomplete: "first_name", class:'form-control' %>
             </div>
 
             <div class="mb-4">                   
-                <%= f.label :lastname, class:'form-label' %>
-                <%= f.text_field :lastname, autofocus: true, autocomplete: "lastname", class:'form-control' %>
+                <%= f.label :last_name, class:'form-label' %>
+                <%= f.text_field :last_name, autofocus: true, autocomplete: "last_name", class:'form-control' %>
             </div>
 
             <div class="mb-4">
