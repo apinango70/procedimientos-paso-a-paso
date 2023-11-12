@@ -72,11 +72,13 @@ _Se debe reemplazar devise_for :users, por el texto:_
 
 ```hash
 Rails.application.routes.draw do
+
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
   # root "articles#index"
+
 end
 ```
 
