@@ -18,16 +18,18 @@ rails g controller admin create_user edit_user list_user
   enum role: [:user, :admin] 
 ```
 
-## Configurar las rutas para el controlador admin app>config>routes.rb
+## Configurar las rutas para el controlador admin app/config/routes.rb
 
 ```ruby
   # Permisos del admin
   resources :admin, only: [:index, :new, :create, :update]
   # Ruta para crear usuarios
   post 'admin/create', to: 'admin#create', as: 'admin_create'
+  # Ruta para eliminar usuarios
+  delete 'destroy_user/:id', to: 'admin#destroy_user', as: :destroy_user
 ```
 
-## Defino los métodos en el admin_controller app>controllers>admin_controller.rb
+## Defino los métodos en el admin_controller app/controllers/admin_controller.rb
 
 ```ruby
 class AdminController < ApplicationController
@@ -67,7 +69,13 @@ class AdminController < ApplicationController
       redirect_to admin_edit_user_path, alert: 'User was not updated.'
     end
   end
-  
+
+  def destroy_user
+    @user = User.find(params[:id])
+    @user.destroy
+    redirect_to admin_list_user_path, notice: 'User was successfully deleted.'
+  end
+
   private
 
   def authorize_admin!
@@ -86,7 +94,7 @@ class AdminController < ApplicationController
 end
 ```
 
-## Diseño de la vista create_user con bootstrap app>views>admin>create_user.html.erb
+## Diseño de la vista create_user con bootstrap app/views/admin/create_user.html.erb
 
 ```ruby
 <%= form_with(model: @user, url: admin_create_path, method: :post) do |f| %>
@@ -201,7 +209,39 @@ end
           <td><%= user.first_name %></td>
           <td><%= user.last_name %></td>
           <td><%= user.role %></td>
-          <td><%= link_to "Edit", admin_edit_user_path(user) %></td>
+          <td>
+            <%= link_to "Edit", admin_edit_user_path(user) %>
+            <div class="container">
+  <h1 class="mt-5 mb-4">Users list</h1>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Email</th>
+        <th scope="col">Firs name</th>
+        <th scope="col">Last name</th>
+        <th scope="col">Role</th>
+        <th scope="col">Actions</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.email %></td>
+          <td><%= user.first_name %></td>
+          <td><%= user.last_name %></td>
+          <td><%= user.role %></td>
+          <td>
+          <%= link_to "Edit", admin_edit_user_path(user.id) %>
+          <%= button_to 'Delete', destroy_user_path(user), method: :delete, data: { confirm: 'Are you shure?' }, class: 'btn btn-danger btn-sm' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+          </td>
         </tr>
       <% end %>
     </tbody>
