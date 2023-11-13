@@ -38,7 +38,7 @@ gem "image_processing", ">= 1.2"
 bundle install
 ```
 
-## Copiar en el modelo que estemos usando app>models>modelo.rb, modelo del ejemplo "article" app>model>article.rb y **para integrarlo al modelo user app>model>user.rb**.
+## Copiar en el modelo que estemos usando app/models/modelo.rb, modelo del ejemplo "article" app/model/article.rb y **para integrarlo al modelo user app/model/user.rb**.
 
 
 class Article < ApplicationRecord
@@ -48,7 +48,7 @@ class Article < ApplicationRecord
   has_one_attached :photo
 ```
 
-## Para agregarlo al modelo user: app>views>devise>registrations>new.html.erb
+## Para agregarlo al modelo user: app/views/devise/registrations>new.html.erb
 
 ```hash
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
@@ -118,7 +118,8 @@ class Article < ApplicationRecord
 
 ## Agregar al controller el strong parameter 
 
-### Modelo User app>users>registration_controller.rb
+### Modelo User app/users/registration_controller.rb
+
 ```hash
   protected
 
@@ -224,6 +225,34 @@ class Article < ApplicationRecord
  .foto_circular {
     border-radius: 50%;
   }
+```
+
+## Para crear 10 usuarios con foto aleatoria del sitio thispersondoesnotexist.com, agregar a app/db/seed.rb 
+
+```hash
+# rails runner 'load(File.join(Rails.root, "db", "seeds", "rb", "users.rb"))'
+
+require 'open-uri'
+
+puts 'Creating 10 users with photos, please wait, this process may take a while...'
+
+
+10.times do
+  user = User.create(
+    firs_tname: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    role: rand(0..1),
+    email: Faker::Internet.email,
+    password: '123456' # needs to be 6 digits
+  )
+
+  # NOTA: debe tener instalado y configurado activestorage para usar esta opción
+
+  file = URI.open('https://thispersondoesnotexist.com/')
+  user.photo.attach(io: file, filename: 'photo.jpg', content_type: 'image/jpg')
+end
+
+puts '10 users successfully created!'
 ```
 
 ## Hacer commit
