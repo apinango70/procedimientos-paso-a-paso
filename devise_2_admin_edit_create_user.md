@@ -148,7 +148,7 @@ end
 <br >
 ```
 
-## Diseño de la vista edit_user con bootstrap app>views>admin>edit_user.html.erb
+## Diseño de la vista edit_user con bootstrap app/views/admin/edit_user.html.erb
 
 ```ruby
 <!--Listar todos los user y poder editar sus campos-->
@@ -181,15 +181,15 @@ end
 
 ```ruby
 <div class="container">
-  <h1 class="mt-5 mb-4">Lista de Usuarios</h1>
+  <h1 class="mt-5 mb-4">Users list</h1>
 
   <table class="table table-striped">
     <thead>
       <tr>
         <th scope="col">Email</th>
-        <th scope="col">Nombre</th>
-        <th scope="col">Apellido</th>
-        <th scope="col">Rol</th>
+        <th scope="col">Firs name</th>
+        <th scope="col">Last name</th>
+        <th scope="col">Role</th>
         <th scope="col">Actions</th>
 
       </tr>
@@ -201,12 +201,13 @@ end
           <td><%= user.first_name %></td>
           <td><%= user.last_name %></td>
           <td><%= user.role %></td>
-          <td><%= link_to "Edit", edit_user_path(user) %></td>
+          <td><%= link_to "Edit", admin_edit_user_path(user) %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
+
 ```
 
 
@@ -218,7 +219,7 @@ end
   
   get 'list_user', to: 'admin#user', as: 'show'
 
-## Agregar al partial del navbar la opción de administrar usuers en app>views>shared>_navbar.html.erb
+## Agregar al partial del navbar la opción de administrar usuers en app/views/shared/_navbar.html.erb
 
 ```ruby
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
