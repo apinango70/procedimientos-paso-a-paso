@@ -15,12 +15,12 @@ rails generate devise:install
 ### Usar estos alerts con bootstrap
 
 ```hash
-<% if notice %>
-  <p class="alert alert-success"><%= notice %></p>
-<% end %>
-<% if alert %>
-  <p class="alert alert-danger"><%= alert %></p>
-<% end %>
+    <% if notice %>
+      <p class="alert alert-success"><%= notice %></p>
+    <% end %>
+    <% if alert %>
+      <p class="alert alert-danger"><%= alert %></p>
+    <% end %>
 ```
 
 ### Buscar en config>initializers>devise.rb
@@ -45,7 +45,7 @@ rails db:migrate
 
 ```hash
 git add .
-git commit -m "Se creó el modelo User."
+git commit -m "feat: crear modelo user"
 ```
 
 ## Crear vistas para poder personalizarlas
@@ -68,7 +68,7 @@ rails generate devise:controllers users
 
 ## Modificar las rutas para evitar errores app>config>routes.rb
 
-_Se debe reemplazar devise_for :users, por el texto:_
+_reemplazar_
 
 ```hash
 Rails.application.routes.draw do
@@ -92,7 +92,7 @@ rails db:migrate
 
 ```hash
 git add .
-git commit -m "Se crearon las vistas y los campos username y role del modelo User."
+git commit -m "feat: crear vistas y campos first_name, last_name y role modelo User"
 ```
 
 ## Modificar app>controllers>users>registration_controllers.rb para agregar los strong parameters
@@ -160,7 +160,7 @@ end
 
 ```hash
 git add .
-git commit -m "Se modificaron registration y application controller y se agregó el enum de los roles."
+git commit -m "feat: modificar registration, application controller y modelo user"
 ```
 
 ## Agregar el CDN de bootstrap al header del layout app>views>layout>application.html.erb.
@@ -234,7 +234,7 @@ Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agregar
 
 ```hash
 git add .
-git commit -m "Se agregó el CDN de bootstrap y se creó el partial navbar."
+git commit -m "style: aregar CDN de bootstrap en layout y crear partial navbar"
 ```
 
 ## Para probar el navbar, crear un controlador con una vista.
@@ -247,6 +247,11 @@ rails g controller pages index
 
 ```hash
 root "pages#index"
+```
+
+```hash
+git add .
+git commit -m "feat: crear controlador pages y la accion index"
 ```
 
 ## Agregar a la vista "Sign in" un formulario bootstrap, reemplazar todo el código de: app>views>devise>session>new.html.erb por:
@@ -484,7 +489,7 @@ _salir de la cónsola_
 
 ```hash
 git add .
-git commit -m "Se agregó formato bootstrap a las vistas sign_in sign_up, forgot_password y edit_user y se creó el controlador Pages con la vista index."
+git commit -m "style: agregar bootstrap a las vistas sign_in sign_up, forgot_password y edit_user"
 ```
 
 ## -== devise ya está instalado y configurado para utilizarse ==-
