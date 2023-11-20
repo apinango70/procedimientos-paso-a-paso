@@ -1,4 +1,4 @@
-# Configuración gema active_storage
+# Configuración gema active_storage para agregarle imagen a devise
 
 ## Instalaciones previas en wsl.
 
@@ -50,10 +50,10 @@ gem "image_processing", ">= 1.2"
 bundle install
 ```
 
-## Copiar en el modelo que estemos usando app/models/modelo.rb, modelo del ejemplo "article" app/model/article.rb y **para integrarlo al modelo user app/model/user.rb**.
+## Copiar en el modelo user app/model/user.rb, o agregarlo en cualquier modelo que se requiera dela misma forma que en User, ya que es una tabla polimorfica
 
 
-class Article < ApplicationRecord
+class User < ApplicationRecord
 
 ```hash
   # Defino una foto al usuario
