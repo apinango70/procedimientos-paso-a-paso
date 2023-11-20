@@ -6,9 +6,21 @@
 
 ```hash
 sudo apt update
+```
+
+```hash
 sudo apt-get -y install libvips-dev
+```
+
+```hash
 sudo apt install -y ffmpeg
+```
+
+```hash
 sudo apt-get install -y libpoppler-dev
+```
+
+```hash
 sudo apt-get -y install mupdf
 ```
 
@@ -116,25 +128,7 @@ class Article < ApplicationRecord
 </div>
 ```
 
-## Agregar al controller el strong parameter 
-
-### Modelo User app/users/registration_controller.rb
-
-```hash
-  protected
-
-  #If you have extra params to permit, append them to the sanitizer.
-  def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :role, :photo])
-  end
-
-  #If you have extra params to permit, append them to the sanitizer.
-  def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :role, :photo])
-  end
-```
-
-### Mostrar foto en edit user, al modelo user app>views>devise>registrations>edit.html.erb
+### Mostrar foto en edit user, al modelo user app/views/devise/registrations/edit.html.erb
 
 ```hash
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
@@ -219,6 +213,24 @@ class Article < ApplicationRecord
 </div> 
 ```
 
+## Agregar al controller el strong parameter 
+
+### Modelo User app/users/registration_controller.rb
+
+```hash
+  protected
+
+  #If you have extra params to permit, append them to the sanitizer.
+  def configure_sign_up_params
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :role, :photo])
+  end
+
+  #If you have extra params to permit, append them to the sanitizer.
+  def configure_account_update_params
+    devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :role, :photo])
+  end
+```
+
 ## Agregar al css para mostrar la foto de forma circular:
 
 ```hash
@@ -239,7 +251,7 @@ puts 'Creating 10 users with photos, please wait, this process may take a while.
 
 10.times do
   user = User.create(
-    firs_tname: Faker::Name.first_name,
+    first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
     role: rand(0..1),
     email: Faker::Internet.email,
