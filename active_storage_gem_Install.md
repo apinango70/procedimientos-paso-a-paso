@@ -23,7 +23,7 @@ rails db:migrate
 
 ```hash
 git add .
-git  commit -m "Active storage instalado."
+git  commit -m "feat: instalar active storage"
 ```
 
 ## Descomentar en el Gemfile en la línea 49
@@ -259,5 +259,5 @@ puts '10 users successfully created!'
 
 ```hash
 git add .
-git commit -m "Se configuró active_storage y se modificaron las vistas del modelo user para poder agregar una foto al perfil."
+git commit -m "style: agregar bootstrap y campo perfil a las vistas"
 ```
