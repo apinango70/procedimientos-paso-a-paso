@@ -1,4 +1,4 @@
-# Agregar mensajes popup usando SeetAlert2 [https://sweetalert2.github.io/]
+# Agregar mensajes popup usando SweetAlert2 [https://sweetalert2.github.io/]
 
 png captura de pantalla
 
