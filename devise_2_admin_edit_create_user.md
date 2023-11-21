@@ -48,7 +48,7 @@ class AdminController < ApplicationController
     puts "Received parameters: #{params.inspect}"
 
     if @user.save
-      redirect_to admin_create_user_path, notice: 'User was successfully created.'
+      redirect_to admin_list_user_path, notice: 'User was successfully created.'
     else
       #Muestro los mensajes personalizados de error definidos en las validaciones
       error_messages = @user.errors.full_messages.join(', ')
@@ -98,7 +98,6 @@ class AdminController < ApplicationController
   end
 
 end
-
 ```
 
 ## Diseño de la vista create_user con bootstrap app/views/admin/create_user.html.erb
