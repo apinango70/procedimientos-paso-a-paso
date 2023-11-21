@@ -222,13 +222,24 @@ class User < ApplicationRecord
 
   #If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :role, :photo])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [
+                                                        :first_name ,
+                                                        :last_name,
+                                                        :role,
+                                                        :photo
+                                                      ])
   end
 
   #If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :role, :photo])
+    devise_parameter_sanitizer.permit(:account_update, keys: [
+                                                                :first_name,
+                                                                :last_name,
+                                                                :role,
+                                                                :photo
+                                                              ])
   end
+
 ```
 
 ## Agregar al css para mostrar la foto de forma circular:
@@ -237,34 +248,6 @@ class User < ApplicationRecord
  .foto_circular {
     border-radius: 50%;
   }
-```
-
-## Para crear 10 usuarios con foto aleatoria del sitio thispersondoesnotexist.com, agregar a app/db/seed.rb 
-
-```hash
-# rails runner 'load(File.join(Rails.root, "db", "seeds", "rb", "users.rb"))'
-
-require 'open-uri'
-
-puts 'Creating 10 users with photos, please wait, this process may take a while...'
-
-
-10.times do
-  user = User.create(
-    first_name: Faker::Name.first_name,
-    last_name: Faker::Name.last_name,
-    role: rand(0..1),
-    email: Faker::Internet.email,
-    password: '123456' # needs to be 6 digits
-  )
-
-  # NOTA: debe tener instalado y configurado activestorage para usar esta opción
-
-  file = URI.open('https://thispersondoesnotexist.com/')
-  user.photo.attach(io: file, filename: 'photo.jpg', content_type: 'image/jpg')
-end
-
-puts '10 users successfully created!'
 ```
 
 ## Hacer commit
