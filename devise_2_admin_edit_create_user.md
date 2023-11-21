@@ -11,14 +11,12 @@
 rails g controller admin create_user edit_user list_user _form
 ```
 
-## Verificar que exista el enum role en el modelo user app>models>user.rb
-
-```ruby
-  # Enum de roles
-  enum role: [:user, :admin] 
+```bash
+git add .
+git commit -m "feat: cear controller admin con acciones create, edit y list users"
 ```
 
-## Configurar las rutas para el controlador admin app/config/routes.rb
+## Configurar las rutas para las acciones del admin app/config/routes.rb
 
 ```ruby
   # Permisos del admin
@@ -44,7 +42,7 @@ class AdminController < ApplicationController
   def edit_user
     @users = User.order(:id)
   end
-  
+
   def create
     @user = User.new(user_params)
     puts "Received parameters: #{params.inspect}"
@@ -57,11 +55,11 @@ class AdminController < ApplicationController
       redirect_to admin_create_user_path, alert: "User was not created. #{error_messages}"
     end
   end
-  
+
   def new
     @user = User.new
   end
-  
+
   def update
     if @user.update(user_params)
       redirect_to admin_edit_user_path, notice: 'User was successfully updated.'
@@ -84,14 +82,23 @@ class AdminController < ApplicationController
 
   # Método para pasar parámetros anidados bajo un hash con la clave :user en la solicitud por seguridad
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :role, :first_name, :last_name)
+    params.require(:user).permit(
+                                  :email,
+                                  :password,
+                                  :password_confirmation,
+                                  :role,
+                                  :first_name,
+                                  :last_name,
+                                  :photo
+                                )
   end
-  
+
   def set_user
     @user = User.find(params[:id])
   end
-  
+
 end
+
 ```
 
 ## Diseño de la vista create_user con bootstrap app/views/admin/create_user.html.erb
@@ -153,7 +160,6 @@ end
     </div>
   </div>
 </div>
-<br >
 ```
 
 ## Diseño de la vista edit_user con bootstrap app/views/admin/edit_user.html.erb
@@ -182,7 +188,6 @@ end
     </div>
   </div>
 </div>
-<br>
 ```
 
 ## Vista list_user app/views/admin/list_user.html.erb
@@ -195,11 +200,10 @@ end
     <thead>
       <tr>
         <th scope="col">Email</th>
-        <th scope="col">Firs name</th>
+        <th scope="col">First name</th>
         <th scope="col">Last name</th>
         <th scope="col">Role</th>
         <th scope="col">Actions</th>
-
       </tr>
     </thead>
     <tbody>
@@ -210,46 +214,15 @@ end
           <td><%= user.last_name %></td>
           <td><%= user.role %></td>
           <td>
-            <%= link_to "Edit", admin_edit_user_path(user) %>
-            <div class="container">
-  <h1 class="mt-5 mb-4">Users list</h1>
-
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">Email</th>
-        <th scope="col">Firs name</th>
-        <th scope="col">Last name</th>
-        <th scope="col">Role</th>
-        <th scope="col">Actions</th>
-
-      </tr>
-    </thead>
-    <tbody>
-      <% @users.each do |user| %>
-        <tr>
-          <td><%= user.email %></td>
-          <td><%= user.first_name %></td>
-          <td><%= user.last_name %></td>
-          <td><%= user.role %></td>
-          <td>
-          <%= link_to "Edit", admin_edit_user_path(user.id) %>
-          <%= button_to 'Delete', destroy_user_path(user), method: :delete, data: { confirm: 'Are you shure?' }, class: 'btn btn-danger btn-sm' %>
+            <%= link_to "Edit", admin_edit_user_path(user.id) %>
+            <%= button_to 'Delete', destroy_user_path(user), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
-
 ```
-
 
 ## Definir rutas personalizadas en app/config/routes.rb
 
@@ -338,5 +311,5 @@ end
 
 ```ruby
 git add .
-git commit -m "Se creó el controlador y la vista admin view y los formularios para que el admin pueda crear, editar y listar users."
+git commit -m "style: agregar bootstrap a las vistas y form del admin CRUD"
 ```
