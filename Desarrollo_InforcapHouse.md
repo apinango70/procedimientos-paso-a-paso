@@ -646,3 +646,7 @@ git commit -m "Seed property_feaures creado"
 ```bash
 before_action :authenticate_user!, except: %i[ index show ]
 ```
+
+## Para ver el proyecto InforcapHouse ampliado y con bootstrap agregado en todas sus vistas visitar:
+
+[https://github.com/apinango70/RealStateProject]
