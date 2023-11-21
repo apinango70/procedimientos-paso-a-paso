@@ -440,7 +440,7 @@ git commit -m "Scaffold property"
 <% end %>
 ```
 
-## Defino las relaciones de user con property 1:n en elmodelo user
+## Defino las relaciones de user con property 1:n y borrado en ccascada en el modelo user
 
 ```bash
 #relaciones
