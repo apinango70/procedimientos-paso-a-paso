@@ -37,13 +37,10 @@ config.navigational_formats = ['*/*', :html, :turbo_stream]
 rails generate devise User
 ```
 
-## Migrar la base de datos
+## Migrar la base de datos y hacer commit
 
 ```hash
 rails db:migrate
-```
-
-```hash
 git add .
 git commit -m "feat: crear modelo user"
 ```
@@ -82,15 +79,10 @@ Rails.application.routes.draw do
 end
 ```
 
-## Ejecutar la migración:
+## Ejecutar la migración y acer commit:
 
 ```hash
 rails db:migrate
-```
-
-## Hacer commit
-
-```hash
 git add .
 git commit -m "feat: crear vistas y campos first_name, last_name y role modelo User"
 ```
