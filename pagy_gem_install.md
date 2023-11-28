@@ -61,5 +61,5 @@ require 'pagy/extras/bootstrap' # Booststrap styling
 
 ```ruby
 git add .
-git commit -m "Gema pagy instalada y configurada"
+git commit -m "style: instalar gema pagy"
 ```
