@@ -75,7 +75,7 @@ ssh -T git@github.com
 ## Si al hacer push github.com aún pide user y pass, ejecutar:
 
 ```hash
-git remote set-url origin git@github.com:gihub_user_name/nombre_repositorio
+git remote set-url origin git@github.com:gihub_user_name/nombre_repositorio.git
 ```
 
 ## Intentar hacer de nuevo push.
