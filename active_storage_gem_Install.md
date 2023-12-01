@@ -92,7 +92,7 @@ class User < ApplicationRecord
 
               <% if User.where(role: User.roles[:admin]).exists? %>
                 <!-- El administrador ya existe, ocultar el select de roles y asigna user por defecto. -->
-                <%= f.hidden_field :role, value: User.roles[:user] %>
+                <%= f.hidden_field :role, value: User.roles.key(User.roles[:user]) %>
               <% else %>
                 <!-- El administrador no existe, mostrar el select de roles -->
                 <div class="mb-4">     
