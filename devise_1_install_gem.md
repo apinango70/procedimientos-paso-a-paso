@@ -57,6 +57,18 @@ rails generate devise:views
 rails g migration AddDetailsToUsers first_name:string last_name:string role:integer
 ```
 
+## Agrego el valor dedefault a role en la migración
+
+```hash
+class AddDetailsToUsers < ActiveRecord::Migration[7.0]
+  def change
+    add_column :users, :first_name, :string
+    add_column :users, :last_name, :string
+    add_column :users, :role, :integer, default: 0 # 0: user, 1: admin
+  end
+end
+```
+
 ## Importamos los controladores de devise para personalizarlos
 
 ```hash
