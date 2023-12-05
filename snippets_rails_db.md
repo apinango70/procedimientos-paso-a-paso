@@ -18,6 +18,11 @@ rails g migration AddFieldsToUsers phone:string website:string description:text
 rails g migration AddAuthorRefToBooks author:references
 ```
 
+## Cambiar nombre de campo
+
+```bash
+rails generate migration RenameEdadToAgeInUsers
+```
 
 ## Agregar campo role a devise
 
@@ -25,7 +30,7 @@ rails g migration AddAuthorRefToBooks author:references
 rails g devise User role:integer
 ```
 
-## Agregar a la migración el- valor por defecto de rol 0:user
+## Agregar a la migración el valor por defecto de rol 0:user
 
 ```bash
 t.integer :role, default:0
