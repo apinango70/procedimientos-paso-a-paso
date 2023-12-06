@@ -8,7 +8,7 @@
 ## Generar el controlador admin con las vistas edit y create user
 
 ```bash
-rails g controller admin create_user edit_user list_user _form
+rails g controller admin create_user edit_user list_user
 ```
 
 ```bash
