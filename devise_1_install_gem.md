@@ -9,7 +9,7 @@ bundle add devise annotate faker
 ## Instalar la gema Devise y seguir las instrucciones que salen al final.
 
 ```hash
-rails generate devise:install
+rails g devise:install
 ```
 
 ### Usar estos alerts con bootstrap
@@ -34,7 +34,13 @@ config.navigational_formats = ['*/*', :html, :turbo_stream]
 ## Generar el modelo para User
 
 ```hash
-rails generate devise User
+rails generate devise User first_name:string last_name:string role:integer
+```
+
+## Agrego el valor dedefault a role en la migración
+
+```hash
+    add_column :users, :role, :integer, default: 0 # 0: user, 1: admin
 ```
 
 ## Migrar la base de datos y hacer commit
@@ -48,31 +54,13 @@ git commit -m "feat: crear modelo user"
 ## Crear vistas para poder personalizarlas
 
 ```hash
-rails generate devise:views
-```
-
-## Para que el navbar que está a continuación funcione hay que modificar el modelo User agregando los campos username y role
-
-```hash
-rails g migration AddDetailsToUsers first_name:string last_name:string role:integer
-```
-
-## Agrego el valor dedefault a role en la migración
-
-```hash
-class AddDetailsToUsers < ActiveRecord::Migration[7.0]
-  def change
-    add_column :users, :first_name, :string
-    add_column :users, :last_name, :string
-    add_column :users, :role, :integer, default: 0 # 0: user, 1: admin
-  end
-end
+rails g devise:views
 ```
 
 ## Importamos los controladores de devise para personalizarlos
 
 ```hash
-rails generate devise:controllers users
+rails g devise:controllers users
 ```
 
 ## Modificar las rutas para evitar errores app>config>routes.rb
@@ -276,7 +264,7 @@ git add .
 git commit -m "feat: crear controlador pages y la accion index"
 ```
 
-## Agregar a la vista "Sign in" un formulario bootstrap, reemplazar todo el código de: app>views>devise>session>new.html.erb por:
+## Agregar a la vista "Sign in" un formulario bootstrap, reemplazar todo el código de: app/views/devise/session/new.html.erb por:
 
 ```hash
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
@@ -318,7 +306,7 @@ git commit -m "feat: crear controlador pages y la accion index"
 </div>
 ```
 
-## Agregar a la vista "Sign up" un formulario bootstrap, sustituir todo el código de: app>views>devise>registration>new.html.erb por:
+## Agregar a la vista "Sign up" un formulario bootstrap, sustituir todo el código de: app/views/devise/registration/new.html.erb por:
 
 ```hash
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
@@ -378,7 +366,7 @@ git commit -m "feat: crear controlador pages y la accion index"
   </div>
 </div>
 ```
-## Agregar a la vista "User edit" un formulario bootstrap, sustituir todo el código de: app>views>devise>registrations>edit.html.erb por:
+## Agregar a la vista "User edit" un formulario bootstrap, sustituir todo el código de: app/views/devise/registrations/edit.html.erb por:
 
 ```hash
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
@@ -476,7 +464,7 @@ Users.all
 
 _salir de la cónsola_
 
-## Agregar a la vista "Forgot password" un formulario bootstrap, sustituir todo el código de: app>views>devise>password>new.html.erb por:
+## Agregar a la vista "Forgot password" un formulario bootstrap, sustituir todo el código de: app/views/devise/password/new.html.erb por:
 
 ```hash
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
