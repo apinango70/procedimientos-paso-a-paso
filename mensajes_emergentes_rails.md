@@ -39,3 +39,10 @@ https://miro.medium.com/v2/resize:fit:720/format:webp/1*0ibVtn0a9PZ_4soCyUCZ8g.p
       </script>
     <% end %>
 ```
+
+## Hago commit
+
+```bash
+git add .
+git commit -m "style: agregar SweetAlarm para mensajes emergentes"
+```
