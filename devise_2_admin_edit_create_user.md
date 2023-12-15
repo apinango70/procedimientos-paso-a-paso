@@ -30,7 +30,7 @@ end
 
 En el _admin::users_controller_ se deben implementar las acciones CRUD y definir los strong parameters.
 
-´´´bash
+```ruby
    class Admin::UsersController < ApplicationController
      before_action :authenticate_admin! # Asegura que solo los user con rol de admin puedan acceder al CRUD de los usuarios
      before_action :set_user, only: [:show, :edit, :update, :destroy] # Permite tener el usuario seleccionado disponible en @user
@@ -100,7 +100,7 @@ En el _admin::users_controller_ se deben implementar las acciones CRUD y definir
   end
 
 end
-´´´
+```
 
 ## Crear 10 users de prueba con faker app/db/seed.rb
 
