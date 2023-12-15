@@ -330,21 +330,99 @@ El formulario edit usa form_with para crear un formulario que estará vinculado 
 <% end %>
 ```
 
-## Crear 10 users de prueba con faker app/db/seed.rb
+## Agregar al navbar una opción para acceder a las vistas
 
 ```bash
-# Crea 10 usuarios con datos ficticios
-10.times do
-    User.create(
-      email: Faker::Internet.email,
-      password: Faker::Internet.password,
-      first_name: Faker::Name.first_name,
-      last_name: Faker::Name.last_name,
-      role: "user"
-    )
-  end
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <%= link_to 'Logo', root_path, class: 'navbar-brand' %>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <%= link_to "Home", root_path, class: 'nav-link' %>
+        </li>
+          <!--Si el user es admin mustra este menu-->
+          <% if user_signed_in? && current_user.admin? %>
+            <li class="nav-item">
+                <%= link_to 'Edit my profile', edit_user_registration_path, class: 'nav-link' %>
+            </li>
 
-  puts "Seed data generated successfully!"
+                    <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Users
+          </a>
+          <ul class="dropdown-menu">
+            <li class="nav-item">
+                <%= link_to 'Show Users', admin_users_path, class: 'nav-link' %>
+            </li>
+            <li class="nav-item">
+                <%= link_to 'Create User', new_admin_user_path, class: 'nav-link' %>
+            </li>
+
+          </ul>
+        </li>
+          <% end %>
+          <!--Fin opciones del admin-->
+      </ul>
+      <!--identificación en el nabvar del user y tipo de role-->
+      <ul class="navbar-nav ">
+        <% if user_signed_in? %>
+          <li class="nav-item">
+            <%= content_tag :span, "Hi: #{current_user.first_name} #{current_user.last_name} | Role: #{current_user.role}", class: 'nav-link margen' %>
+          </li>
+      <!--Fin identificación user-->
+          <!--Opciones para cualquier tipo de user-->
+          <li class="nav-item">
+            <%= button_to 'Cerrar sesión', destroy_user_session_path, class: 'btn btn-outline-success', method: :delete %>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to 'Iniciar sesión', new_user_session_path, class: 'nav-link margen' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Registro', new_user_registration_path, class: 'btn btn-outline-success' %>
+          </li>
+        <% end %>
+        <!--Fin opciones cualquier tipo de user-->
+      </ul>
+    </div>
+  </div>
+</nav>
+```
+
+## Crear 10 users de prueba con faker app/db/seed.rb
+
+> [!WARNING]
+>  Se debe tener instalado y configurado active_storage para usar este seed.
+
+```bash
+# rails runner 'load(File.join(Rails.root, "db", "seeds", "rb", "users.rb"))'
+
+require 'open-uri'
+
+puts 'Creating 10 users with photos, please wait, this process may take a while...'
+
+
+10.times do
+  user = User.create(
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    role: 0,
+    email: Faker::Internet.email,
+    password: '123456' # needs to be 6 digits
+    # add any additional attributes you have on your model
+  )
+
+  # NOTA: debe tener instalado y configurado activestorage para usar esta opción
+
+  file = URI.open('https://thispersondoesnotexist.com/')
+  user.photo.attach(io: file, filename: 'photo.jpg', content_type: 'image/jpg')
+end
+
+puts '10 users successfully created!'
 ```
 
 ## Hago commit
