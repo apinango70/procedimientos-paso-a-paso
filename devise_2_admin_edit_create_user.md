@@ -19,9 +19,10 @@ rails generate controller Admin::Users
 ## Configuración de rutas
 
 > [!IMPORTANT]
->En el archivo routes.rb se deben definir las rutas para la administración de los usuarios bajo un namespace admin, así podemos diferenciarlas de las rutas que usa devise por defecto. Para ello se debe agregar 
+>En el archivo routes.rb se deben definir las rutas para la administración de los usuarios bajo un namespace admin, así podemos diferenciarlas de las rutas que usa devise por defecto. Para ello se debe agregar: 
 
-´´´bash
+
+´´´ruby
 devise_for :users
 namespace :admin do
   resources :users
