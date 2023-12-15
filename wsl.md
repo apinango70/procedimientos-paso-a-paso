@@ -23,4 +23,10 @@ wsl -l -o
 ```bash
 wsl --install -d <Distribution Name>
 ```
-## segir los pasos de la instalacion
+
+## Agregar permisos de escritura sin ser root
+
+```bash
+sudo chown -R apinango:apinango /home/apinango/rails
+```
+
