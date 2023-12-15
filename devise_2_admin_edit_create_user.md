@@ -1,8 +1,9 @@
-# Configurar la creación de usuarios por parte del administrador
+# Crear el MVC de devise para que el role admin pueda hacer CRUD con los users
 
 > [!IMPORTANT]
-> Tener instalado devise en el proyecto
-> Tener instalado active_storage en el proyecto
+> Para realizar este procedimiento, se debe tener instalado:
+
+
 
 ## Generar el controlador admin con las vistas edit y create user
 
