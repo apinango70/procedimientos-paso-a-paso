@@ -1,7 +1,11 @@
 # Crear el MVC de devise para que el role admin pueda hacer CRUD con los users
 
-> [!IMPORTANTE]
-> Para realizar este procedimiento, se debe tener instalado:
+> [!IMPORTANT]
+> Para realizar este procedimiento, se debe tener instaldo y configurado:
+
+>Devise gem https://github.com/apinango70/procedimientos-paso-a-paso/blob/main/devise_1_install_gem.md
+
+>Active storage gem https://github.com/apinango70/procedimientos-paso-a-paso/blob/main/active_storage_gem_Install.md
 
 
 
