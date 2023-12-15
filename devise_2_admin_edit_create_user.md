@@ -1,6 +1,6 @@
 # Crear el MVC de devise para que el role admin pueda hacer CRUD con los users
 
-
+> [!IMPORTANT]
 > Para realizar este procedimiento, se debe tener instaldo y configurado:
 
 >Devise gem https://github.com/apinango70/procedimientos-paso-a-paso/blob/main/devise_1_install_gem.md
@@ -9,8 +9,7 @@
 
 ## Generar el controlador para administrar a los usuarios
 
-
-> Se debe generar un controlador para administrar a los usuarios
+Se debe generar un controlador para administrar a los usuarios
 
 ´´´bash
 rails generate controller Admin::Users
@@ -18,9 +17,7 @@ rails generate controller Admin::Users
 
 ## Configuración de rutas
 
-
->En el archivo routes.rb se deben definir las rutas para la administración de los usuarios bajo un namespace admin, así podemos diferenciarlas de las rutas que usa devise por defecto. Para ello se debe agregar: 
-
+En el archivo routes.rb se deben definir las rutas para la administración de los usuarios bajo un namespace admin, así podemos diferenciarlas de las rutas que usa devise por defecto. Para ello se debe agregar: 
 
 ´´´ruby
 devise_for :users
