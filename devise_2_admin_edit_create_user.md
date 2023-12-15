@@ -1,6 +1,6 @@
 # Crear el MVC de devise para que el role admin pueda hacer CRUD con los users
 
-> [!IMPORTANT]
+> [!IMPORTANTE]
 > Para realizar este procedimiento, se debe tener instalado:
 
 
