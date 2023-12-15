@@ -3,9 +3,11 @@
 > [!IMPORTANT]
 > Para realizar este procedimiento, se debe tener instaldo y configurado:
 
->Devise gem https://github.com/apinango70/procedimientos-paso-a-paso/blob/main/devise_1_install_gem.md
+> Devise gem https://github.com/apinango70/procedimientos-paso-a-paso/blob/main/devise_1_install_gem.md
 
->Active storage gem https://github.com/apinango70/procedimientos-paso-a-paso/blob/main/active_storage_gem_Install.md
+> Active storage gem https://github.com/apinango70/procedimientos-paso-a-paso/blob/main/active_storage_gem_Install.md
+
+> Pagy gem https://github.com/apinango70/procedimientos-paso-a-paso/blob/main/pagy_gem_install.md
 
 ## Generar el controlador para administrar a los usuarios
 
@@ -102,7 +104,7 @@ En el _admin::users_controller_ se deben implementar las acciones CRUD y definir
 end
 ```
 
-### Vista index
+## Vista index
 
 En app/views/admin/users/, se debe crear el archivo index.html.erb para la acción index del controlador Admin::UsersController.
 
