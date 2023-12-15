@@ -87,42 +87,7 @@ git add .
 git commit -m "feat: crear vistas y campos first_name, last_name y role modelo User"
 ```
 
-## Modificar app>controllers>users>registration_controllers.rb para agregar los strong parameters
-
-### Descomentamos las lineas 1 y 2
-
-  _before_action :configure_sign_up_params, only: [:create]_
-  
-  _before_action :configure_account_update_params, only: [:update]_
-
-### Descomentamos y editamos métodos protegidos a patir de la línea 41 y agrego los nuevos campos:
-
-
-### Reemplazar el texto de la línea 41 a la 51
-
-```hash
-  protected
-
-  #If you have extra params to permit, append them to the sanitizer.
-  def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [
-                                                        :first_name,
-                                                        :last_name,
-                                                        :role
-                                                      ])
-  end
-
-  #If you have extra params to permit, append them to the sanitizer.
-  def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [
-                                                              :first_name,
-                                                              :last_name,
-                                                              :role
-                                                            ])
-  end
-```
-
-## Modificar app>controllers>application_controllers.rb para agregar los strong parameters
+## Modificar app/controllers/application_controllers.rb para agregar los strong parameters
 
 ```hash
 class ApplicationController < ActionController::Base
@@ -151,7 +116,7 @@ class ApplicationController < ActionController::Base
 end
 ```
 
-## Agrego el enum de los tipos de usuarios a app>models>user.rb
+## Agrego el enum de los tipos de usuarios a app/models/user.rb
 
 ```hash
 class User < ApplicationRecord
@@ -173,7 +138,7 @@ git add .
 git commit -m "feat: modificar registration, application controller y modelo user"
 ```
 
-## Agregar el CDN de bootstrap al header del layout app>views>layout>application.html.erb.
+## Agregar el CDN de bootstrap al header del layout app/views/layout/application.html.erb.
 
 ### En el head
 
@@ -184,7 +149,7 @@ git commit -m "feat: modificar registration, application controller y modelo use
 
 ## Agregar navbar en un partial para devise y cargarlo en el layout
 
-Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agregar el siguiente código de Bootstrap
+Se debe crear el partial en la ruta app/assets/shared/_navbar.html.erb y agregar el siguiente código de Bootstrap
 
 ```hash
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -232,7 +197,7 @@ Se debe crear el partial en la ruta app>assets>shared>_navbar.html.erb y agregar
 </nav>
 ```
 
-## Renderizar el navbar en el layout app>views>lalyout.application.html.erb.
+## Renderizar el navbar en el layout app/views/lalyout.application.html.erb.
 
 ```hash
  <header>
@@ -438,31 +403,8 @@ git commit -m "feat: crear controlador pages y la accion index"
 </div> 
 ```
 
-NOTA: El enum que muestra los tipos de user para elegir el admin, solo aparecerá en el registro mientras no exista ningún admin, luego de asignar admin a un user, el enum desaparecerá de la vista new user.
-
-## Cómo cambiar el rol del admin de normal a admin por cónsola.
-
-### Ejecutar en la consola:
-
-```hash
-rails c
-```
-
-## Ejecutar:
-
-```hash
-user = User.find_by(email: 'nombre_email@gmail.com')
-user.update(role: 'admin')
-user.save
-```
-
-## Verificamos el cambio ejecutando:
-
-```hash
-Users.all
-```
-
-_salir de la cónsola_
+> [!IMPORTANT]
+> El enum que muestra los tipos de user para elegir el admin, solo aparecerá en el registro mientras no exista ningún admin, luego de asignar el role admin a un user, el enum desaparecerá de la vista new user..
 
 ## Agregar a la vista "Forgot password" un formulario bootstrap, sustituir todo el código de: app/views/devise/password/new.html.erb por:
 
@@ -502,60 +444,5 @@ git add .
 git commit -m "style: agregar bootstrap a las vistas sign_in sign_up, forgot_password y edit_user"
 ```
 
-## -== devise ya está instalado y configurado para utilizarse ==-
-
-## NOTAS DE SEGURIDAD
-
-## Verificar en app>config>routes.rb que tenga definida la ruta para usar los controladores personalizados:
-
-```hash
-  devise_for :users, controllers: {
-    sessions: 'users/sessions',
-    registrations: 'users/registrations'
-    }
-```
-
-## Agregar en app>controller>users>registration_controller.rb los strong parameters
-
-_class RegistrationsController < Devise::RegistrationsController_
-
-```hash
-  private
-
-  def sign_up_params
-    params.require(:user).permit(
-                                  :first_name,
-                                  :last_name,
-                                  :email,
-                                  :password,
-                                  :password_confirmation,
-                                  :role
-                                )
-  end
-
-  def account_update_params
-    params.require(:user).permit(
-                                  :first_name,
-                                  :last_name,
-                                  :email,
-                                  :password,
-                                  :password_confirmation,
-                                  :current_password,
-                                  :role
-                                )
-  end
-```
-
-### Si quiero obligar que en una vista se logee el usuario, debo colocar al inicio del controlador de donde quiero obligar el logeo el siguiente código: 
-
-```hash
-before_action :authenticated_user!, except: [:index, :show]
-```
-
-_en el arreglo de except se colocan las vistas permitidas sin logeo._
-
-### Para asegurarme que solo el user que creo un registro lo pueda modificar agregar en el método new y create
-
-```hash
-@xxxx = current_user.xxxx.xxxx
-``` 
+> [!NOTE]
+> devise ya está instalado y configurado para utilizarse
