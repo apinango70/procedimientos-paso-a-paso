@@ -9,22 +9,24 @@
 
 ## Generar el controlador para administrar a los usuarios
 
-Se debe generar un controlador para administrar a los usuarios
+> [!NOTE]
+> Se debe generar un controlador para administrar a los usuarios
 
-´´´bash
+```ruby
 rails generate controller Admin::Users
-´´´
+```
 
 ## Configuración de rutas
 
+> [!NOTE]
 En el archivo routes.rb se deben definir las rutas para la administración de los usuarios bajo un namespace admin, así podemos diferenciarlas de las rutas que usa devise por defecto. Para ello se debe agregar: 
 
-´´´ruby
+```ruby
 devise_for :users
 namespace :admin do
   resources :users
 end
-´´´
+```
 
 ## Crear 10 users de prueba con faker app/db/seed.rb
 
