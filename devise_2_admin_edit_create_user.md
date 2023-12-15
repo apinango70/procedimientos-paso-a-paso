@@ -164,7 +164,6 @@ Esta vista generará una tabla que muestra todos los usuarios registrados en la 
 
 ## Vista show
 
-
 ```bash
 <div class="container">
   <div class="row justify-content-center mt-5">
@@ -199,7 +198,6 @@ Esta vista generará una tabla que muestra todos los usuarios registrados en la 
 ```
 
 La vista show muestra los detalles específicos del usuario seleccionado en la vista index y mostrará un enlace que lo lleve a la vista edit o para poder regresar a la vista index
-
 
 ## Formulario edit
 
@@ -270,9 +268,69 @@ La vista show muestra los detalles específicos del usuario seleccionado en la v
 <% end %>
 ```
 
+El formulario edit usa form_with para crear un formulario que estará vinculado al modelo @user. Este formulario muestra todos los campos asociados al modelo user
+
+## Formulario new
+
+```bash
+<%= form_with(model: @user, url: admin_users_path, local: true) do |form| %>
+
+    <div class="container">
+      <div class="row justify-content-center mt-5">
+        <div class="col-lg-4 col-md-6 col-sm-6">
+          <div class="card shadow">
+            <div class="card-title text-center border-bottom">
+              <h2 class="p-3">Create new user</h2>
+            </div>
+            <div class="card-body">
+              <form>
+
+                <div class="mb-4">
+                  <%= form.label :first_name %><br />
+                  <%= form.text_field :first_name, autofocus: true, autocomplete: "first_name", class:'form-control' %>
+                </div>
+
+                <div class="mb-4">
+                  <%= form.label :last_name %><br />
+                  <%= form.text_field :last_name, autocomplete: "last_name", class:'form-control'  %>
+                </div>
+
+                <div class="mb-4">
+                  <%= form.label :email %><br />
+                  <%= form.email_field :email, autocomplete: "email", class:'form-control'  %>
+                </div>
+                <div class="mb-4">
+                  <%= form.label :role %><br />
+                  <%= form.select :role, User.roles.keys.map { |w| [w.humanize, w] }, include_blank: "Select a role", class:'form-select' %>
+                </div>
+
+                 <div class="mb-4">
+                  <%= form.label :password %>
+                  <% if @minimum_password_length %>
+                    <em>(<%= @minimum_password_length %> characters minimum)</em>
+                  <% end %><br />
+                  <%= form.password_field :password, autocomplete: "new-password", class:'form-control' %>
+                </div>
+
+                <div class="mb-4">
+                  <%= form.label :password_confirmation %><br />
+                  <%= form.password_field :password_confirmation, autocomplete: "new-password", class:'form-control' %>
+                </div>
+
+                <%= form.submit 'Create user', class: 'btn btn-primary' %>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+```
+
 ## Crear 10 users de prueba con faker app/db/seed.rb
 
-```ruby
+```bash
 # Crea 10 usuarios con datos ficticios
 10.times do
     User.create(
@@ -289,7 +347,7 @@ La vista show muestra los detalles específicos del usuario seleccionado en la v
 
 ## Hago commit
 
-```ruby
+```bash
 git add .
 git commit -m "style: agregar bootstrap a las vistas y form del admin CRUD"
 ```
