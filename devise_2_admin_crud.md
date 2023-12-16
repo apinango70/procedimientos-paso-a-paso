@@ -34,8 +34,8 @@ En el _admin::users_controller_ se deben implementar las acciones CRUD y definir
 
 ```ruby
    class Admin::UsersController < ApplicationController
-     before_action :authenticate_admin! # Asegura que solo los user con rol de admin puedan acceder al CRUD de los usuarios
-     before_action :set_user, only: [:show, :edit, :update, :destroy] # Permite tener el usuario seleccionado disponible en @user
+     before_action :authenticate_admin! # Este método se asegura que solo los user con rol de admin puedan acceder al CRUD de los usuarios
+     before_action :set_user, only: [:show, :edit, :update, :destroy] # Permite tener al usuario seleccionado disponible en @user
    
   def index
     @users = User.all
@@ -85,8 +85,8 @@ En el _admin::users_controller_ se deben implementar las acciones CRUD y definir
     end
   end
 
-  def set_user
-    @user = User.find(params[:id]) # Método que permite encontrar y asignar el usuario correcto según el ID proporcionado
+  def set_user # Método que permite encontrar y asignar el usuario correcto según el ID proporcionado
+    @user = User.find(params[:id]) 
   end
 
   def user_params # Strong Parameters permitidos
@@ -270,7 +270,7 @@ La vista show muestra los detalles específicos del usuario seleccionado en la v
 <% end %>
 ```
 
-El formulario edit usa form_with para crear un formulario que estará vinculado al modelo @user. Este formulario muestra todos los campos asociados al modelo user
+El formulario edit usa form_with para crear un formulario que estará vinculado al modelo @user y muestra todos sus campos para que puedan ser modificados
 
 ## Formulario new
 
@@ -330,7 +330,7 @@ El formulario edit usa form_with para crear un formulario que estará vinculado 
 <% end %>
 ```
 
-## Agregar al navbar una opción para acceder a las vistas
+## Agregar al navbar una opción para acceder a las vistas solo cuando el user logeado tiene role admin
 
 ```bash
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -393,7 +393,7 @@ El formulario edit usa form_with para crear un formulario que estará vinculado 
 </nav>
 ```
 
-## Crear 10 users de prueba con faker app/db/seed.rb
+## Crear 10 users de prueba con foto app/db/seed.rb
 
 > [!WARNING]
 >  Se debe tener instalado y configurado active_storage para usar este seed.
