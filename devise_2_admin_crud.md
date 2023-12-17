@@ -33,12 +33,16 @@ end
 En el _admin::users_controller_ se deben implementar las acciones CRUD y definir los strong parameters.
 
 ```ruby
-   class Admin::UsersController < ApplicationController
-     before_action :authenticate_admin! # Este método se asegura que solo los user con rol de admin puedan acceder al CRUD de los usuarios
-     before_action :set_user, only: [:show, :edit, :update, :destroy] # Permite tener al usuario seleccionado disponible en @user
-   
+class Admin::UsersController < ApplicationController
+  # Autenticación de usuario administrador
+  before_action :authenticate_admin!
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
+
+  # Ejemplo de acciones CRUD
   def index
-    @users = User.all
+    #Orden de usuarios por rol, nombre y 5 usuarios por página
+    @pagy, @users = pagy(User.order("role DESC, first_name"), items: 5)
+
   end
 
   def show
@@ -51,8 +55,9 @@ En el _admin::users_controller_ se deben implementar las acciones CRUD y definir
 
   def update
     @user = User.find(params[:id])
+  
     if @user.update(user_params)
-      redirect_to admin_users_path(@user), notice: 'User was successfully updated.'
+      redirect_to admin_user_path(@user), notice: 'User was successfully updated.'
     else
       redirect_to admin_users_path, alert: 'User was not updated.'
     end
@@ -64,32 +69,34 @@ En el _admin::users_controller_ se deben implementar las acciones CRUD y definir
     redirect_to admin_users_path, notice: 'User was successfully deleted.'
   end
 
-   def new
+  def new
     @user = User.new
   end
 
   def create
     @user = User.new(user_params)
+  
     if @user.save
-      redirect_to admin_users_path, notice: 'User was successfully created..'
+      redirect_to admin_user_path(@user), notice: 'User was successfully created.'
     else
       render :new
     end
   end
-     
+
   private
  
-  def authenticate_admin! # Método que verifica si el usuario que ingresó a admin/users/ tiene el rol de admin, de lo contrario muestra el alert y lo devuleve al root_path
+  def authenticate_admin!
     unless current_user && current_user.admin?
       redirect_to root_path, alert: 'Access Denied.!'
     end
   end
 
-  def set_user # Método que permite encontrar y asignar el usuario correcto según el ID proporcionado
-    @user = User.find(params[:id]) 
+  # Utilidad para encontrar y asignar el usuario correcto según el ID proporcionado
+  def set_user
+    @user = User.find(params[:id])
   end
 
-  def user_params # Strong Parameters permitidos
+  def user_params
     params.require(:user).permit(
                                   :first_name,
                                   :last_name,
