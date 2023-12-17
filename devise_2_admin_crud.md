@@ -17,6 +17,13 @@ Se debe generar un controlador para administrar a los usuarios
 rails generate controller Admin::Users
 ```
 
+## Hago commit
+
+```bash
+git add .
+git commit -m "feat: crear controller admin/user"
+```
+
 ## Configuración de rutas
 
 En el archivo routes.rb se deben definir las rutas para la administración de los usuarios bajo un namespace admin, así podemos diferenciarlas de las rutas que usa devise por defecto. Para ello se debe agregar: 
@@ -30,7 +37,7 @@ end
 
 ## Definir las acciones del controlador
 
-En el _admin::users_controller_ se deben implementar las acciones CRUD y definir los strong parameters.
+En el admin::users_controller se deben implementar las acciones CRUD y definir los strong parameters.
 
 ```ruby
 class Admin::UsersController < ApplicationController
@@ -111,6 +118,13 @@ class Admin::UsersController < ApplicationController
 end
 ```
 
+## Hago commit
+
+```bash
+git add .
+git commit -m "feat: Definir acciones del admin::users_controller"
+```
+
 ## Vista index
 
 En app/views/admin/users/, se debe crear el archivo index.html.erb para la acción index del controlador Admin::UsersController.
@@ -171,6 +185,13 @@ En app/views/admin/users/, se debe crear el archivo index.html.erb para la acci�
 
 Esta vista generará una tabla que muestra todos los usuarios registrados en la aplicación web con las opciones para ver, editar y eliminar cada uno.
 
+## Hago commit
+
+```bash
+git add .
+git commit -m "feat: Crear vista index de admin::user"
+```
+
 ## Vista show
 
 ```bash
@@ -207,6 +228,11 @@ Esta vista generará una tabla que muestra todos los usuarios registrados en la 
 ```
 
 La vista show muestra los detalles específicos del usuario seleccionado en la vista index y mostrará un enlace que lo lleve a la vista edit o para poder regresar a la vista index
+
+```bash
+git add .
+git commit -m "feat: Crear vista show de admin::user"
+```
 
 ## Formulario edit
 
@@ -279,6 +305,11 @@ La vista show muestra los detalles específicos del usuario seleccionado en la v
 
 El formulario edit usa form_with para crear un formulario que estará vinculado al modelo @user y muestra todos sus campos para que puedan ser modificados
 
+```bash
+git add .
+git commit -m "feat: Crear form edit de admin::user"
+```
+
 ## Formulario new
 
 ```bash
@@ -337,7 +368,12 @@ El formulario edit usa form_with para crear un formulario que estará vinculado 
 <% end %>
 ```
 
-## Agregar al navbar una opción para acceder a las vistas solo cuando el user logeado tiene role admin
+```bash
+git add .
+git commit -m "feat: Crear form new de admin::user"
+```
+
+## Agregar al partial del _navbar una opción para acceder a las vistas solo cuando el user logeado tiene role admin
 
 ```bash
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -400,6 +436,11 @@ El formulario edit usa form_with para crear un formulario que estará vinculado 
 </nav>
 ```
 
+```bash
+git add .
+git commit -m "feat: Editar _navbar para agregar opciones de admin::user"
+```
+
 ## Crear 10 users de prueba con foto app/db/seed.rb
 
 > [!WARNING]
@@ -436,5 +477,5 @@ puts '10 users successfully created!'
 
 ```bash
 git add .
-git commit -m "style: agregar bootstrap a las vistas y form del admin CRUD"
+git commit -m "feat: agregar seed para crear 10 users con foto"
 ```
