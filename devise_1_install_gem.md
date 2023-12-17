@@ -37,10 +37,10 @@ config.navigational_formats = ['*/*', :html, :turbo_stream]
 rails generate devise User first_name:string last_name:string role:integer
 ```
 
-## Agrego el valor dedefault a role en la migración
+## Agrego el valor de default 0 al role en la migración
 
 ```hash
-    add_column :users, :role, :integer, default: 0 # 0: user, 1: admin
+    t.integer :role, default: 0 # 0: user, 1: admin
 ```
 
 ## Migrar la base de datos y hacer commit
