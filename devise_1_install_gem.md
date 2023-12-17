@@ -180,14 +180,14 @@ Se debe crear el partial en la ruta app/assets/shared/_navbar.html.erb y agregar
       <!--Fin identificación user-->
           <!--Opciones para cualquier tipo de user-->
           <li class="nav-item">
-            <%= button_to 'Cerrar sesión', destroy_user_session_path, class: 'btn btn-outline-success', method: :delete %>
+            <%= button_to 'Sign out', destroy_user_session_path, class: 'btn btn-outline-success', method: :delete %>
           </li>
         <% else %>
           <li class="nav-item">
-            <%= link_to 'Iniciar sesión', new_user_session_path, class: 'nav-link margen' %>
+            <%= link_to 'Sign in', new_user_session_path, class: 'nav-link margen' %>
           </li>
           <li class="nav-item">
-            <%= link_to 'Registro', new_user_registration_path, class: 'btn btn-outline-success' %>
+            <%= link_to 'Sign up', new_user_registration_path, class: 'btn btn-outline-success' %>
           </li>
         <% end %>
         <!--Fin opciones cualquier tipo de user-->
