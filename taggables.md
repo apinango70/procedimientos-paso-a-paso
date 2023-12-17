@@ -127,7 +127,7 @@ end
 <strong>Tags:</strong>
   <% post.tags.each do |tag| %>
   <%= link_to tag, style: "text-decoration:none" do %>
-    <span class="tag"><%= tag.name.capitalize %></span>
+    <span class="tag"><%= tag.name.upcase %></span>
     <%end%>
   <%end%>
 ```
