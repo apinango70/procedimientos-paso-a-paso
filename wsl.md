@@ -1,4 +1,4 @@
-# Instalacion WSL en windows
+# Instalacion WSL en PowerShell de windows
 
 ## Listar distribuciones instaladas
 
