@@ -26,19 +26,19 @@ git checkout nombre_de_la_rama
 git push origin nombre_de_la_rama
 ```
 
-## Forzar actualización de una rama a gihub
+## Forzar actualización de una rama a gihub 
+
+NOTA: No se recomienda usar.
 
 ```hash
 git push origin develop:main --force
 ```
 
-## Actualiza la rama develop desde el repositorio remoto
+## Actualiza la rama develop en local desde el repositorio remoto
 
 ```hash
 git pull origin develop
 ```
-
-
 
 ## Fusionar una rama a main
 
@@ -50,7 +50,7 @@ git merge nombre_de_la_rama
 
 ## Borrar una rama
 
-- NOTA: Nunca se recomienda borrar la rama main
+- NOTA: Nunca se debe borrar la rama main
 
 ```hash
 git branch -d nombre_de_la_rama
@@ -62,4 +62,10 @@ git branch -d nombre_de_la_rama
 git clone -b nombre_de_la_rama
 ```
 
+## Renombrar una rama
 
+```hash
+git branch -m OLD-BRANCH-NAME NEW-BRANCH-NAME
+git fetch origin
+git remote prune origin
+```
