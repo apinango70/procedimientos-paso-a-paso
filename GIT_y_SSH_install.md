@@ -22,12 +22,18 @@ git config --global user.email "email"
 
 ## Para verificar si los datos se registraron correctamente, ejecutar: 
 
+## en linux
+
 ```hash
 cat .gitconfig 
 ```
 
+## en windows
 ## _Conectar Git con GitHub.com_
 
+```hash
+git config --list
+```
 ## Genera una clave SSH:
 
 ```hash
@@ -65,6 +71,8 @@ ssh-add -l
 ```hash
 cat ~/.ssh/id_rsa.pub
 ```
+
+## Copiar bloque desde ssh-rsa ... hasta el final del email.
 
 ## Confirma que la conexión funciona
 
