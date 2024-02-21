@@ -34,6 +34,12 @@ sudo service postgresql start
 sudo service postgresql stop
 ```
 
+## Ejecutar servicio con user postgres
+
+```bash
+sudo -u postgres psql
+```
+
 ```bash
 CREATE ROLE apinango WITH LOGIN SUPERUSER CREATEDB CREATEROLE PASSWORD 'apinango' ;
 ```
