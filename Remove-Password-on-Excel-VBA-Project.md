@@ -98,7 +98,7 @@ Sub unprotected()
     End If
 End Sub
 ```
-## abrir el archivo protegido y desde el recien creado ejecutar la macro
+## Ejecutar la macro
 
 ## Listo
 
