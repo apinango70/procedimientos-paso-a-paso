@@ -11,3 +11,9 @@ sudo snap install --classic code
 ```bash
 code --version
 ```
+
+## ejecutar VSCode
+
+```bash
+code .
+```
