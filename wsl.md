@@ -176,5 +176,25 @@ sudo -u postgres psql
 CREATE ROLE apinango WITH LOGIN SUPERUSER CREATEDB CREATEROLE PASSWORD 'apinango' ;
 ```
 
+# Instalr vscode en debian
+
+## Instalar usando snap
+
+```bash
+sudo snap install --classic code
+```
+
+## Verificar la version instalada
+
+```bash
+code --version
+```
+
+## ejecutar VSCode
+
+```bash
+code .
+```
+
 
 
