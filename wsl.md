@@ -129,4 +129,3 @@ gem install rails
 echo "gem: --no-document" > ~/.gemrc
 ```
 
-api
